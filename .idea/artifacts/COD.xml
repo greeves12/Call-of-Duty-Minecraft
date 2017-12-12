@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="COD">
+    <output-path>$USER_HOME$/Desktop/Servers/Test Server - Bungee 2/plugins</output-path>
+    <root id="archive" name="COD.jar">
+      <element id="module-output" name="COD" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/plugin.yml" />
+    </root>
+  </artifact>
+</component>
