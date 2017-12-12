@@ -26,6 +26,10 @@ public class MainCommand implements CommandExecutor {
             if(args[0].equalsIgnoreCase("help")){
 
             }
+            if(args[0].equalsIgnoreCase("join")){
+                    main.WaitingPlayers.add(p);
+                    p.sendMessage(main.prefix + "§e§lYou joined the Queue");
+            }
         }
         return true;
     }
