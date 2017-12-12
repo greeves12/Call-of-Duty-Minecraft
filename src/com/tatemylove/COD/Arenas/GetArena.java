@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class GetArena {
+    public GetArena(){
+
+    }
     public static int CurrentArena;
 
     public int chooseNextMap()
