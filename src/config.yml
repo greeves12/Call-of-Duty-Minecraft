@@ -12,6 +12,9 @@ max-players: 10
 
 #Forces the player to join the queue when joining the server
 auto-join: false
+
+#Enable or Disable Friendly Fire
+friend-fire: false
 ###########################
 #MySQL (Optional) (Required for multi server stat syncing)
 MySQL:

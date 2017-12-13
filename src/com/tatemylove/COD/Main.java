@@ -6,7 +6,10 @@ import com.tatemylove.COD.Arenas.BaseArena;
 import com.tatemylove.COD.Commands.MainCommand;
 import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Files.LanguageFile;
+import com.tatemylove.COD.Files.LobbyFile;
 import com.tatemylove.COD.Listeners.MoveListener;
+import com.tatemylove.COD.Listeners.PlayerDeathListener;
+import com.tatemylove.COD.Listeners.PlayerInteractListener;
 import com.tatemylove.COD.Listeners.PlayerJoinListener;
 import com.tatemylove.COD.MySQL.MySQL;
 import com.tatemylove.COD.Runnables.GracePeriod;
@@ -17,12 +20,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Main extends JavaPlugin {
 
     public String prefix = "§7§l[COD] ";
     public ArrayList<Player> WaitingPlayers = new ArrayList<>();
     public ArrayList<Player> PlayingPlayers = new ArrayList<>();
+    public HashMap<String, Integer> kills = new HashMap<>();
     public int min_players = getConfig().getInt("min-players");
     public int max_players = 2;
     private ProtocolManager manager;
@@ -50,6 +55,7 @@ public class Main extends JavaPlugin {
 
         ArenaFile.setup(this);
         LanguageFile.setup(this);
+        LobbyFile.setup(this);
 
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
@@ -63,6 +69,8 @@ public class Main extends JavaPlugin {
 
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new MoveListener(new GracePeriod(this), this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractListener(this), this);
 
         ActivePinger pinger = new ActivePinger();
         pinger.runTaskTimerAsynchronously(this, 0, 20);

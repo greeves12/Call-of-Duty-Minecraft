@@ -5,6 +5,7 @@ import com.tatemylove.COD.Main;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
+import com.tatemylove.SwiftEconomy.API.SwiftEconomyAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.GameMode;
@@ -75,7 +76,7 @@ public class TDM  {
                     if (redTeam.contains(p)) {
                         p.getInventory().clear();
 
-                        p.teleport(getArena.getRedSpawn());
+                        p.teleport(getArena.getRedSpawn(p));
 
                         Bukkit.getScheduler().scheduleSyncDelayedTask(ThisPlugin.getPlugin(), new Runnable() {
                             @Override
@@ -103,7 +104,7 @@ public class TDM  {
 
                     } else if (blueTeam.contains(p)) {
                         p.getInventory().clear();
-                        p.teleport(getArena.getBlueSpawn());
+                        p.teleport(getArena.getBlueSpawn(p));
 
                         Bukkit.getScheduler().scheduleSyncDelayedTask(ThisPlugin.getPlugin(), new Runnable() {
                             @Override
@@ -158,6 +159,14 @@ public class TDM  {
         GetArena getArena = new GetArena();
         BaseArena.states = BaseArena.ArenaStates.Countdown;
         if (main.RedTeamScore > main.BlueTeamScore) {
+            for(Player pp : redTeam){
+                SwiftEconomyAPI swiftEconomyAPI = new SwiftEconomyAPI();
+                swiftEconomyAPI.giveMoney(pp, ThisPlugin.getPlugin().getConfig().getDouble("win-amount"));
+            }
+            for(Player pp : blueTeam){
+                SwiftEconomyAPI swiftEconomyAPI = new SwiftEconomyAPI();
+                swiftEconomyAPI.giveMoney(pp, ThisPlugin.getPlugin().getConfig().getDouble("lose-amount"));
+            }
             for (Player pp : main.PlayingPlayers) {
                 pp.sendMessage("");
                 pp.sendMessage("");
@@ -171,6 +180,14 @@ public class TDM  {
 
             }
         }else if(main.BlueTeamScore > main.RedTeamScore){
+            for(Player pp : blueTeam){
+                SwiftEconomyAPI swiftEconomyAPI = new SwiftEconomyAPI();
+                swiftEconomyAPI.giveMoney(pp, ThisPlugin.getPlugin().getConfig().getDouble("win-amount"));
+            }
+            for(Player pp : redTeam){
+                SwiftEconomyAPI swiftEconomyAPI = new SwiftEconomyAPI();
+                swiftEconomyAPI.giveMoney(pp, ThisPlugin.getPlugin().getConfig().getDouble("lose-amount"));
+            }
             for(Player p : main.PlayingPlayers){
                 p.sendMessage("");
                 p.sendMessage("");
@@ -182,5 +199,9 @@ public class TDM  {
                 DecimalFormat df = new DecimalFormat("#.##");
             }
         }
+        main.WaitingPlayers.addAll(main.PlayingPlayers);
+        main.PlayingPlayers.clear();
+        redTeam.clear();
+        blueTeam.clear();
     }
 }
