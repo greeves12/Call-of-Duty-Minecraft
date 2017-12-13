@@ -7,14 +7,20 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class ActivePinger extends BukkitRunnable{
     Main main;
-    TDM tdm;
+    private static ActivePinger pinger = null;
+    public ActivePinger(Main m){
+        main = m;
+        pinger = ActivePinger.this;
+    }
 
     @Override
     public void run() {
         if(BaseArena.states == BaseArena.ArenaStates.Started){
             if(main.RedTeamScore > 99){
+                TDM tdm = new TDM(main);
                 tdm.endTDM();
             }else if(main.BlueTeamScore > 99){
+                TDM tdm = new TDM(main);
                 tdm.endTDM();
             }
         }

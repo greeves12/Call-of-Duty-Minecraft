@@ -72,7 +72,7 @@ public class Main extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractListener(this), this);
 
-        ActivePinger pinger = new ActivePinger();
+        ActivePinger pinger = new ActivePinger(this);
         pinger.runTaskTimerAsynchronously(this, 0, 20);
 
         if(Bukkit.getServer().getPluginManager().getPlugin("SwiftEconomy") != null){
