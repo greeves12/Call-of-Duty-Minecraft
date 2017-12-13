@@ -3,10 +3,15 @@ package com.tatemylove.COD;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.tatemylove.COD.Arenas.BaseArena;
+import com.tatemylove.COD.Arenas.TDM;
 import com.tatemylove.COD.Commands.MainCommand;
 import com.tatemylove.COD.Files.ArenaFile;
+import com.tatemylove.COD.Listeners.MoveListener;
+import com.tatemylove.COD.Listeners.PlayerJoinListener;
 import com.tatemylove.COD.Runnables.CountDown;
 import com.tatemylove.COD.Runnables.GameTime;
+import com.tatemylove.COD.Runnables.GracePeriod;
+import com.tatemylove.COD.Tasks.ActivePinger;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -43,7 +48,7 @@ public class Main extends JavaPlugin {
         //main = this;
 
         //MainRunnable runnable = new MainRunnable(this);
-       // runnable.startCountDown();
+        startCountDown();
 
 
 
@@ -62,11 +67,11 @@ public class Main extends JavaPlugin {
 
         manager = ProtocolLibrary.getProtocolManager();
 
-       // Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        //Bukkit.getServer().getPluginManager().registerEvents(new MoveListener(gracePeriod, this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new MoveListener(new GracePeriod(this), this), this);
 
-        //ActivePinger pinger = new ActivePinger(this, tdm);
-       // pinger.runTaskTimerAsynchronously(this, 0, 20);
+        ActivePinger pinger = new ActivePinger();
+        pinger.runTaskTimerAsynchronously(this, 0, 20);
     }
     public void startCountDown(){
         countdown = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(ThisPlugin.getPlugin(), new CountDown(this), 0L, 20L);

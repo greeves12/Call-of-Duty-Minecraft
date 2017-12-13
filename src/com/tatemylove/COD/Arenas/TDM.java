@@ -2,7 +2,6 @@ package com.tatemylove.COD.Arenas;
 
 import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Main;
-import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
 import org.bukkit.Bukkit;
