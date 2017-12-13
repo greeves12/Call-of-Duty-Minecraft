@@ -2,6 +2,7 @@ package com.tatemylove.COD.Arenas;
 
 import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Main;
+import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
 import org.bukkit.Bukkit;
@@ -29,7 +30,6 @@ public class TDM  {
         main = ma;
         tdms = TDM.this;
     }
-
 
     public void assignTeams(String id) {
         if (BaseArena.states == BaseArena.ArenaStates.Waiting) {
@@ -65,11 +65,11 @@ public class TDM  {
     }
 
     public void startTDM(String id) {
-        //MainRunnable mainRunnable = new MainRunnable(main);
+        MainRunnable mainRunnable = new MainRunnable(main);
         GetArena getArena = new GetArena();
         if (ArenaFile.getData().contains("Arenas." + id + ".Name")) {
             if (BaseArena.states == BaseArena.ArenaStates.Started) {
-                main.startGracePeriod();
+                mainRunnable.startGracePeriod();
                 for (int ID = 0; ID < main.PlayingPlayers.size(); ID++) {
                     final Player p = main.PlayingPlayers.get(ID);
                     if (redTeam.contains(p)) {
@@ -156,6 +156,7 @@ public class TDM  {
 
     public void endTDM() {
         GetArena getArena = new GetArena();
+        BaseArena.states = BaseArena.ArenaStates.Countdown;
         if (main.RedTeamScore > main.BlueTeamScore) {
             for (Player pp : main.PlayingPlayers) {
                 pp.sendMessage("");

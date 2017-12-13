@@ -24,14 +24,14 @@ public class GracePeriod extends BukkitRunnable {
 
         if(BaseArena.states == BaseArena.ArenaStates.Started){
             if(timeuntilstart == 0){
-
+                MainRunnable runnable = new MainRunnable(main);
 
                 for(Player p : main.PlayingPlayers){
                     SendCoolMessages.resetTitleAndSubtitle(p);
                     SendCoolMessages.sendTitle(p, "§3§lGo! Go! Go!", 10, 30 , 10);
                 }
-                main.stopGracePeriod();
-                main.startGameTime();
+                runnable.stopGracePeriod();
+                runnable.startGameTime();
                 return;
             }
             if(timeuntilstart % 10 == 0){

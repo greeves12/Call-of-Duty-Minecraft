@@ -1,6 +1,7 @@
-###########################
-#COD created by tatemylove#
-###########################
+#######################################################################
+#COD created by tatemylove                                            #
+#Looking for broken and broken plugin? You downloaded the wrong one ;)#
+#######################################################################
 #General Section (Optional)
 
 #Minimum amount of players to start the game
@@ -34,9 +35,9 @@ SwiftEconomy:
   death-amount: 0
 ############################
 #Language Section (Optional)
-#To save room this was moved to the 'language.yml" file
+#Check the 'language.yml' file
 ############################
 
 
-#Thanks for using my SoftWare :) I hope you enjoy it
+#Copyright © 2017 tatemylove. All rights reserved
 

@@ -7,6 +7,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameTime extends BukkitRunnable {
 
+    private static GameTime gameTime = null;
+    Main main;
+    public GameTime(Main m){
+        main = m;
+        gameTime = GameTime.this;
+    }
 
 
     private int timeleft = 600;
@@ -15,9 +21,9 @@ public class GameTime extends BukkitRunnable {
         if(BaseArena.states == BaseArena.ArenaStates.Started){
             if(timeleft == 0){
                 TDM tdm = new TDM(new Main());
-                /*MainRunnable mainRunnable = new MainRunnable(new Main());
+                MainRunnable mainRunnable = new MainRunnable(main);
                 tdm.endTDM();
-                mainRunnable.stopGameTime();*/
+                mainRunnable.stopGameTime();
             }
         }
         timeleft -=1;

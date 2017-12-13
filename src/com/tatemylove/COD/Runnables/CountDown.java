@@ -4,6 +4,7 @@ import com.tatemylove.COD.Arenas.BaseArena;
 import com.tatemylove.COD.Arenas.GetArena;
 import com.tatemylove.COD.Arenas.TDM;
 import com.tatemylove.COD.Main;
+import com.tatemylove.COD.Utilities.SendCoolMessages;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -21,24 +22,30 @@ public class CountDown extends BukkitRunnable {
     @Override
     public void run() {
 
-        TDM tdm = new TDM(ma);
-        GetArena getArena = new GetArena();
+
         if(BaseArena.states == BaseArena.ArenaStates.Countdown){
             if(timeuntilstart == 0){
+                TDM tdm = new TDM(ma);
+                GetArena getArena = new GetArena();
+                MainRunnable runnable = new MainRunnable(ma);
                 if(ma.WaitingPlayers.size() < ma.min_players){
-                    ma.stopCountDown();
-                    ma.startCountDown();
+
+                    runnable.stopCountDown();
+                    runnable.startCountDown();
 
                     return;
                 }
                 BaseArena.states = BaseArena.ArenaStates.Started;
                 tdm.assignTeams(Integer.toString(getArena.getCurrentArena()));
                 tdm.startTDM(Integer.toString(getArena.getCurrentArena()));
-                ma.stopCountDown();
+                runnable.stopCountDown();
             }
             if((timeuntilstart % 10 == 0) || (timeuntilstart < 0)){
-                for(Player p : ma.WaitingPlayers){
-
+                if(ma.WaitingPlayers.size() >= ma.min_players) {
+                    for (Player p : ma.WaitingPlayers) {
+                        SendCoolMessages.sendTitle(p, "§b", 10, 30, 10);
+                        SendCoolMessages.sendSubTitle(p, "§e§lGame starting in §a§l" + timeuntilstart + " seconds", 10, 30, 10);
+                    }
                 }
             }
         }

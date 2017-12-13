@@ -9,8 +9,6 @@ public class ActivePinger extends BukkitRunnable{
     Main main;
     TDM tdm;
 
-
-
     @Override
     public void run() {
         if(BaseArena.states == BaseArena.ArenaStates.Started){
