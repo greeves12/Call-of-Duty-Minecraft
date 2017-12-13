@@ -22,17 +22,13 @@ public class TDM  {
     public ArrayList<Player> redTeam = new ArrayList<>();
     public ArrayList<Player> blueTeam = new ArrayList<>();
     public HashMap<Player, String> Team = new HashMap<>();
-    public int RedTeamScore;
-    public int BlueTeamScore;
-
-    GetArena getArena;
     Main main;
-    MainRunnable mainRunnable;
 
-    public TDM(Main ma, GetArena get, MainRunnable run) {
-        mainRunnable = run;
-        getArena = get;
+    private static TDM tdms = null;
+
+    public TDM(Main ma) {
         main = ma;
+        tdms = TDM.this;
     }
 
 
@@ -70,9 +66,11 @@ public class TDM  {
     }
 
     public void startTDM(String id) {
+        //MainRunnable mainRunnable = new MainRunnable(main);
+        GetArena getArena = new GetArena();
         if (ArenaFile.getData().contains("Arenas." + id + ".Name")) {
             if (BaseArena.states == BaseArena.ArenaStates.Started) {
-                mainRunnable.startGracePeriod();
+                main.startGracePeriod();
                 for (int ID = 0; ID < main.PlayingPlayers.size(); ID++) {
                     final Player p = main.PlayingPlayers.get(ID);
                     if (redTeam.contains(p)) {
@@ -145,40 +143,41 @@ public class TDM  {
     }
 
     private String getBetterTeam() {
-        if (RedTeamScore > BlueTeamScore) {
-            String team = "§c§lRed: §4§l" + RedTeamScore + " " + "§9§lBlue: §1§l" + BlueTeamScore;
+        if (main.RedTeamScore > main.BlueTeamScore) {
+            String team = "§c§lRed: §4§l" + main.RedTeamScore + " " + "§9§lBlue: §1§l" + main.BlueTeamScore;
             return team;
-        } else if (BlueTeamScore > RedTeamScore) {
-            String team = "§9§lBlu: §1§l" + RedTeamScore + " " + "§9§lBlue: §1§l" + BlueTeamScore;
+        } else if (main.BlueTeamScore > main.RedTeamScore) {
+            String team = "§9§lBlu: §1§l" + main.RedTeamScore + " " + "§9§lBlue: §1§l" + main.BlueTeamScore;
             return team;
         } else {
-            String team = "§e§lTie: §6§l" + RedTeamScore + " §e§l- §6§l" + BlueTeamScore;
+            String team = "§e§lTie: §6§l" + main.RedTeamScore + " §e§l- §6§l" + main.BlueTeamScore;
             return team;
         }
     }
 
     public void endTDM() {
-        if (RedTeamScore > BlueTeamScore) {
+        GetArena getArena = new GetArena();
+        if (main.RedTeamScore > main.BlueTeamScore) {
             for (Player pp : main.PlayingPlayers) {
                 pp.sendMessage("");
                 pp.sendMessage("");
                 pp.sendMessage("");
                 pp.sendMessage("§7║ §b§lStatistics:§6§l " + getArena.getCurrentArena());
                 pp.sendMessage("§7║");
-                pp.sendMessage("§7║ §7§lWinner: §c§lRed: §1§l" + BlueTeamScore + " " + "§r§9Blue: §4" + RedTeamScore + "         §b§lTotal Kills:§a§l ");
+                pp.sendMessage("§7║ §7§lWinner: §c§lRed: §1§l" + main.BlueTeamScore + " " + "§r§9Blue: §4" + main.RedTeamScore + "         §b§lTotal Kills:§a§l ");
 
                 DecimalFormat df = new DecimalFormat("#.##");
 
 
             }
-        }else if(BlueTeamScore > RedTeamScore){
+        }else if(main.BlueTeamScore > main.RedTeamScore){
             for(Player p : main.PlayingPlayers){
                 p.sendMessage("");
                 p.sendMessage("");
                 p.sendMessage("");
                 p.sendMessage("§7║ §b§lStatistics:§6§l " + getArena.getCurrentArena());
                 p.sendMessage("§7║");
-                p.sendMessage("§7║ §7§lWinner: §9§lBlue: §1§l" + BlueTeamScore + " " + "§r§cRed: §4" + RedTeamScore + "         §b§lTotal Kills:§a§l ");
+                p.sendMessage("§7║ §7§lWinner: §9§lBlue: §1§l" + main.BlueTeamScore + " " + "§r§cRed: §4" + main.RedTeamScore + "         §b§lTotal Kills:§a§l ");
 
                 DecimalFormat df = new DecimalFormat("#.##");
             }

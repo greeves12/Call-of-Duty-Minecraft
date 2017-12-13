@@ -9,8 +9,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class GetArena {
+    public GetArena getArena = null;
     public GetArena(){
-
+        getArena = GetArena.this;
     }
     public static int CurrentArena;
 

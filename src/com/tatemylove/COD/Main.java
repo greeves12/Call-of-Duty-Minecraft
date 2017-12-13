@@ -5,10 +5,9 @@ import com.comphenix.protocol.ProtocolManager;
 import com.tatemylove.COD.Arenas.BaseArena;
 import com.tatemylove.COD.Commands.MainCommand;
 import com.tatemylove.COD.Files.ArenaFile;
-import com.tatemylove.COD.Listeners.MoveListener;
-import com.tatemylove.COD.Listeners.PlayerJoinListener;
-import com.tatemylove.COD.Runnables.GracePeriod;
-import com.tatemylove.COD.Runnables.MainRunnable;
+import com.tatemylove.COD.Runnables.CountDown;
+import com.tatemylove.COD.Runnables.GameTime;
+import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,22 +15,38 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 
 public class Main extends JavaPlugin {
+
+
+
     public String prefix = "§7§l[COD] ";
     public ArrayList<Player> WaitingPlayers = new ArrayList<>();
     public ArrayList<Player> PlayingPlayers = new ArrayList<>();
-    public int min_players = getConfig().getInt("min-players");
-    public int max_players = getConfig().getInt("max-players");
+    public int min_players = 2;
+    public int max_players = 2;
     private ProtocolManager manager;
+    public int RedTeamScore;
+    public int BlueTeamScore;
+    private int countdown;
+    private int gametime;
+    private int graceperiod;
 
-    MainRunnable runnable;
-    GracePeriod gracePeriod;
-
-    public Main(MainRunnable run, GracePeriod g){
-        gracePeriod = g;
-        runnable = run;
+    private static Main instance;
+    public static Main getInstance(){
+        return instance;
     }
 
+
+    @Override
     public void onEnable(){
+
+        instance = this;
+        //main = this;
+
+        //MainRunnable runnable = new MainRunnable(this);
+       // runnable.startCountDown();
+
+
+
         MainCommand cmd = new MainCommand(this);
         getCommand("cod").setExecutor(cmd);
 
@@ -41,12 +56,35 @@ public class Main extends JavaPlugin {
         saveDefaultConfig();
         reloadConfig();
 
+
         BaseArena.states = BaseArena.ArenaStates.Countdown;
-        runnable.startCountDown();
+
 
         manager = ProtocolLibrary.getProtocolManager();
 
-        Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new MoveListener(gracePeriod, this), this);
+       // Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        //Bukkit.getServer().getPluginManager().registerEvents(new MoveListener(gracePeriod, this), this);
+
+        //ActivePinger pinger = new ActivePinger(this, tdm);
+       // pinger.runTaskTimerAsynchronously(this, 0, 20);
+    }
+    public void startCountDown(){
+        countdown = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(ThisPlugin.getPlugin(), new CountDown(this), 0L, 20L);
+    }
+    public void stopCountDown(){
+        Bukkit.getServer().getScheduler().cancelTask(countdown);
+    }
+
+    public void startGameTime(){
+        gametime = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(ThisPlugin.getPlugin(), new GameTime(), 0L, 20L);
+    }
+    public void stopGameTime(){
+        Bukkit.getServer().getScheduler().cancelTask(gametime);
+    }
+    public void startGracePeriod(){
+        // graceperiod = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(ThisPlugin.getPlugin(), new GracePeriod(main)), 0L, 20L);
+    }
+    public void stopGracePeriod(){
+        Bukkit.getServer().getScheduler().cancelTask(graceperiod);
     }
 }

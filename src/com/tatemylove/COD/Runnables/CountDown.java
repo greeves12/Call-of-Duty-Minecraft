@@ -4,39 +4,37 @@ import com.tatemylove.COD.Arenas.BaseArena;
 import com.tatemylove.COD.Arenas.GetArena;
 import com.tatemylove.COD.Arenas.TDM;
 import com.tatemylove.COD.Main;
-import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class CountDown extends BukkitRunnable {
-    public int timeuntilstart = ThisPlugin.getPlugin().getConfig().getInt("countdown-time");
+    public int timeuntilstart = 90;
 
-    MainRunnable main;
     Main ma;
-    TDM tdm;
-    GetArena getArena;
-
-    public CountDown(MainRunnable r, Main m, TDM t, GetArena g){
-        main = r;
-        ma = m;
-        tdm = t;
-        getArena = g;
+    private static CountDown countDown = null;
+    public CountDown(Main main){
+        ma = main;
+        countDown = CountDown.this;
     }
+
 
     @Override
     public void run() {
+
+        TDM tdm = new TDM(ma);
+        GetArena getArena = new GetArena();
         if(BaseArena.states == BaseArena.ArenaStates.Countdown){
             if(timeuntilstart == 0){
                 if(ma.WaitingPlayers.size() < ma.min_players){
-                    main.stopCountDown();
-                    main.startCountDown();
+                    ma.stopCountDown();
+                    ma.startCountDown();
 
                     return;
                 }
                 BaseArena.states = BaseArena.ArenaStates.Started;
                 tdm.assignTeams(Integer.toString(getArena.getCurrentArena()));
                 tdm.startTDM(Integer.toString(getArena.getCurrentArena()));
-                main.stopCountDown();
+                ma.stopCountDown();
             }
             if((timeuntilstart % 10 == 0) || (timeuntilstart < 0)){
                 for(Player p : ma.WaitingPlayers){

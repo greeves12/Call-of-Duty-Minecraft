@@ -1,0 +1,42 @@
+###########################
+#COD created by tatemylove#
+###########################
+#General Section (Optional)
+
+#Minimum amount of players to start the game
+min-players: 2
+
+#Maximum players allowed in a game
+max-players: 10
+
+#Forces the player to join the queue when joining the server
+auto-join: false
+###########################
+#MySQL (Optional) (Required for multi server stat syncing)
+MySQL:
+  Enabled: false
+  Username: user
+  Password: password
+  Ip: 0.0.0.0
+  Database: tatemylove_rocks
+############################
+#Economy Section (Optional) (Requires my SwiftEconomy plugin, free download from www.spigotmc.org)
+SwiftEconomy:
+  Enabled: false
+
+  #Amount to give to the winning team/player
+  win-amount: 0
+
+  #Amount to give to the losing team/player
+  loss-amount: 0
+
+  #Amount to give to a player who dies
+  death-amount: 0
+############################
+#Language Section (Optional)
+#To save room this was moved to the 'language.yml" file
+############################
+
+
+#Thanks for using my SoftWare :) I hope you enjoy it
+

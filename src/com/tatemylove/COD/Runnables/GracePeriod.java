@@ -8,24 +8,30 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class GracePeriod extends BukkitRunnable {
     public int timeuntilstart = 10;
-    Main main;
-    MainRunnable mainRunnable;
 
-    public GracePeriod (Main m, MainRunnable mr){
-        mainRunnable = mr;
+    Main main;
+
+    private static GracePeriod gracePeriod = null;
+    public GracePeriod(Main m){
+        gracePeriod = GracePeriod.this;
+
         main = m;
     }
 
+
     @Override
     public void run() {
+
         if(BaseArena.states == BaseArena.ArenaStates.Started){
             if(timeuntilstart == 0){
+
+
                 for(Player p : main.PlayingPlayers){
                     SendCoolMessages.resetTitleAndSubtitle(p);
                     SendCoolMessages.sendTitle(p, "§3§lGo! Go! Go!", 10, 30 , 10);
                 }
-                mainRunnable.stopGracePeriod();
-                mainRunnable.startGameTime();
+                main.stopGracePeriod();
+                main.startGameTime();
                 return;
             }
             if(timeuntilstart % 10 == 0){

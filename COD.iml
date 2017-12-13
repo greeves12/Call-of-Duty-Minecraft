@@ -30,7 +30,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/server/plugins/ProtocolLib.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/Test Server/plugins/ProtocolLib.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
