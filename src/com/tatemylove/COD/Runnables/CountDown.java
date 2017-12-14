@@ -31,18 +31,18 @@ public class CountDown extends BukkitRunnable {
         if(BaseArena.states == BaseArena.ArenaStates.Countdown){
             if(timeuntilstart == 0){
                 TDM tdm = new TDM(ma);
-
-
                 if(ma.WaitingPlayers.size() < ma.min_players){
-
                     runnable.stopCountDown();
                     runnable.startCountDown();
-
                     return;
                 }
                 BaseArena.states = BaseArena.ArenaStates.Started;
-                tdm.assignTeams(Integer.toString(getArena.getCurrentArena()));
-                tdm.startTDM(Integer.toString(getArena.getCurrentArena()));
+                String type = ArenaFile.getData().getString("Arenas." + getArena.getNextArena() + ".Type");
+                if(type.equals("TDM")) {
+                    BaseArena.type = BaseArena.ArenaType.TDM;
+                    tdm.assignTeams(Integer.toString(getArena.getCurrentArena()));
+                    tdm.startTDM(Integer.toString(getArena.getCurrentArena()));
+                }
                 runnable.stopCountDown();
             }
             if((timeuntilstart % 10 == 0) || (timeuntilstart < 0)){

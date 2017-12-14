@@ -31,7 +31,7 @@ public class CreateArenaCommand {
         ArenaFile.getData().set("Arenas." + newID + ".Type", type);
         ArenaFile.saveData();
         ArenaFile.reloadData();
-        p.sendMessage(main.prefix + "§bArena: §a" + name  + " §bcreated with the ID §a" + newID);
+        p.sendMessage(main.prefix + "§bArena: §a" + name  + " §bcreated with the ID §a" + newID + " §6GameMode: §e" + type);
     }
 
     public void deleteArena(Player p,  int id){
@@ -87,6 +87,8 @@ public class CreateArenaCommand {
                     p.sendMessage(main.prefix + "§4Red spawn set §cArena ID: " + id);
                 }
             }
+        }else{
+            p.sendMessage(main.prefix + "§7/cod set <ID> <blue/red>");
         }
     }
 }

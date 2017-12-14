@@ -8,7 +8,7 @@ public class BaseArena {
         Started, Waiting, Countdown
     }
     public static enum ArenaType{
-        TDM, KC
+        TDM, KC, INFECT
     }
     public static ArenaStates getStates(){
         return states;

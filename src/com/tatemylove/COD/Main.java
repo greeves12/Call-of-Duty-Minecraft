@@ -7,9 +7,11 @@ import com.tatemylove.COD.Commands.MainCommand;
 import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Files.LanguageFile;
 import com.tatemylove.COD.Files.LobbyFile;
+import com.tatemylove.COD.Files.StatsFile;
 import com.tatemylove.COD.KillStreaks.AttackDogs;
 import com.tatemylove.COD.KillStreaks.Moab;
 import com.tatemylove.COD.Listeners.PlayerDeathListener;
+import com.tatemylove.COD.Listeners.PlayerInteractItem;
 import com.tatemylove.COD.Listeners.PlayerInteractListener;
 import com.tatemylove.COD.Listeners.PlayerJoinListener;
 import com.tatemylove.COD.MySQL.MySQL;
@@ -48,6 +50,7 @@ public class Main extends JavaPlugin {
         ArenaFile.setup(this);
         LanguageFile.setup(this);
         LobbyFile.setup(this);
+        StatsFile.setup(this);
 
         File file = new File("plugins/COD/arenas.yml");
         try {
@@ -66,15 +69,14 @@ public class Main extends JavaPlugin {
         saveDefaultConfig();
         reloadConfig();
 
-
         BaseArena.states = BaseArena.ArenaStates.Countdown;
-
 
         manager = ProtocolLibrary.getProtocolManager();
 
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractListener(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractItem(this), this);
 
         ActivePinger pinger = new ActivePinger(this);
         pinger.runTaskTimerAsynchronously(this, 0, 20);

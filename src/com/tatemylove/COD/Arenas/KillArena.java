@@ -19,32 +19,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class TDM  {
+public class KillArena {
     public ArrayList<Player> redTeam = new ArrayList<>();
     public ArrayList<Player> blueTeam = new ArrayList<>();
     public HashMap<Player, String> Team = new HashMap<>();
+
     Main main;
+    private static KillArena killArena = null;
 
-    private static TDM tdms = null;
-
-    public TDM(Main ma) {
-        main = ma;
-        tdms = TDM.this;
+    public KillArena(Main m) {
+        main = m;
+        killArena = KillArena.this;
     }
 
-    public void assignTeams(String id) {
+    public void assignTeam(String id) {
         if (BaseArena.states == BaseArena.ArenaStates.Started) {
-            if (BaseArena.type == BaseArena.ArenaType.TDM) {
+            if (BaseArena.type == BaseArena.ArenaType.KC) {
                 if (ArenaFile.getData().contains("Arenas." + id + ".Name")) {
                     main.PlayingPlayers.addAll(main.WaitingPlayers);
                     main.WaitingPlayers.clear();
                     for (int assign = 0; assign < main.PlayingPlayers.size(); assign++) {
                         Player p = main.PlayingPlayers.get(assign);
 
-                        if (redTeam.size() < blueTeam.size()) {
-                            redTeam.add(p);
-                        } else if (blueTeam.size() < redTeam.size()) {
+                        if (blueTeam.size() < redTeam.size()) {
                             blueTeam.add(p);
+                        } else if (redTeam.size() < blueTeam.size()) {
+                            redTeam.add(p);
                         } else {
                             Random RandomTeam = new Random();
                             int TeamID = 0;
@@ -66,16 +66,13 @@ public class TDM  {
             }
         }
     }
-
     public void startTDM(String id) {
         MainRunnable mainRunnable = new MainRunnable(main);
         mainRunnable.startGameTime();
         GetArena getArena = new GetArena();
         if (ArenaFile.getData().contains("Arenas." + id + ".Name")) {
             if (BaseArena.states == BaseArena.ArenaStates.Started) {
-                if (BaseArena.type == BaseArena.ArenaType.TDM) {
-                    main.RedTeamScore = 0;
-                    main.BlueTeamScore = 0;
+                if (BaseArena.type == BaseArena.ArenaType.KC) {
                     for (int ID = 0; ID < main.PlayingPlayers.size(); ID++) {
                         final Player p = main.PlayingPlayers.get(ID);
                         if (redTeam.contains(p)) {
@@ -161,7 +158,8 @@ public class TDM  {
         }
     }
 
-    public void endTDM() {
+    public void endKill(){
+
         GetArena getArena = new GetArena();
         BaseArena.states = BaseArena.ArenaStates.Countdown;
         if (main.RedTeamScore > main.BlueTeamScore) {
@@ -210,4 +208,4 @@ public class TDM  {
         redTeam.clear();
         blueTeam.clear();
     }
-}
+    }
