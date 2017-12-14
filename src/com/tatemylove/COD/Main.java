@@ -8,6 +8,7 @@ import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Files.LanguageFile;
 import com.tatemylove.COD.Files.LobbyFile;
 import com.tatemylove.COD.KillStreaks.AttackDogs;
+import com.tatemylove.COD.KillStreaks.Moab;
 import com.tatemylove.COD.Listeners.PlayerDeathListener;
 import com.tatemylove.COD.Listeners.PlayerInteractListener;
 import com.tatemylove.COD.Listeners.PlayerJoinListener;
@@ -28,6 +29,7 @@ public class Main extends JavaPlugin {
     public ArrayList<Player> WaitingPlayers = new ArrayList<>();
     public ArrayList<Player> PlayingPlayers = new ArrayList<>();
     public HashMap<String, Integer> kills = new HashMap<>();
+    public HashMap<String, Integer> killStreak = new HashMap<>();
     public int min_players = getConfig().getInt("min-players");
     public int max_players = 2;
     private ProtocolManager manager;
@@ -35,20 +37,10 @@ public class Main extends JavaPlugin {
     public int BlueTeamScore;
     private MySQL mySQL;
 
-    private static Main instance;
-
-    public static Main getInstance(){
-        return instance;
-    }
-
-
     @Override
     public void onEnable(){
 
-        instance = this;
-
         MainRunnable runnable = new MainRunnable(this);
-
 
         MainCommand cmd = new MainCommand(this);
         getCommand("cod").setExecutor(cmd);
@@ -67,8 +59,10 @@ public class Main extends JavaPlugin {
                 Bukkit.getConsoleSender().sendMessage(prefix + "§4Create an arena and then type §c/cod enable");
             }
         }catch(Exception e){
-
+            e.printStackTrace();
         }
+
+        getConfig().options().copyDefaults(true);
         saveDefaultConfig();
         reloadConfig();
 
@@ -110,5 +104,8 @@ public class Main extends JavaPlugin {
 
         AttackDogs dogs = new AttackDogs(this);
         dogs.settUp();
+
+        Moab moab = new Moab(this);
+        moab.settUp();
     }
 }
