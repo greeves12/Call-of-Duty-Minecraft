@@ -5,6 +5,7 @@ import com.tatemylove.COD.Arenas.GetArena;
 import com.tatemylove.COD.Arenas.TDM;
 import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Main;
+import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -12,8 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 
 public class CountDown extends BukkitRunnable {
-    public int timeuntilstart = 90;
-    public ArrayList<String> arena = new ArrayList<>();
+    public int timeuntilstart = ThisPlugin.getPlugin().getConfig().getInt("countdown-time");
 
     Main ma;
     private static CountDown countDown = null;
@@ -44,19 +44,16 @@ public class CountDown extends BukkitRunnable {
                 tdm.assignTeams(Integer.toString(getArena.getCurrentArena()));
                 tdm.startTDM(Integer.toString(getArena.getCurrentArena()));
                 runnable.stopCountDown();
-                arena.clear();
             }
             if((timeuntilstart % 10 == 0) || (timeuntilstart < 0)){
                 if(ma.WaitingPlayers.size() >= ma.min_players) {
                     for (Player p : ma.WaitingPlayers) {
                         SendCoolMessages.sendTitle(p, "§b", 10, 30, 10);
                         SendCoolMessages.sendSubTitle(p, "§e§lGame starting in §a§l" + timeuntilstart + " seconds", 10, 30, 10);
-                        p.sendMessage(ma.prefix + "§6§l§nUpcoming Arena: §5" + arena);
 
-                        for(String s : runnable.arena){
-                            s= s.replace("[]", "");
-                            p.sendMessage(ma.prefix + "§6§l§nUpcoming Arena:§e " + s.toString());
-                        }
+                        String nextArena = ArenaFile.getData().getString("Arenas." + getArena.getNextArena() + ".Name");
+
+                        p.sendMessage(ma.prefix + "§6§l§nUpcoming Arena:§e " + nextArena);
                     }
                 }
             }

@@ -24,8 +24,9 @@ public class MainCommand implements CommandExecutor {
             Player p = (Player) sender;
             if (args.length == 0) {
                     p.sendMessage("§8§l§nCOD-Warfare");
-                    p.sendMessage("§7§lAuthor: §etatemylove");
-                    p.sendMessage("§7§lCommands: §e/cod help");
+                    p.sendMessage("");
+                    p.sendMessage("§7Author: §etatemylove");
+                    p.sendMessage("§7Commands: §e/cod help");
                 return true;
             }
             if(args[0].equalsIgnoreCase("help")){

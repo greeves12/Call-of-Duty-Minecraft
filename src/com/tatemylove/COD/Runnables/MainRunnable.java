@@ -19,12 +19,9 @@ public class MainRunnable {
 
     private int countdown;
     private int gametime;
-    private int graceperiod;
-    public ArrayList<String> arena = new ArrayList<>();
     public void startCountDown(){
         GetArena getArena = new GetArena();
         countdown = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(ThisPlugin.getPlugin(), new CountDown(main), 0L, 20L);
-        arena.add(ArenaFile.getData().getString("Arenas." + getArena.getNextArena() + ".Name"));
     }
     public void stopCountDown(){
         Bukkit.getServer().getScheduler().cancelTask(countdown);
@@ -35,11 +32,5 @@ public class MainRunnable {
     }
     public void stopGameTime(){
         Bukkit.getServer().getScheduler().cancelTask(gametime);
-    }
-    public void startGracePeriod(){
-         graceperiod = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(ThisPlugin.getPlugin(), new GracePeriod(main), 0L, 20L);
-    }
-    public void stopGracePeriod(){
-        Bukkit.getServer().getScheduler().cancelTask(graceperiod);
     }
 }

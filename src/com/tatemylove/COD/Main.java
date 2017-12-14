@@ -7,12 +7,11 @@ import com.tatemylove.COD.Commands.MainCommand;
 import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Files.LanguageFile;
 import com.tatemylove.COD.Files.LobbyFile;
-import com.tatemylove.COD.Listeners.MoveListener;
+import com.tatemylove.COD.KillStreaks.AttackDogs;
 import com.tatemylove.COD.Listeners.PlayerDeathListener;
 import com.tatemylove.COD.Listeners.PlayerInteractListener;
 import com.tatemylove.COD.Listeners.PlayerJoinListener;
 import com.tatemylove.COD.MySQL.MySQL;
-import com.tatemylove.COD.Runnables.GracePeriod;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.Tasks.ActivePinger;
 import org.bukkit.Bukkit;
@@ -80,7 +79,6 @@ public class Main extends JavaPlugin {
         manager = ProtocolLibrary.getProtocolManager();
 
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new MoveListener(new GracePeriod(this), this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractListener(this), this);
 
@@ -109,5 +107,8 @@ public class Main extends JavaPlugin {
                 Bukkit.getConsoleSender().sendMessage("§cHooking into MySQL failed! Check your settings.");
             }
         }
+
+        AttackDogs dogs = new AttackDogs(this);
+        dogs.settUp();
     }
 }
