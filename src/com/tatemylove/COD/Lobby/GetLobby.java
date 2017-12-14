@@ -30,8 +30,10 @@ public class GetLobby {
         LobbyFile.getData().set("Lobby.Z", z);
         LobbyFile.getData().set("Lobby.Yaw", yaw);
         LobbyFile.getData().set("Lobby.Pitch", pitch);
+        LobbyFile.saveData();
+        LobbyFile.reloadData();
 
-        p.sendMessage(main.prefix + "§b§lLobby Set\n §3§l§mInformation");
+        p.sendMessage(main.prefix + "§b§lLobby Set\n §3§l§nInformation");
         p.sendMessage("§e§lWorld: §2" + world);
         p.sendMessage("§e§lX: §2" + x);
         p.sendMessage("§e§lY: §2" + y);

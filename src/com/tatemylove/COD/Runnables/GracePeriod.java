@@ -32,7 +32,6 @@ public class GracePeriod extends BukkitRunnable {
                 }
                 runnable.stopGracePeriod();
                 runnable.startGameTime();
-                return;
             }
             if(timeuntilstart % 10 == 0){
                 for(Player p :main.PlayingPlayers){
@@ -42,5 +41,6 @@ public class GracePeriod extends BukkitRunnable {
                 }
             }
         }
+        timeuntilstart -=1;
     }
 }

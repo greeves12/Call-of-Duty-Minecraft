@@ -9,11 +9,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class MoveListener implements Listener {
-    GracePeriod gracePeriod;
+
     Main main;
 
     public MoveListener(GracePeriod g, Main m){
-        gracePeriod = g;
+
         main  = m;
     }
 
@@ -24,6 +24,7 @@ public class MoveListener implements Listener {
         Location t = e.getTo();
 
         if(main.PlayingPlayers.contains(p)) {
+            GracePeriod gracePeriod = new GracePeriod(main);
             if (gracePeriod.timeuntilstart > 1) {
                 if((f.getBlockX() != t.getBlockX()) || (f.getBlockY() != t.getBlockY()) || f.getBlockZ() != t.getBlockZ()){
                     e.setTo(f);

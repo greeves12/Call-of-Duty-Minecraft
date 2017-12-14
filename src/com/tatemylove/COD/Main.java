@@ -19,6 +19,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -48,7 +49,7 @@ public class Main extends JavaPlugin {
         instance = this;
 
         MainRunnable runnable = new MainRunnable(this);
-        runnable.startCountDown();
+
 
         MainCommand cmd = new MainCommand(this);
         getCommand("cod").setExecutor(cmd);
@@ -57,7 +58,18 @@ public class Main extends JavaPlugin {
         LanguageFile.setup(this);
         LobbyFile.setup(this);
 
-        getConfig().options().copyDefaults(true);
+        File file = new File("plugins/COD/arenas.yml");
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            if(reader.readLine() != null){
+                runnable.startCountDown();
+            }else{
+                Bukkit.getConsoleSender().sendMessage(prefix + "§2COD is disabled because you don't have any Arenas!!");
+                Bukkit.getConsoleSender().sendMessage(prefix + "§4Create an arena and then type §c/cod enable");
+            }
+        }catch(Exception e){
+
+        }
         saveDefaultConfig();
         reloadConfig();
 

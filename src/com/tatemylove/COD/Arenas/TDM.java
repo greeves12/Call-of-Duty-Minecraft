@@ -2,6 +2,7 @@ package com.tatemylove.COD.Arenas;
 
 import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Main;
+import com.tatemylove.COD.Runnables.GracePeriod;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
@@ -13,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class TDM  {
     }
 
     public void assignTeams(String id) {
-        if (BaseArena.states == BaseArena.ArenaStates.Waiting) {
+        if (BaseArena.states == BaseArena.ArenaStates.Started) {
             if (ArenaFile.getData().contains("Arenas." + id + ".Name")) {
                 main.PlayingPlayers.addAll(main.WaitingPlayers);
                 main.WaitingPlayers.clear();
@@ -70,7 +72,15 @@ public class TDM  {
         GetArena getArena = new GetArena();
         if (ArenaFile.getData().contains("Arenas." + id + ".Name")) {
             if (BaseArena.states == BaseArena.ArenaStates.Started) {
-                mainRunnable.startGracePeriod();
+                new BukkitRunnable(){
+
+                    @Override
+                    public void run() {
+                        mainRunnable.startGracePeriod();
+                    }
+                }.runTaskLater(ThisPlugin.getPlugin(), 40L);
+
+
                 for (int ID = 0; ID < main.PlayingPlayers.size(); ID++) {
                     final Player p = main.PlayingPlayers.get(ID);
                     if (redTeam.contains(p)) {

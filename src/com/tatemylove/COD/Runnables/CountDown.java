@@ -26,13 +26,13 @@ public class CountDown extends BukkitRunnable {
     @Override
     public void run() {
         GetArena getArena = new GetArena();
+        MainRunnable runnable = new MainRunnable(ma);
 
-        arena.add(ArenaFile.getData().getString("Arenas." + getArena.getNextArena() + ".Name"));
         if(BaseArena.states == BaseArena.ArenaStates.Countdown){
             if(timeuntilstart == 0){
                 TDM tdm = new TDM(ma);
 
-                MainRunnable runnable = new MainRunnable(ma);
+
                 if(ma.WaitingPlayers.size() < ma.min_players){
 
                     runnable.stopCountDown();
@@ -51,6 +51,12 @@ public class CountDown extends BukkitRunnable {
                     for (Player p : ma.WaitingPlayers) {
                         SendCoolMessages.sendTitle(p, "§b", 10, 30, 10);
                         SendCoolMessages.sendSubTitle(p, "§e§lGame starting in §a§l" + timeuntilstart + " seconds", 10, 30, 10);
+                        p.sendMessage(ma.prefix + "§6§l§nUpcoming Arena: §5" + arena);
+
+                        for(String s : runnable.arena){
+                            s= s.replace("[]", "");
+                            p.sendMessage(ma.prefix + "§6§l§nUpcoming Arena:§e " + s.toString());
+                        }
                     }
                 }
             }
