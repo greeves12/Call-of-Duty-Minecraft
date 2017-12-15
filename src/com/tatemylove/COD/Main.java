@@ -3,18 +3,13 @@ package com.tatemylove.COD;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.tatemylove.COD.Arenas.BaseArena;
+import com.tatemylove.COD.Citizens.NPCListener;
 import com.tatemylove.COD.Commands.MainCommand;
-import com.tatemylove.COD.Files.ArenaFile;
-import com.tatemylove.COD.Files.LanguageFile;
-import com.tatemylove.COD.Files.LobbyFile;
-import com.tatemylove.COD.Files.StatsFile;
+import com.tatemylove.COD.Files.*;
 import com.tatemylove.COD.KillStreaks.AttackDogs;
 import com.tatemylove.COD.KillStreaks.Moab;
 import com.tatemylove.COD.KillStreaks.Napalm;
-import com.tatemylove.COD.Listeners.PlayerDeathListener;
-import com.tatemylove.COD.Listeners.PlayerInteractItem;
-import com.tatemylove.COD.Listeners.PlayerInteractListener;
-import com.tatemylove.COD.Listeners.PlayerJoinListener;
+import com.tatemylove.COD.Listeners.*;
 import com.tatemylove.COD.MySQL.MySQL;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.Tasks.ActivePinger;
@@ -32,6 +27,7 @@ public class Main extends JavaPlugin {
     public ArrayList<Player> WaitingPlayers = new ArrayList<>();
     public ArrayList<Player> PlayingPlayers = new ArrayList<>();
     public HashMap<String, Integer> kills = new HashMap<>();
+    public HashMap<String, Integer> deaths = new HashMap<>();
     public HashMap<String, Integer> killStreak = new HashMap<>();
     public int min_players = getConfig().getInt("min-players");
     public int max_players = 2;
@@ -52,6 +48,7 @@ public class Main extends JavaPlugin {
         LanguageFile.setup(this);
         LobbyFile.setup(this);
         StatsFile.setup(this);
+        GunFile.setup(this);
 
         File file = new File("plugins/COD/arenas.yml");
         try {
@@ -78,6 +75,8 @@ public class Main extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractListener(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractItem(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new NPCListener(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new InventoryListener(this), this);
 
         ActivePinger pinger = new ActivePinger(this);
         pinger.runTaskTimerAsynchronously(this, 0, 20);
@@ -90,6 +89,9 @@ public class Main extends JavaPlugin {
         }else{
             Bukkit.getConsoleSender().sendMessage(prefix + "§cDisabling, please install CrackShot");
             getPluginLoader().disablePlugin(this);
+        }
+        if(Bukkit.getServer().getPluginManager().getPlugin("Citizens") != null){
+            Bukkit.getConsoleSender().sendMessage(prefix + "§eCitizens found! Hooking in");
         }
 
         if(getConfig().getBoolean("MySQL.Enabled")){

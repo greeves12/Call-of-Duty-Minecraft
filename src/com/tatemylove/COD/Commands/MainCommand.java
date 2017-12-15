@@ -1,18 +1,23 @@
 package com.tatemylove.COD.Commands;
 
 import com.tatemylove.COD.Files.ArenaFile;
+import com.tatemylove.COD.Files.GunFile;
 import com.tatemylove.COD.Files.LobbyFile;
 import com.tatemylove.COD.Files.StatsFile;
+import com.tatemylove.COD.Guns.Guns;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.ScoreBoard.LobbyBoard;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -71,6 +76,12 @@ public class MainCommand implements CommandExecutor {
                     }else{
                         p.sendMessage(main.prefix + "§aPlugin Already Enabled");
                     }
+                }
+            }
+            if(args[0].equalsIgnoreCase("tryguns")){
+                if(p.hasPermission("cod.tryguns")){
+                    Guns guns = new Guns(main);
+                    guns.createMainMenu(p);
                 }
             }
             if(args[0].equalsIgnoreCase("join")) {
@@ -167,8 +178,68 @@ public class MainCommand implements CommandExecutor {
                     LobbyFile.reloadData();
                     ArenaFile.saveData();
                     ArenaFile.reloadData();
+                    StatsFile.saveData();
+                    StatsFile.reloadData();
+                    GunFile.saveData();
+                    GunFile.reloadData();
 
                     p.sendMessage(main.prefix + "§8§lConfigs reloaded!");
+                }
+            }
+            if(args[0].equalsIgnoreCase("make")){
+                if(p.hasPermission("cod.makegun")) {
+                    if (args.length == 9) {
+                        Guns guns = new Guns(main);
+                        String gunID = args[2];
+                        // String gunData = args[3];
+                        String gunName = args[3];
+                        String ammoID = args[4];
+                        //String ammoData = args[6];
+                        String ammoAmount = args[5];
+                        String ammoName = args[6];
+                        String Level = args[7];
+                        String Cost = args[8];
+                        String type = args[1];
+
+                        if (type.equalsIgnoreCase("PRIMARY")) {
+                            ItemStack gun = new ItemStack(Material.getMaterial(gunID.toUpperCase()));
+                            ItemMeta meta = gun.getItemMeta();
+                            meta.setDisplayName(gunName);
+                            gun.setItemMeta(meta);
+
+                            ItemStack ammo = new ItemStack(Material.getMaterial(ammoID.toUpperCase()));
+                            ItemMeta ammoMeta = ammo.getItemMeta();
+                            ammoMeta.setDisplayName(ammoName);
+                            ammo.setItemMeta(ammoMeta);
+
+                            guns.saveGun(gun, ammo, Integer.parseInt(Cost), Integer.parseInt(Level), Integer.valueOf(ammoAmount), type);
+
+                            p.sendMessage(main.prefix + "§6Type: " + type + " Material: " + gunID + " Name: " + gunName);
+                            p.sendMessage(main.prefix + "§2Name: " + ammoName + " Material: " + ammoID + " Amount: " + ammoAmount);
+                            p.sendMessage(main.prefix + "§dLevel: " + Level + " Cost: " + Cost);
+                        }
+                    }else{
+                        p.sendMessage(main.prefix + "§7/cod make <primary/secondary> <material> <name> |ammo| <material> <name> <amount> |misc| <level> <cost>");
+                    }
+                }
+            }
+            if(args[0].equalsIgnoreCase("deletegun")){
+                if(p.hasPermission("cod.deletegun")) {
+                    if (args.length == 2) {
+                        int id = Integer.parseInt(args[1]);
+                        Guns guns = new Guns(main);
+                        if (GunFile.getData().contains("Guns." + id)) {
+                            GunFile.getData().set("Guns." + id, null);
+                            GunFile.saveData();
+                            GunFile.reloadData();
+                            p.sendMessage(main.prefix + "§aGun Deleted");
+                            guns.loadGuns();
+                        } else {
+                            p.sendMessage(main.prefix + "§aGun with that ID doesn't exist");
+                        }
+                    }else{
+                        p.sendMessage(main.prefix + "§7/cod deletegun <ID>");
+                    }
                 }
             }
         }

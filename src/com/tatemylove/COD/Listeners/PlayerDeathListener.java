@@ -35,9 +35,7 @@ public class PlayerDeathListener implements Listener {
             TDM tdm = new TDM(main);
             if ((main.PlayingPlayers.contains(p)) && (main.PlayingPlayers.contains(pp))) {
                 if (((tdm.blueTeam.contains(p) && (tdm.redTeam.contains(pp))) || (tdm.redTeam.contains(p)) && (tdm.blueTeam.contains(pp)))) {
-                    int kills = main.kills.get(pp.getName());
-                    kills++;
-                    main.kills.put(p.getName(), kills);
+
                 }
                 if (tdm.redTeam.contains(p)) {
                     if (tdm.blueTeam.contains(pp)) {
@@ -49,13 +47,13 @@ public class PlayerDeathListener implements Listener {
                     }
                 }
             }
-            int ks = tdm.killStreak.get(p.getName());
-            int kills = tdm.kills.get(p.getName());
-            int deaths = tdm.deaths.get(p.getName());
+            int ks = main.killStreak.get(p.getName());
+            int kills = main.kills.get(p.getName());
+            int deaths = main.deaths.get(p.getName());
 
-            tdm.killStreak.put(pp.getName(), ks+1);
-            tdm.kills.put(pp.getName(), kills+1);
-            tdm.deaths.put(p.getName(), deaths+1);
+            main.killStreak.put(pp.getName(), ks+1);
+            main.kills.put(pp.getName(), kills+1);
+            main.deaths.put(p.getName(), deaths+1);
 
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(ThisPlugin.getPlugin(), new Runnable() {
                 @Override

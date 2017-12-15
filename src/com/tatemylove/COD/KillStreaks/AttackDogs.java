@@ -44,7 +44,7 @@ public class AttackDogs {
         TDM tdm = new TDM(main);
 
         if((main.PlayingPlayers.contains(p)) &&(main.PlayingPlayers.contains(pp))){
-            if(tdm.killStreak.get(p.getName()) == 15){
+            if(main.killStreak.get(p.getName()) == 15){
                 pp.getInventory().addItem(dogs);
                 pp.sendMessage(main.prefix + "§c§lYou got Dogs. Right click to deploy!");
 

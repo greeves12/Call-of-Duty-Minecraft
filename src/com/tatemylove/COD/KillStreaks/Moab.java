@@ -40,7 +40,7 @@ public class Moab {
 
         TDM tdm = new TDM(main);
         if((main.PlayingPlayers.contains(p)) && (main.PlayingPlayers.contains(pp))){
-            if(tdm.killStreak.get(p.getName()) == 30){
+            if(main.killStreak.get(p.getName()) == 30){
                 pp.getInventory().addItem(Moab);
                 pp.sendMessage(main.prefix + "§c§lYou got a Nuke. Right click to launch!");
             }

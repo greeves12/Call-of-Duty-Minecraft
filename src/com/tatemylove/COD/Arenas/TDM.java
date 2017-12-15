@@ -1,6 +1,7 @@
 package com.tatemylove.COD.Arenas;
 
 import com.tatemylove.COD.Files.ArenaFile;
+import com.tatemylove.COD.Files.StatsFile;
 import com.tatemylove.COD.Main;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.ScoreBoard.GameBoard;
@@ -24,9 +25,7 @@ public class TDM  {
     public ArrayList<Player> redTeam = new ArrayList<>();
     public ArrayList<Player> blueTeam = new ArrayList<>();
     public HashMap<Player, String> Team = new HashMap<>();
-    public HashMap<String, Integer> kills = new HashMap<>();
-    public HashMap<String, Integer> deaths = new HashMap<>();
-    public HashMap<String, Integer> killStreak = new HashMap<>();
+
 
     Main main;
 
@@ -83,9 +82,9 @@ public class TDM  {
                     main.BlueTeamScore = 0;
                     for (int ID = 0; ID < main.PlayingPlayers.size(); ID++) {
                         final Player p = main.PlayingPlayers.get(ID);
-                        kills.put(p.getName(), 0);
-                        deaths.put(p.getName(), 0);
-                        killStreak.put(p.getName(), 0);
+                        main.kills.put(p.getName(), 0);
+                        main.deaths.put(p.getName(), 0);
+                        main.killStreak.put(p.getName(), 0);
 
                         GameBoard gameBoard = new GameBoard(main);
                         gameBoard.setGameBoard(p);
@@ -175,6 +174,19 @@ public class TDM  {
     public void endTDM() {
         GetArena getArena = new GetArena();
         BaseArena.states = BaseArena.ArenaStates.Countdown;
+        for(Player pp : main.PlayingPlayers){
+            int kills = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Kills");
+            int deaths = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Deaths");
+
+            int inKills = main.kills.get(pp.getName());
+            int inDeaths = main.deaths.get(pp.getName());
+
+            StatsFile.getData().set(pp.getUniqueId().toString() + ".Kills", inKills+kills);
+            StatsFile.getData().set(pp.getUniqueId().toString() + ".Deaths", inDeaths+deaths);
+
+            StatsFile.saveData();
+            StatsFile.reloadData();
+        }
         if (main.RedTeamScore > main.BlueTeamScore) {
             for(Player pp : redTeam){
                 SwiftEconomyAPI swiftEconomyAPI = new SwiftEconomyAPI();
@@ -194,6 +206,15 @@ public class TDM  {
 
                 DecimalFormat df = new DecimalFormat("#.##");
 
+                if(!main.getConfig().getBoolean("MySQL.Enabled")) {
+                    int wins = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Wins");
+
+                    StatsFile.getData().set(pp.getUniqueId().toString() + ".Wins", wins+1);
+
+                    StatsFile.saveData();
+                    StatsFile.reloadData();
+                }
+
 
             }
         }else if(main.BlueTeamScore > main.RedTeamScore){
@@ -205,15 +226,22 @@ public class TDM  {
                 SwiftEconomyAPI swiftEconomyAPI = new SwiftEconomyAPI();
                 swiftEconomyAPI.giveMoney(pp, ThisPlugin.getPlugin().getConfig().getDouble("lose-amount"));
             }
-            for(Player p : main.PlayingPlayers){
-                p.sendMessage("");
-                p.sendMessage("");
-                p.sendMessage("");
-                p.sendMessage("§7║ §b§lStatistics:§6§l " + getArena.getCurrentArena());
-                p.sendMessage("§7║");
-                p.sendMessage("§7║ §7§lWinner: §9§lBlue: §1§l" + main.BlueTeamScore + " " + "§r§cRed: §4" + main.RedTeamScore + "         §b§lTotal Kills:§a§l ");
+            for(Player pp : main.PlayingPlayers){
+                pp.sendMessage("");
+                pp.sendMessage("");
+                pp.sendMessage("");
+                pp.sendMessage("§7║ §b§lStatistics:§6§l " + getArena.getCurrentArena());
+                pp.sendMessage("§7║");
+                pp.sendMessage("§7║ §7§lWinner: §9§lBlue: §1§l" + main.BlueTeamScore + " " + "§r§cRed: §4" + main.RedTeamScore + "         §b§lTotal Kills:§a§l ");
 
                 DecimalFormat df = new DecimalFormat("#.##");
+
+                int wins = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Wins");
+
+                StatsFile.getData().set(pp.getUniqueId().toString() + ".Wins", wins+1);
+
+                StatsFile.saveData();
+                StatsFile.reloadData();
             }
         }
         main.WaitingPlayers.addAll(main.PlayingPlayers);
