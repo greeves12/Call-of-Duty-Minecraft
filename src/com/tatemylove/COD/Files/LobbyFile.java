@@ -33,6 +33,7 @@ public class LobbyFile {
             }
         }
         bug = YamlConfiguration.loadConfiguration(afile);
+
     }
 
     public static FileConfiguration getData()

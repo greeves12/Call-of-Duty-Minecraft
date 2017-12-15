@@ -23,6 +23,10 @@ public class TDM  {
     public ArrayList<Player> redTeam = new ArrayList<>();
     public ArrayList<Player> blueTeam = new ArrayList<>();
     public HashMap<Player, String> Team = new HashMap<>();
+    public HashMap<String, Integer> kills = new HashMap<>();
+    public HashMap<String, Integer> deaths = new HashMap<>();
+    public HashMap<String, Integer> killStreak = new HashMap<>();
+
     Main main;
 
     private static TDM tdms = null;

@@ -26,6 +26,7 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
+        LobbyBoard lobbyBoard = new LobbyBoard(main);
         if(ThisPlugin.getPlugin().getConfig().getBoolean("auto-join")){
             main.WaitingPlayers.add(e.getPlayer());
             e.getPlayer().sendMessage(main.prefix);
@@ -44,15 +45,12 @@ public class PlayerJoinListener implements Listener {
         if(main.getConfig().getBoolean("MySQL.Enabled")){
 
         }else{
-            StatsFile.getData().set(p.getUniqueId().toString(), p.getUniqueId().toString());
             StatsFile.getData().set(p.getUniqueId().toString() + ".Wins", 0);
             StatsFile.getData().set(p.getUniqueId().toString() + ".Kills", 0);
             StatsFile.getData().set(p.getUniqueId().toString() + ".Deaths", 0);
             StatsFile.saveData();
             StatsFile.reloadData();
         }
-        LobbyBoard lobbyBoard = new LobbyBoard(main);
-        lobbyBoard.setLobbyBoard(e.getPlayer());
     }
 
     @EventHandler

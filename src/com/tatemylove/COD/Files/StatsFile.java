@@ -33,6 +33,9 @@ public class StatsFile {
             }
         }
         bug = YamlConfiguration.loadConfiguration(afile);
+        bug.addDefault("plugin-enabled", false);
+        bug.options().copyDefaults(true);
+        saveData();
     }
 
     public static FileConfiguration getData()

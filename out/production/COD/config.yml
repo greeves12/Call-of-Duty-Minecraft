@@ -16,7 +16,14 @@ auto-join: false
 #Enable or Disable Friendly Fire
 friend-fire: false
 
+#Time until the game starts
 countdown-time: 20
+
+#Lobby ScoreBoard name
+lobbyboard-name: "&b&lCOD"
+
+#Game Scoreboard name
+gameboard-name: "&6&lCOD IN-GAME"
 ###########################
 #MySQL (Optional) (Required for multi server stat syncing)
 MySQL:
