@@ -3,6 +3,7 @@ package com.tatemylove.COD.Arenas;
 import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Main;
 import com.tatemylove.COD.Runnables.MainRunnable;
+import com.tatemylove.COD.ScoreBoard.GameBoard;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
 import com.tatemylove.SwiftEconomy.API.SwiftEconomyAPI;
@@ -82,6 +83,12 @@ public class TDM  {
                     main.BlueTeamScore = 0;
                     for (int ID = 0; ID < main.PlayingPlayers.size(); ID++) {
                         final Player p = main.PlayingPlayers.get(ID);
+                        kills.put(p.getName(), 0);
+                        deaths.put(p.getName(), 0);
+                        killStreak.put(p.getName(), 0);
+
+                        GameBoard gameBoard = new GameBoard(main);
+                        gameBoard.setGameBoard(p);
                         if (redTeam.contains(p)) {
                             p.getInventory().clear();
 

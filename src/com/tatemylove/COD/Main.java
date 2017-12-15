@@ -10,6 +10,7 @@ import com.tatemylove.COD.Files.LobbyFile;
 import com.tatemylove.COD.Files.StatsFile;
 import com.tatemylove.COD.KillStreaks.AttackDogs;
 import com.tatemylove.COD.KillStreaks.Moab;
+import com.tatemylove.COD.KillStreaks.Napalm;
 import com.tatemylove.COD.Listeners.PlayerDeathListener;
 import com.tatemylove.COD.Listeners.PlayerInteractItem;
 import com.tatemylove.COD.Listeners.PlayerInteractListener;
@@ -109,5 +110,8 @@ public class Main extends JavaPlugin {
 
         Moab moab = new Moab(this);
         moab.settUp();
+
+        Napalm napalm = new Napalm(this);
+        napalm.settUp();
     }
 }

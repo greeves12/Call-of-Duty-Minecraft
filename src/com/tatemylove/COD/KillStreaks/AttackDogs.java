@@ -1,5 +1,6 @@
 package com.tatemylove.COD.KillStreaks;
 
+import com.tatemylove.COD.Arenas.TDM;
 import com.tatemylove.COD.Main;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import org.bukkit.DyeColor;
@@ -40,8 +41,10 @@ public class AttackDogs {
         Player p = e.getEntity();
         Player pp = e.getEntity().getKiller();
 
+        TDM tdm = new TDM(main);
+
         if((main.PlayingPlayers.contains(p)) &&(main.PlayingPlayers.contains(pp))){
-            if(main.killStreak.get(p.getName()) == 15){
+            if(tdm.killStreak.get(p.getName()) == 15){
                 pp.getInventory().addItem(dogs);
                 pp.sendMessage(main.prefix + "§c§lYou got Dogs. Right click to deploy!");
 

@@ -17,11 +17,13 @@ public class PlayerInteractItem implements Listener {
         interactEvent = PlayerInteractItem.this;
     }
     @EventHandler
-    public void onClick(PlayerInteractEvent e){
-        AttackDogs dogs = new AttackDogs(main);
-        dogs.onInteract(e);
+    public void onClick(PlayerInteractEvent e) {
+        if (main.PlayingPlayers.contains(e.getPlayer())) {
+            AttackDogs dogs = new AttackDogs(main);
+            dogs.onInteract(e);
 
-        Moab moab = new Moab(main);
-        moab.onPlayerIneteract(e);
+            Moab moab = new Moab(main);
+            moab.onPlayerIneteract(e);
+        }
     }
 }

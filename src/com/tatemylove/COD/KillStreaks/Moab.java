@@ -8,8 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -40,8 +38,9 @@ public class Moab {
         Player p = e.getEntity();
         Player pp = e.getEntity().getKiller();
 
+        TDM tdm = new TDM(main);
         if((main.PlayingPlayers.contains(p)) && (main.PlayingPlayers.contains(pp))){
-            if(main.killStreak.get(p.getName()) == 30){
+            if(tdm.killStreak.get(p.getName()) == 30){
                 pp.getInventory().addItem(Moab);
                 pp.sendMessage(main.prefix + "§c§lYou got a Nuke. Right click to launch!");
             }
