@@ -20,7 +20,7 @@ public class NPCListener implements Listener {
     public void onNPCClick(NPCRightClickEvent e){
         Guns guns = new Guns(main);
         if(e.getNPC().getName().equals(ChatColor.translateAlternateColorCodes('&',main.getConfig().getString("npc-name")))){
-            e.getClicker().openInventory(guns.tryGuns);
+            guns.createMainMenu(e.getClicker());
         }
     }
 }

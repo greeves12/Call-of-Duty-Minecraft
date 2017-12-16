@@ -220,7 +220,7 @@ public class MainCommand implements CommandExecutor {
                             p.sendMessage(main.prefix + "§dLevel: " + Level + " Cost: " + Cost);
                         }
                     }else{
-                        p.sendMessage(main.prefix + "§7/cod make <primary/secondary> <material> <name> |ammo| <material> <name> <amount> |misc| <level> <cost>");
+                        p.sendMessage(main.prefix + "§7/cod make §6<primary/secondary> <Gun Material> <Gun Name> <Ammo Material> <Ammo Amount> <Ammo Name> <Level Unlock> <Gun Cost>");
                     }
                 }
             }

@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -34,6 +35,7 @@ public class Guns {
         ItemStack stack = new ItemStack(Material.WOOD_HOE);
         ItemMeta stackMeta = stack.getItemMeta();
         stackMeta.setDisplayName("§3§lPrimary Guns");
+        stackMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         ArrayList<String> lore = new ArrayList<>();
         lore.add("§6§lClick to Enter");
         stackMeta.setLore(lore);
@@ -42,10 +44,20 @@ public class Guns {
 
         ItemStack stack1 = new ItemStack(Material.WOOD_SPADE);
         ItemMeta meta = stack1.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.setLore(lore);
         meta.setDisplayName("§4§lSecondary Guns");
         stack1.setItemMeta(meta);
         tryGuns.setItem(7, stack1);
+
+        ItemStack exit = new ItemStack(Material.EMERALD);
+        ItemMeta eMeta = exit.getItemMeta();
+        eMeta.setDisplayName("§e§lExit");
+        ArrayList<String> lorey = new ArrayList<>();
+        lorey.add("§6§lClick to Exit");
+        eMeta.setLore(lorey);
+        exit.setItemMeta(eMeta);
+        tryGuns.setItem(49, exit);
 
         p.openInventory(tryGuns);
     }
@@ -70,6 +82,7 @@ public class Guns {
 
             ItemStack gun = new ItemStack(Material.getMaterial(gunData), 1);
             ItemMeta meta = gun.getItemMeta();
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             meta.setDisplayName(gunName + "§e(" + type + ")");
 
             ArrayList<String> lore = new ArrayList<>();
@@ -93,6 +106,7 @@ public class Guns {
 
                 ItemStack gun = new ItemStack(Material.getMaterial(gunData.toUpperCase()));
                 ItemMeta meta = gun.getItemMeta();
+                meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
                 meta.setDisplayName(gunName + "§e(" + type + ")");
 
                 ArrayList<String> lore = new ArrayList<>();
