@@ -19,8 +19,12 @@ public class NPCListener implements Listener {
     @EventHandler
     public void onNPCClick(NPCRightClickEvent e){
         Guns guns = new Guns(main);
-        if(e.getNPC().getName().equals(ChatColor.translateAlternateColorCodes('&',main.getConfig().getString("npc-name")))){
-            guns.createMainMenu(e.getClicker());
+        if(!main.PlayingPlayers.contains(e.getClicker())) {
+            if (e.getNPC().getName().equals(ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("npc-name")))) {
+                guns.createMainMenu(e.getClicker());
+            }
+        }else{
+            e.getClicker().sendMessage(main.prefix + "§e§lYou cannot be in-game to test guns!");
         }
     }
 }

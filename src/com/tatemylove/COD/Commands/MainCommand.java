@@ -17,18 +17,22 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.HashMap;
 
 public class MainCommand implements CommandExecutor {
     Main main;
     public MainCommand(Main m){
         main = m;
     }
+    public HashMap<Player, ItemStack[]> savedInventory = new HashMap<>();
+    public HashMap<Player, ItemStack[]> armorSaved = new HashMap<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
@@ -101,6 +105,14 @@ public class MainCommand implements CommandExecutor {
                             lobbyBoard.winsH.put(p.getName(), wins);
                             lobbyBoard.setLobbyBoard(p);
 
+                            if(p.getInventory().getContents().length > 0) {
+                                savedInventory.put(p, p.getInventory().getContents());
+                                p.getInventory().clear();
+                            }
+                            if(p.getInventory().getArmorContents().length > 0){
+                                armorSaved.put(p, p.getInventory().getArmorContents());
+                            }
+
                             SendCoolMessages.sendTitle(p, "§a", 10, 30, 10);
                             SendCoolMessages.sendSubTitle(p, "§e§lYou joined the Queue", 10, 30, 10);
                             for (Player pp : main.WaitingPlayers) {
@@ -161,6 +173,16 @@ public class MainCommand implements CommandExecutor {
                         SendCoolMessages.sendSubTitle(p, "§8§lLeft COD lobby", 10, 30, 10);
                         p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
                         p.sendMessage(main.prefix + "§8§lLeft COD lobby");
+                        p.getInventory().clear();
+                        if(armorSaved.containsKey(p)) {
+                            p.getInventory().setArmorContents(armorSaved.get(p));
+                        }
+                        if(savedInventory.containsKey(p)) {
+
+                            p.getInventory().setContents(savedInventory.get(p));
+                        }
+                        //p.getInventory().setArmorContents(savedInventory.get(p));
+
 
                         for (Player pp : main.WaitingPlayers) {
                             pp.sendMessage(main.prefix + "§7§l" + p.getName() + " §8§lhas left the Queue");

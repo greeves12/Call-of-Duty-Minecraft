@@ -86,10 +86,9 @@ public class Guns {
             meta.setDisplayName(gunName + "§e(" + type + ")");
 
             ArrayList<String> lore = new ArrayList<>();
-            lore.add("§bAmmo: " + ammoName);
-            lore.add("§bAmmo Amount: " + ammoAmount);
-            lore.add("§bCost: " + cost);
-            lore.add("§bLevel: " + levelUnlock);
+            lore.add("§bAmmo: " + ammoAmount);
+            lore.add("§6Cost: " + cost);
+            lore.add("§2Level: " + levelUnlock);
 
             meta.setLore(lore);
             gun.setItemMeta(meta);

@@ -54,6 +54,14 @@ public class InventoryListener implements Listener {
                         ItemStack gun = csUtility.generateWeapon(GunFile.getData().getString("Guns." + i + ".Gun.GunName"));
                         p.getInventory().addItem(gun);
 
+
+                        ItemStack ammo = new ItemStack(Material.getMaterial(GunFile.getData().getString("Guns." + i + ".Ammo.AmmoData")), GunFile.getData().getInt("Guns." + i + ".Ammo.AmmoAmount"));
+                        ItemMeta meta = ammo.getItemMeta();
+                        meta.setDisplayName("§e§lAmmo");
+                        ammo.setItemMeta(meta);
+
+                        p.getInventory().addItem(ammo);
+
                         p.sendMessage(main.prefix + "§aYou received " + GunFile.getData().getString("Guns." + i + ".Gun.GunName"));
                         p.closeInventory();
                     }

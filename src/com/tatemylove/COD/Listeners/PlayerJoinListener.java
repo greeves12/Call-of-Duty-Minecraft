@@ -61,9 +61,11 @@ public class PlayerJoinListener implements Listener {
         if(main.PlayingPlayers.contains(p)){
             main.PlayingPlayers.remove(p);
             p.teleport(lobby.getLobby(p));
+            p.getInventory().clear();
         }else if(main.WaitingPlayers.contains(p)){
             main.WaitingPlayers.remove(p);
             p.teleport(lobby.getLobby(p));
+            p.getInventory().clear();
         }
     }
 
