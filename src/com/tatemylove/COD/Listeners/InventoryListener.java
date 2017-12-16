@@ -1,5 +1,6 @@
 package com.tatemylove.COD.Listeners;
 
+import com.shampaggon.crackshot.CSUtility;
 import com.tatemylove.COD.Guns.Guns;
 import com.tatemylove.COD.Main;
 import org.bukkit.entity.Entity;
@@ -30,6 +31,8 @@ public class InventoryListener implements Listener {
             if(inventory.getName().equals(guns.tryGuns.getName())){
                 if(e.getSlot() == 1){
                     p.closeInventory();
+                    guns.loadGuns();
+
                     p.openInventory(guns.tryPrimary);
                 }else if(e.getSlot() == 7){
                     p.closeInventory();

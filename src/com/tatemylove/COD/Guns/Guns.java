@@ -50,46 +50,48 @@ public class Guns {
         p.openInventory(tryGuns);
     }
     public void loadGuns(){
-        for(String k : GunFile.getData().getConfigurationSection("Guns.").getKeys(false)){
-            int i = Integer.parseInt(k);
+
+
+        for (int i = 0;GunFile.getData().contains("Guns." + i); i++ ) {
+
 
             String type = GunFile.getData().getString("Guns." + i + ".POS");
 
-            if(type.equals("PRIMARY")){
-                String ammoAmount = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoAmount");
-                String gunName = GunFile.getData().getString("Guns." + i + ".Gun.GunName");
-                String ammoName = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoName");
-                String gunData = GunFile.getData().getString("Guns." + i + ".Gun.GunData");
-                String ammoData = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoData");
+            if(type.equalsIgnoreCase("PRIMARY")){
+            String ammoAmount = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoAmount");
+            String gunName = GunFile.getData().getString("Guns." + i + ".Gun.GunName");
+            String ammoName = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoName");
+            String gunData = GunFile.getData().getString("Guns." + i + ".Gun.GunData");
+            String ammoData = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoData");
 
 
-                String cost = GunFile.getData().getString("Guns." + i + ".Cost");
-                String levelUnlock = GunFile.getData().getString("Guns." + i + ".Level");
+            String cost = GunFile.getData().getString("Guns." + i + ".Cost");
+            String levelUnlock = GunFile.getData().getString("Guns." + i + ".Level");
 
-                ItemStack gun = new ItemStack(Material.getMaterial(gunData));
-                ItemMeta meta = gun.getItemMeta();
-                meta.setDisplayName(gunName + "§e(" + type + ")");
+            ItemStack gun = new ItemStack(Material.getMaterial(gunData), 1);
+            ItemMeta meta = gun.getItemMeta();
+            meta.setDisplayName(gunName + "§e(" + type + ")");
 
-                ArrayList<String> lore = new ArrayList<>();
-                lore.add("§bAmmo: " + ammoName);
-                lore.add("§bAmmo Amount: " + ammoAmount);
-                lore.add("§bCost: " + cost);
-                lore.add("§bLevel: " + levelUnlock);
+            ArrayList<String> lore = new ArrayList<>();
+            lore.add("§bAmmo: " + ammoName);
+            lore.add("§bAmmo Amount: " + ammoAmount);
+            lore.add("§bCost: " + cost);
+            lore.add("§bLevel: " + levelUnlock);
 
-                meta.setLore(lore);
-                gun.setItemMeta(meta);
+            meta.setLore(lore);
+            gun.setItemMeta(meta);
 
-                tryPrimary.setItem(i, gun);
+            tryPrimary.setItem(i, gun);
             }else if(type.equals("SECONDARY")){
                 String ammoAmount = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoAmount");
                 String gunName = GunFile.getData().getString("Guns." + i + ".Gun.GunName");
                 String ammoName = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoName");
-                String gunData = GunFile.getData().getString("Guns." + i + ".Gun.GunData");
+                String gunData =  GunFile.getData().getString("Guns." + i + ".Gun.GunData");
 
                 String cost = GunFile.getData().getString("Guns." + i + ".Cost");
                 String levelUnlock = GunFile.getData().getString("Guns." + i + ".Level");
 
-                ItemStack gun = new ItemStack(Material.getMaterial(gunData));
+                ItemStack gun = new ItemStack(Material.getMaterial(gunData.toUpperCase()));
                 ItemMeta meta = gun.getItemMeta();
                 meta.setDisplayName(gunName + "§e(" + type + ")");
 
@@ -107,16 +109,16 @@ public class Guns {
         }
     }
 
-    public void saveGun(ItemStack gun, ItemStack ammo, Integer cost, Integer level, Integer ammoAmount, String primosec){
+    public void saveGun( ItemStack gun, ItemStack ammo, Integer cost, Integer level, Integer ammoAmount, String primosec){
         int ID = 0;
 
         while(!(GunFile.getData().get("Guns." + ID) == null)){
             ID++;
         }
-        GunFile.getData().set("Guns." + ID + ".Gun.GunData", gun.getType());
+        GunFile.getData().set("Guns." + ID + ".Gun.GunData", gun.getType().toString());
         GunFile.getData().set("Guns." + ID + ".Gun.GunName", gun.getItemMeta().getDisplayName());
         GunFile.getData().set("Guns." + ID + ".Ammo.AmmoAmount", ammoAmount);
-        GunFile.getData().set("Guns." + ID + ".Ammo.AmmoData", ammo.getType());
+        GunFile.getData().set("Guns." + ID + ".Ammo.AmmoData", ammo.getType().toString());
         GunFile.getData().set("Guns." + ID + ".Ammo.AmmoName", ammo.getItemMeta().getDisplayName());
 
         GunFile.getData().set("Guns." + ID + ".Cost", cost);

@@ -1,5 +1,6 @@
 package com.tatemylove.COD.Commands;
 
+import com.tatemylove.COD.Citizens.TryGuns;
 import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Files.GunFile;
 import com.tatemylove.COD.Files.LobbyFile;
@@ -239,6 +240,17 @@ public class MainCommand implements CommandExecutor {
                         }
                     }else{
                         p.sendMessage(main.prefix + "§7/cod deletegun <ID>");
+                    }
+                }
+            }
+            if(args[0].equalsIgnoreCase("npcspawn")){
+                if(p.hasPermission("cod.npc")) {
+                    if (Bukkit.getServer().getPluginManager().getPlugin("Citizens") != null) {
+                        TryGuns tryGuns = new TryGuns(main);
+                        tryGuns.createNPC(p);
+                        p.sendMessage(main.prefix + "§bNpc spawned on your location");
+                    }else{
+                        p.sendMessage(main.prefix + "§cCitizens 2 needs to be installed!");
                     }
                 }
             }

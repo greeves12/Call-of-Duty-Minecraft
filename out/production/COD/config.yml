@@ -49,7 +49,9 @@ SwiftEconomy:
 #Language Section (Optional)
 #Check the 'language.yml' file
 ############################
-
+#Citizens (Optional)
+npc-name: "&e&lGunRange"
+npc-type: "villager"
 
 #Copyright © 2017 tatemylove. All rights reserved
 
