@@ -3,8 +3,12 @@ package com.tatemylove.COD.Listeners;
 import com.shampaggon.crackshot.CSDirector;
 import com.shampaggon.crackshot.CSUtility;
 import com.tatemylove.COD.Files.GunFile;
+import com.tatemylove.COD.Files.OwnedFile;
+import com.tatemylove.COD.Files.StatsFile;
+import com.tatemylove.COD.Guns.BuyGuns;
 import com.tatemylove.COD.Guns.Guns;
 import com.tatemylove.COD.Main;
+import com.tatemylove.SwiftEconomy.API.SwiftEconomyAPI;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -32,6 +36,7 @@ public class InventoryListener implements Listener {
         if(entity instanceof Player){
             Player p = (Player) e.getWhoClicked();
             Guns guns = new Guns(main);
+            BuyGuns buyGuns = new BuyGuns(main);
 
             if(inventory.getName().equals(guns.tryGuns.getName())){
                 if(e.getSlot() == 1){
@@ -66,6 +71,68 @@ public class InventoryListener implements Listener {
                         p.closeInventory();
                     }
                 }
+            }else if(inventory.getName().equals(buyGuns.buyPrimary.getName())){
+                for(int i = 0; GunFile.getData().contains("Guns." + i); i++){
+                    if(e.getSlot() == i){
+                        String ammoAmount = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoAmount");
+                        String gunName = GunFile.getData().getString("Guns." + i + ".Gun.GunName");
+                        String ammoName = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoName");
+                        String gunData = GunFile.getData().getString("Guns." + i + ".Gun.GunData");
+                        String ammoData = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoData");
+
+
+                        int cost = GunFile.getData().getInt("Guns." + i + ".Cost");
+                        int levelUnlock = GunFile.getData().getInt("Guns." + i + ".Level");
+                        int pLevel = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Level");
+
+                        if(levelUnlock >= pLevel){
+                            if(main.getConfig().getBoolean("SwiftEconomy.Enabled")){
+                                double money = SwiftEconomyAPI.playerMoney.get(p.getName());
+                                if(money >= cost){
+                                    int ID=0;
+                                    while(!(OwnedFile.getData().get(p.getUniqueId().toString() + ID) == null)){
+                                        ID++;
+                                    }
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + ID + ".Ammo.AmmoAmount", ammoAmount);
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + ID + ".Gun.GunName", gunName);
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + ID + ".Ammo.AmmoName", ammoName);
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + ID + ".Gun.GunData", gunData);
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + ID + ".Ammo.AmmoData", ammoData);
+                                    OwnedFile.saveData();
+                                    OwnedFile.reloadData();
+                                    p.sendMessage(main.prefix + "§aPurchase successful!");
+
+                                    SwiftEconomyAPI api = new SwiftEconomyAPI();
+                                    api.removeMoney(p, cost);
+                                }else{
+                                    p.sendMessage(main.prefix + "§cPurchase failed! Not enough funds.");
+                                }
+                            }else{
+                                int ID=0;
+                                while(!(OwnedFile.getData().get(p.getUniqueId().toString() + ID) == null)){
+                                    ID++;
+                                }
+                                OwnedFile.getData().set(p.getUniqueId().toString() + ID + ".Ammo.AmmoAmount", ammoAmount);
+                                OwnedFile.getData().set(p.getUniqueId().toString() + ID + ".Gun.GunName", gunName);
+                                OwnedFile.getData().set(p.getUniqueId().toString() + ID + ".Ammo.AmmoName", ammoName);
+                                OwnedFile.getData().set(p.getUniqueId().toString() + ID + ".Gun.GunData", gunData);
+                                OwnedFile.getData().set(p.getUniqueId().toString() + ID + ".Ammo.AmmoData", ammoData);
+                                OwnedFile.saveData();
+                                OwnedFile.reloadData();
+                                p.sendMessage(main.prefix + "§aPurchase successful!");
+                            }
+                        }else{
+                            p.sendMessage(main.prefix + "§cYour level isn't high enough");
+                        }
+                    }
+                }
+                e.setCancelled(true);
+            }else if(inventory.getName().equals(buyGuns.mainStore.getName())){
+                if(e.getSlot() == 1){
+                    p.closeInventory();
+                    buyGuns.loadPrimary(p);
+                }
+                e.setCancelled(true);
             }
         }
     }

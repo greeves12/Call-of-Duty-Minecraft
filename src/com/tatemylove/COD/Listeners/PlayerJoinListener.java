@@ -48,6 +48,7 @@ public class PlayerJoinListener implements Listener {
             StatsFile.getData().set(p.getUniqueId().toString() + ".Wins", 0);
             StatsFile.getData().set(p.getUniqueId().toString() + ".Kills", 0);
             StatsFile.getData().set(p.getUniqueId().toString() + ".Deaths", 0);
+            StatsFile.getData().set(p.getUniqueId().toString() + ".Level", 1);
             StatsFile.saveData();
             StatsFile.reloadData();
         }

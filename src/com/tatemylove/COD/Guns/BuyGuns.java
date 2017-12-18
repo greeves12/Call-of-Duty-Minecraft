@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class BuyGuns {
     Main main;
-    public Inventory buyPrimary = Bukkit.createInventory(null, 54, "s");
+    public Inventory buyPrimary = Bukkit.createInventory(null, 54, "§c§lPrimary Weapons");
     public Inventory buySecondary = Bukkit.createInventory(null, 54, "s");
     public Inventory mainStore = Bukkit.createInventory(null, 54, "§5§lPurchase Weapons");
     private HashMap<String, Inventory> invs = new HashMap<>();
@@ -42,7 +42,7 @@ public class BuyGuns {
 
     public void loadPrimary(Player p){
         if(!invs.containsKey(p.getName())){
-            buyPrimary = Bukkit.createInventory(p, 54, "§c§lPrimary Weapons");
+            //buyPrimary = Bukkit.createInventory(p, 54, "§c§lPrimary Weapons");
 
             for(int i = 0; GunFile.getData().contains("Guns." + i); i++){
                 String type = GunFile.getData().getString("Guns." + i + ".POS");
