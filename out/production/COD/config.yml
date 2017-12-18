@@ -24,6 +24,9 @@ lobbyboard-name: "&b&lCOD"
 
 #Game Scoreboard name
 gameboard-name: "&6&lCOD IN-GAME"
+
+#Stop players from swapping hands
+swap-hands: true
 ###########################
 #MySQL (Optional) (Required for multi server stat syncing)
 MySQL:

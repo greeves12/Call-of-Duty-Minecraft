@@ -83,11 +83,10 @@ public class Guns {
             ItemStack gun = new ItemStack(Material.getMaterial(gunData), 1);
             ItemMeta meta = gun.getItemMeta();
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            meta.setDisplayName(gunName + "§e(" + type + ")");
+            meta.setDisplayName(gunName + " §e(" + type + ")");
 
             ArrayList<String> lore = new ArrayList<>();
             lore.add("§bAmmo: " + ammoAmount);
-            lore.add("§6Cost: " + cost);
             lore.add("§2Level: " + levelUnlock);
 
             meta.setLore(lore);
@@ -106,12 +105,10 @@ public class Guns {
                 ItemStack gun = new ItemStack(Material.getMaterial(gunData.toUpperCase()));
                 ItemMeta meta = gun.getItemMeta();
                 meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-                meta.setDisplayName(gunName + "§e(" + type + ")");
+                meta.setDisplayName(gunName + " §e(" + type + ")");
 
                 ArrayList<String> lore = new ArrayList<>();
                 lore.add("§bAmmo: " + ammoName);
-                lore.add("§bAmmo Amount: " + ammoAmount);
-                lore.add("§bCost: " + cost);
                 lore.add("§bLevel: " + levelUnlock);
 
                 meta.setLore(lore);

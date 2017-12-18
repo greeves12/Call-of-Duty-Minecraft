@@ -14,6 +14,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.text.DecimalFormat;
@@ -88,6 +89,9 @@ public class TDM  {
 
                         GameBoard gameBoard = new GameBoard(main);
                         gameBoard.setGameBoard(p);
+
+                        p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§eKnife", null));
+
                         if (redTeam.contains(p)) {
                             p.getInventory().clear();
 
@@ -157,6 +161,14 @@ public class TDM  {
         i.setItemMeta(meta);
         return i;
     }
+    private ItemStack getMaterial(Material m, String name, ArrayList<String> lore){
+        ItemStack s = new ItemStack(m);
+        ItemMeta meta = s.getItemMeta();
+        meta.setDisplayName(name);
+        meta.setLore(lore);
+        s.setItemMeta(meta);
+        return s;
+    }
 
     private String getBetterTeam() {
         if (main.RedTeamScore > main.BlueTeamScore) {
@@ -174,18 +186,22 @@ public class TDM  {
     public void endTDM() {
         GetArena getArena = new GetArena();
         BaseArena.states = BaseArena.ArenaStates.Countdown;
-        for(Player pp : main.PlayingPlayers){
-            int kills = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Kills");
-            int deaths = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Deaths");
+        for(Player pp : main.PlayingPlayers) {
+            if (!main.getConfig().getBoolean("MySQL.Enabled")) {
+                int kills = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Kills");
+                int deaths = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Deaths");
 
-            int inKills = main.kills.get(pp.getName());
-            int inDeaths = main.deaths.get(pp.getName());
+                int inKills = main.kills.get(pp.getName());
+                int inDeaths = main.deaths.get(pp.getName());
 
-            StatsFile.getData().set(pp.getUniqueId().toString() + ".Kills", inKills+kills);
-            StatsFile.getData().set(pp.getUniqueId().toString() + ".Deaths", inDeaths+deaths);
+                StatsFile.getData().set(pp.getUniqueId().toString() + ".Kills", inKills + kills);
+                StatsFile.getData().set(pp.getUniqueId().toString() + ".Deaths", inDeaths + deaths);
 
-            StatsFile.saveData();
-            StatsFile.reloadData();
+                StatsFile.saveData();
+                StatsFile.reloadData();
+            }else{
+
+            }
         }
         if (main.RedTeamScore > main.BlueTeamScore) {
             for(Player pp : redTeam){

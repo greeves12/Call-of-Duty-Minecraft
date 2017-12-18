@@ -5,6 +5,7 @@ import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Files.GunFile;
 import com.tatemylove.COD.Files.LobbyFile;
 import com.tatemylove.COD.Files.StatsFile;
+import com.tatemylove.COD.Guns.BuyGuns;
 import com.tatemylove.COD.Guns.Guns;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
@@ -274,6 +275,12 @@ public class MainCommand implements CommandExecutor {
                     }else{
                         p.sendMessage(main.prefix + "§cCitizens 2 needs to be installed!");
                     }
+                }
+            }
+            if(args[0].equalsIgnoreCase("buyguns")){
+                if(p.hasPermission("cod.buyguns")){
+                    BuyGuns buy = new BuyGuns(main);
+                    buy.loadMenu(p);
                 }
             }
         }
