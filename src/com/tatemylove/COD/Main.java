@@ -51,6 +51,7 @@ public class Main extends JavaPlugin {
         GunFile.setup(this);
         KitFile.setup(this);
         OwnedFile.setup(this);
+        SignFile.setup(this);
 
         File file = new File("plugins/COD/arenas.yml");
         try {
@@ -79,6 +80,7 @@ public class Main extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractItem(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new NPCListener(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InventoryListener(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new SignListener(this), this);
 
         ActivePinger pinger = new ActivePinger(this);
         pinger.runTaskTimerAsynchronously(this, 0, 20);

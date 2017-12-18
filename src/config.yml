@@ -1,6 +1,6 @@
 #######################################################################
 #COD created by tatemylove                                            #
-#Looking for broken and broken plugin? You downloaded the wrong one ;)#
+#Looking for broken and buggy plugin? You downloaded the wrong one ;) #
 #######################################################################
 #General Section (Optional)
 
@@ -20,7 +20,7 @@ friend-fire: false
 countdown-time: 20
 
 #Lobby ScoreBoard name
-lobbyboard-name: "&b&lCOD"
+lobbyboard-name: "&b&lCOD Lobby"
 
 #Game Scoreboard name
 gameboard-name: "&6&lCOD IN-GAME"
@@ -52,9 +52,21 @@ SwiftEconomy:
 #Language Section (Optional)
 #Check the 'language.yml' file
 ############################
-#Citizens (Optional)
-npc-name: "&e&lGunRange"
-npc-type: "villager"
+#NPC's (Optional) (Requires Citizens 2)
+#Test Gun NPC
+GunRange:
+  npc-name: "&e&lGunRange"
+  npc-type: "villager"
 
+#Join COD NPC
+JoinNPC:
+  npc-name: "&8&lQuick Join"
+  npc-type: "zombie"
+
+#Leave COD NPC
+LeaveNPC:
+  npc-name: "&5&lLeave COD"
+  npc-type: "creeper"
+############################
 #Copyright © 2017 tatemylove. All rights reserved
 

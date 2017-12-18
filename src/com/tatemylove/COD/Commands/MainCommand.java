@@ -4,6 +4,7 @@ import com.tatemylove.COD.Citizens.TryGuns;
 import com.tatemylove.COD.Files.*;
 import com.tatemylove.COD.Guns.BuyGuns;
 import com.tatemylove.COD.Guns.Guns;
+import com.tatemylove.COD.Inventories.Kits;
 import com.tatemylove.COD.JSON.HoverMessages;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
@@ -91,7 +92,8 @@ public class MainCommand implements CommandExecutor {
 
             if(args[0].equalsIgnoreCase("kit")){
                 if(p.hasPermission("cod.kits")){
-
+                    Kits kits = new Kits(main);
+                    kits.loadInventory(p);
                 }
             }
             if(args[0].equalsIgnoreCase("join")) {
@@ -113,6 +115,7 @@ public class MainCommand implements CommandExecutor {
 
                             if(!KitFile.getData().contains(p.getUniqueId().toString())){
                                 HoverMessages hoverMessages = new HoverMessages();
+                                p.sendMessage(main.prefix + p.getName() +" §8It appears you don't have a kit!");
                                 hoverMessages.hoverMessage(p, "/cod kit", "§6§l§nClick here §d§lto select a Kit", "§e§lSelect a Kit");
                             }
 
