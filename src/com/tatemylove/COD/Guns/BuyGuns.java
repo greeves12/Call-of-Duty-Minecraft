@@ -70,6 +70,31 @@ public class BuyGuns {
         }
     }
 
+    public void loadSecondary(Player p){
+        for(int i = 0; GunFile.getData().contains("Guns." + i); i++){
+            String type = GunFile.getData().getString("Guns." + i + ".POS");
+
+            if(type.equalsIgnoreCase("SECONDARY")){
+                String ammoAmount = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoAmount");
+                String gunName = GunFile.getData().getString("Guns." + i + ".Gun.GunName");
+                String ammoName = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoName");
+                String gunData = GunFile.getData().getString("Guns." + i + ".Gun.GunData");
+                String ammoData = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoData");
+
+
+                String cost = GunFile.getData().getString("Guns." + i + ".Cost");
+                String levelUnlock = GunFile.getData().getString("Guns." + i + ".Level");
+
+                ArrayList<String> lore = new ArrayList<>();
+                lore.add("§3§lLevel: §2" + levelUnlock);
+                if(main.getConfig().getBoolean("SwiftEconomy.Enabled")){
+                    lore.add("§6§lCost: §4$" + cost);
+                }
+                buySecondary.setItem(i, getMaterial(Material.getMaterial(gunData.toUpperCase()),gunName + " §5(SECONDARY)", lore));
+            }
+        }
+        p.openInventory(buySecondary);
+    }
     private ItemStack getMaterial(Material m, String name, ArrayList<String> lore){
         ItemStack s = new ItemStack(m);
         ItemMeta me = s.getItemMeta();

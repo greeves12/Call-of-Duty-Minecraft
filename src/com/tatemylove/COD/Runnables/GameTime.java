@@ -14,8 +14,8 @@ public class GameTime extends BukkitRunnable {
         gameTime = GameTime.this;
     }
 
-
     private int timeleft = 600;
+
     @Override
     public void run() {
         if(BaseArena.states == BaseArena.ArenaStates.Started){

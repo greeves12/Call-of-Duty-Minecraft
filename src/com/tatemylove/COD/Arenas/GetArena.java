@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class GetArena {
-    public GetArena getArena = null;
+    private GetArena getArena = null;
     public GetArena(){
         getArena = GetArena.this;
     }
-    public static int CurrentArena;
+    private static int CurrentArena;
 
-    public int chooseNextMap()
+    private int chooseNextMap()
     {
         ArrayList<Integer> numbers = new ArrayList();
         for (int k = 0; ArenaFile.getData().contains("Arenas." + k + ".Name"); k++) {

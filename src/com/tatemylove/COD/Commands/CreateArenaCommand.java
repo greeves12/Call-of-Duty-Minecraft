@@ -44,7 +44,7 @@ public class CreateArenaCommand {
             p.sendMessage(main.prefix + "§cArena with the ID " +id + " does not exist");
         }
     }
-    public void setSpawns(Player p, String[] args,int id){
+    public void setSpawns(Player p, String[] args, int id){
         if(args.length == 3) {
             if (ArenaFile.getData().contains("Arenas." + id)) {
                 if(args[2].equalsIgnoreCase("blue")){

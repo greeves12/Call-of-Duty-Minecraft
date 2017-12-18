@@ -1,12 +1,10 @@
 package com.tatemylove.COD.Commands;
 
 import com.tatemylove.COD.Citizens.TryGuns;
-import com.tatemylove.COD.Files.ArenaFile;
-import com.tatemylove.COD.Files.GunFile;
-import com.tatemylove.COD.Files.LobbyFile;
-import com.tatemylove.COD.Files.StatsFile;
+import com.tatemylove.COD.Files.*;
 import com.tatemylove.COD.Guns.BuyGuns;
 import com.tatemylove.COD.Guns.Guns;
+import com.tatemylove.COD.JSON.HoverMessages;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
 import com.tatemylove.COD.Runnables.MainRunnable;
@@ -90,6 +88,12 @@ public class MainCommand implements CommandExecutor {
                     guns.createMainMenu(p);
                 }
             }
+
+            if(args[0].equalsIgnoreCase("kit")){
+                if(p.hasPermission("cod.kits")){
+
+                }
+            }
             if(args[0].equalsIgnoreCase("join")) {
                 if (p.hasPermission("cod.join")) {
                     if (StatsFile.getData().getBoolean("plugin-enabled")) {
@@ -97,6 +101,7 @@ public class MainCommand implements CommandExecutor {
                             LobbyBoard lobbyBoard = new LobbyBoard(main);
                             main.WaitingPlayers.add(p);
                             p.teleport(getLobby.getLobby(p));
+
                             int kills = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Kills");
                             int wins = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Wins");
                             int deaths = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Deaths");
@@ -106,16 +111,23 @@ public class MainCommand implements CommandExecutor {
                             lobbyBoard.winsH.put(p.getName(), wins);
                             lobbyBoard.setLobbyBoard(p);
 
+                            if(!KitFile.getData().contains(p.getUniqueId().toString())){
+                                HoverMessages hoverMessages = new HoverMessages();
+                                hoverMessages.hoverMessage(p, "/cod kit", "§6§l§nClick here §d§lto select a Kit", "§e§lSelect a Kit");
+                            }
+
                             if(p.getInventory().getContents().length > 0) {
                                 savedInventory.put(p, p.getInventory().getContents());
                                 p.getInventory().clear();
                             }
+
                             if(p.getInventory().getArmorContents().length > 0){
                                 armorSaved.put(p, p.getInventory().getArmorContents());
                             }
 
                             SendCoolMessages.sendTitle(p, "§a", 10, 30, 10);
                             SendCoolMessages.sendSubTitle(p, "§e§lYou joined the Queue", 10, 30, 10);
+
                             for (Player pp : main.WaitingPlayers) {
                                 pp.sendMessage(main.prefix + "§6§l" + p.getName() + " §e§ljoined the Queue");
                             }
@@ -179,11 +191,8 @@ public class MainCommand implements CommandExecutor {
                             p.getInventory().setArmorContents(armorSaved.get(p));
                         }
                         if(savedInventory.containsKey(p)) {
-
                             p.getInventory().setContents(savedInventory.get(p));
                         }
-                        //p.getInventory().setArmorContents(savedInventory.get(p));
-
 
                         for (Player pp : main.WaitingPlayers) {
                             pp.sendMessage(main.prefix + "§7§l" + p.getName() + " §8§lhas left the Queue");
@@ -215,10 +224,8 @@ public class MainCommand implements CommandExecutor {
                     if (args.length == 9) {
                         Guns guns = new Guns(main);
                         String gunID = args[2];
-                        // String gunData = args[3];
                         String gunName = args[3];
                         String ammoID = args[4];
-                        //String ammoData = args[6];
                         String ammoAmount = args[5];
                         String ammoName = args[6];
                         String Level = args[7];

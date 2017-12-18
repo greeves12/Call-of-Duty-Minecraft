@@ -131,6 +131,9 @@ public class InventoryListener implements Listener {
                 if(e.getSlot() == 1){
                     p.closeInventory();
                     buyGuns.loadPrimary(p);
+                }else if(e.getSlot() == 7){
+                    p.closeInventory();
+                    buyGuns.loadSecondary(p);
                 }
                 e.setCancelled(true);
             }

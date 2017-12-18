@@ -23,7 +23,7 @@ public class Kits {
     }
 
     public void loadKits(final Player p){
-        if(kit.get(p) != null){
+        if(kit.get(p) == null){
             String primary = KitFile.getData().getString(p.getUniqueId().toString() + ".Primary");
             String primaryName = KitFile.getData().getString(p.getUniqueId().toString() + ".PrimName");
             String secondary = KitFile.getData().getString(p.getUniqueId().toString() + ".Secondary");

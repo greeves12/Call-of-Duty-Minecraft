@@ -4,10 +4,10 @@ public class BaseArena {
     public static ArenaStates states;
     public static ArenaType type;
 
-    public static enum ArenaStates {
+    public enum ArenaStates {
         Started, Waiting, Countdown
     }
-    public static enum ArenaType{
+    public enum ArenaType{
         TDM, KC, INFECT
     }
     public static ArenaStates getStates(){

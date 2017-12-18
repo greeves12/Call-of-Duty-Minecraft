@@ -16,10 +16,6 @@ import java.util.HashMap;
 public class Guns {
     Main main;
     private Guns instance = null;
-    public  ArrayList<ItemStack> guns = new ArrayList<ItemStack>();
-    public  HashMap<ItemStack, ItemStack> ammo = new HashMap<ItemStack, ItemStack>();
-    public  HashMap<ItemStack, Integer> cost = new HashMap<ItemStack, Integer>();
-    public  HashMap<ItemStack, Integer> level = new HashMap<ItemStack, Integer>();
     public  HashMap<ItemStack, String> type = new HashMap<ItemStack, String>();
     public Inventory tryGuns = Bukkit.createInventory(null, 54, "§8§lTry Guns");
     public Inventory tryPrimary = Bukkit.createInventory(null, 54, "§b§lPrimary Guns");
@@ -62,10 +58,7 @@ public class Guns {
         p.openInventory(tryGuns);
     }
     public void loadGuns(){
-
-
         for (int i = 0;GunFile.getData().contains("Guns." + i); i++ ) {
-
 
             String type = GunFile.getData().getString("Guns." + i + ".POS");
 

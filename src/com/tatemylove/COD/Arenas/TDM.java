@@ -1,6 +1,7 @@
 package com.tatemylove.COD.Arenas;
 
 import com.tatemylove.COD.Files.ArenaFile;
+import com.tatemylove.COD.Files.KitFile;
 import com.tatemylove.COD.Files.StatsFile;
 import com.tatemylove.COD.Main;
 import com.tatemylove.COD.Runnables.MainRunnable;
