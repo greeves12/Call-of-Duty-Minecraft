@@ -56,7 +56,7 @@ public class AttackDogs {
         GetPlayersOnOtherTeam getPlayersOnOtherTeam = new GetPlayersOnOtherTeam(main);
         if (e.getItem() == null) return;
         if (!(e.getItem().getType() == Material.AIR)) return;
-        if (e.getItem().equals(dogs)) ;
+        if (e.getItem().equals(dogs)) return;
         if ((!(e.getAction().equals(Action.RIGHT_CLICK_AIR))) && (!(e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) && (!(e.getAction().equals(Action.LEFT_CLICK_AIR))) && (!(e.getAction().equals(Action.LEFT_CLICK_BLOCK))))
             return;
 

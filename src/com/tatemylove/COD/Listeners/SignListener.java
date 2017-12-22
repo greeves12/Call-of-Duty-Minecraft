@@ -1,10 +1,12 @@
 package com.tatemylove.COD.Listeners;
 
 import com.tatemylove.COD.Files.SignFile;
+import com.tatemylove.COD.Files.StatsFile;
 import com.tatemylove.COD.Guns.Guns;
 import com.tatemylove.COD.Inventories.Kits;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
+import com.tatemylove.COD.ScoreBoard.LobbyBoard;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -113,7 +115,19 @@ public class SignListener implements Listener {
                 if(SignFile.getData().getString(total + ".Type").equalsIgnoreCase("Join")){
                     GetLobby lobby = new GetLobby(main);
                     p.teleport(lobby.getLobby(p));
+
+                    LobbyBoard lobbyBoard = new LobbyBoard(main);
+                    int kills = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Kills");
+                    int wins = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Wins");
+                    int deaths = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Deaths");
+
+                    lobbyBoard.killsH.put(p.getName(), kills);
+                    lobbyBoard.deathsH.put(p.getName(), deaths);
+                    lobbyBoard.winsH.put(p.getName(), wins);
+                    lobbyBoard.setLobbyBoard(p);
+
                     main.WaitingPlayers.add(p);
+
                     SendCoolMessages.sendTitle(p, "§a", 10, 30, 10);
                     SendCoolMessages.sendSubTitle(p, "§e§lYou joined the Queue", 10, 30, 10);
                 }else if(SignFile.getData().getString(total + ".Type").equalsIgnoreCase("Leave")){

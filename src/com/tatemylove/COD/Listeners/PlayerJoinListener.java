@@ -1,5 +1,6 @@
 package com.tatemylove.COD.Listeners;
 
+import com.tatemylove.COD.Commands.MainCommand;
 import com.tatemylove.COD.Files.StatsFile;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
@@ -26,7 +27,6 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
-        LobbyBoard lobbyBoard = new LobbyBoard(main);
         if(ThisPlugin.getPlugin().getConfig().getBoolean("auto-join")){
             main.WaitingPlayers.add(e.getPlayer());
             e.getPlayer().sendMessage(main.prefix);
@@ -49,6 +49,7 @@ public class PlayerJoinListener implements Listener {
             StatsFile.getData().set(p.getUniqueId().toString() + ".Kills", 0);
             StatsFile.getData().set(p.getUniqueId().toString() + ".Deaths", 0);
             StatsFile.getData().set(p.getUniqueId().toString() + ".Level", 1);
+            StatsFile.getData().set(p.getUniqueId().toString() + ".EXP", 0);
             StatsFile.saveData();
             StatsFile.reloadData();
         }
@@ -57,14 +58,28 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent e){
         Player p = e.getPlayer();
+        MainCommand cmd = new MainCommand(main);
 
         GetLobby lobby = new GetLobby(main);
         if(main.PlayingPlayers.contains(p)){
             main.PlayingPlayers.remove(p);
             p.teleport(lobby.getLobby(p));
             p.getInventory().clear();
+            if(cmd.savedInventory.containsKey(p)) {
+                p.getInventory().setContents(cmd.savedInventory.get(p));
+            }
+            if(cmd.armorSaved.containsKey(p)){
+                p.getInventory().setArmorContents(cmd.armorSaved.get(p));
+            }
         }else if(main.WaitingPlayers.contains(p)){
             main.WaitingPlayers.remove(p);
+            p.getInventory().clear();
+            if(cmd.savedInventory.containsKey(p)) {
+                p.getInventory().setContents(cmd.savedInventory.get(p));
+            }
+            if(cmd.armorSaved.containsKey(p)){
+                p.getInventory().setArmorContents(cmd.armorSaved.get(p));
+            }
             p.teleport(lobby.getLobby(p));
             p.getInventory().clear();
         }

@@ -19,7 +19,7 @@ public class TryGuns {
 
     public void createNPC(Player p){
        NPCRegistry registry = CitizensAPI.getNPCRegistry();
-       NPC npc = registry.createNPC(EntityType.valueOf(main.getConfig().getString("npc-type").toUpperCase()), ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("npc-name")));
+       NPC npc = registry.createNPC(EntityType.valueOf(main.getConfig().getString("GunRange.npc-type").toUpperCase()), ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("GunRange.npc-name")));
        npc.spawn(p.getLocation());
     }
 }

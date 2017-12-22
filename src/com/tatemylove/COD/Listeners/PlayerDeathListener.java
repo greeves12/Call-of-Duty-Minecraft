@@ -3,9 +3,11 @@ package com.tatemylove.COD.Listeners;
 import com.tatemylove.COD.Arenas.BaseArena;
 import com.tatemylove.COD.Arenas.GetArena;
 import com.tatemylove.COD.Arenas.TDM;
+import com.tatemylove.COD.Files.StatsFile;
 import com.tatemylove.COD.KillStreaks.AttackDogs;
 import com.tatemylove.COD.KillStreaks.Moab;
 import com.tatemylove.COD.KillStreaks.Napalm;
+import com.tatemylove.COD.Leveling.PlayerLevels;
 import com.tatemylove.COD.Main;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import net.minecraft.server.v1_12_R1.PacketPlayInClientCommand;
@@ -74,6 +76,58 @@ public class PlayerDeathListener implements Listener {
 
         Napalm napalm = new Napalm(main);
         napalm.onEntityKill(e);
+
+        PlayerLevels playerLevels = new PlayerLevels(main);
+        int exp = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".EXP");
+        int level = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Level");
+        playerLevels.addExp(p, main.getConfig().getInt("exp-per-kill"));
+
+        if(level == 1){
+            if(exp >= playerLevels.levelTwo){
+                playerLevels.addLevel(p, 1);
+                playerLevels.resetExp(p);
+            }
+        }else if(level == 2){
+            if(exp >= playerLevels.levelThree){
+                playerLevels.addLevel(p, 1);
+                playerLevels.resetExp(p);
+            }
+        }else if(level == 3){
+            if(exp >= playerLevels.levelFour){
+                playerLevels.addLevel(p, 1);
+                playerLevels.resetExp(p);
+            }
+        }else if(level == 4){
+            if(exp >= playerLevels.levelFive){
+                playerLevels.addLevel(p, 1);
+                playerLevels.resetExp(p);
+            }
+        }else if(level == 5){
+            if(exp >= playerLevels.levelSix){
+                playerLevels.addLevel(p, 1);
+                playerLevels.resetExp(p);
+            }
+        }else if(level == 6){
+            if(exp >= playerLevels.levelSeven){
+                playerLevels.addLevel(p, 1);
+                playerLevels.resetExp(p);
+            }
+        }else if(level == 7){
+            if(exp >= playerLevels.levelEight){
+                playerLevels.addLevel(p, 1);
+                playerLevels.resetExp(p);
+            }
+        }else if(level == 8){
+            if(exp >= playerLevels.levelNine){
+                playerLevels.addLevel(p, 1);
+                playerLevels.resetExp(p);
+            }
+        }else if(level == 9){
+            if(exp >= playerLevels.levelTen){
+                playerLevels.addLevel(p, 1);
+                playerLevels.resetExp(p);
+            }
+        }
     }
 
     @EventHandler

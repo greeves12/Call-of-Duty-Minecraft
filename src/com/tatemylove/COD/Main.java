@@ -23,7 +23,7 @@ import java.util.HashMap;
 
 public class Main extends JavaPlugin {
 
-    public String prefix = "§7§l[COD] ";
+    public String prefix = "§8§l[COD] ";
     public ArrayList<Player> WaitingPlayers = new ArrayList<>();
     public ArrayList<Player> PlayingPlayers = new ArrayList<>();
     public HashMap<String, Integer> kills = new HashMap<>();

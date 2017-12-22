@@ -236,21 +236,45 @@ public class MainCommand implements CommandExecutor {
                         String type = args[1];
 
                         if (type.equalsIgnoreCase("PRIMARY")) {
-                            ItemStack gun = new ItemStack(Material.getMaterial(gunID.toUpperCase()));
-                            ItemMeta meta = gun.getItemMeta();
-                            meta.setDisplayName(gunName);
-                            gun.setItemMeta(meta);
+                            if(Integer.parseInt(Level) <= 10) {
+                                ItemStack gun = new ItemStack(Material.getMaterial(gunID.toUpperCase()));
+                                ItemMeta meta = gun.getItemMeta();
+                                meta.setDisplayName(gunName);
+                                gun.setItemMeta(meta);
 
-                            ItemStack ammo = new ItemStack(Material.getMaterial(ammoID.toUpperCase()));
-                            ItemMeta ammoMeta = ammo.getItemMeta();
-                            ammoMeta.setDisplayName(ammoName);
-                            ammo.setItemMeta(ammoMeta);
+                                ItemStack ammo = new ItemStack(Material.getMaterial(ammoID.toUpperCase()));
+                                ItemMeta ammoMeta = ammo.getItemMeta();
+                                ammoMeta.setDisplayName(ammoName);
+                                ammo.setItemMeta(ammoMeta);
 
-                            guns.saveGun(gun, ammo, Integer.parseInt(Cost), Integer.parseInt(Level), Integer.valueOf(ammoAmount), type);
+                                guns.saveGun(gun, ammo, Integer.parseInt(Cost), Integer.parseInt(Level), Integer.valueOf(ammoAmount), type);
 
-                            p.sendMessage(main.prefix + "§6Type: " + type + " Material: " + gunID + " Name: " + gunName);
-                            p.sendMessage(main.prefix + "§2Name: " + ammoName + " Material: " + ammoID + " Amount: " + ammoAmount);
-                            p.sendMessage(main.prefix + "§dLevel: " + Level + " Cost: " + Cost);
+                                p.sendMessage(main.prefix + "§6Type: " + type + " Material: " + gunID + " Name: " + gunName);
+                                p.sendMessage(main.prefix + "§2Name: " + ammoName + " Material: " + ammoID + " Amount: " + ammoAmount);
+                                p.sendMessage(main.prefix + "§dLevel: " + Level + " Cost: " + Cost);
+                            }else{
+                                p.sendMessage(main.prefix + "§cMaximum level is 10");
+                            }
+                        }else if(type.equalsIgnoreCase("SECONDARY")){
+                            if(Integer.parseInt(Level) <= 10) {
+                                ItemStack gun = new ItemStack(Material.getMaterial(gunID.toUpperCase()));
+                                ItemMeta meta = gun.getItemMeta();
+                                meta.setDisplayName(gunName);
+                                gun.setItemMeta(meta);
+
+                                ItemStack ammo = new ItemStack(Material.getMaterial(ammoID.toUpperCase()));
+                                ItemMeta ammoMeta = ammo.getItemMeta();
+                                ammoMeta.setDisplayName(ammoName);
+                                ammo.setItemMeta(ammoMeta);
+
+                                guns.saveGun(gun, ammo, Integer.parseInt(Cost), Integer.parseInt(Level), Integer.valueOf(ammoAmount), type);
+
+                                p.sendMessage(main.prefix + "§6Type: " + type + " Material: " + gunID + " Name: " + gunName);
+                                p.sendMessage(main.prefix + "§2Name: " + ammoName + " Material: " + ammoID + " Amount: " + ammoAmount);
+                                p.sendMessage(main.prefix + "§dLevel: " + Level + " Cost: " + Cost);
+                            }else{
+                                p.sendMessage(main.prefix + "§cMaximum level is 10");
+                            }
                         }
                     }else{
                         p.sendMessage(main.prefix + "§7/cod make §6<primary/secondary> <Gun Material> <Gun Name> <Ammo Material> <Ammo Amount> <Ammo Name> <Level Unlock> <Gun Cost>");

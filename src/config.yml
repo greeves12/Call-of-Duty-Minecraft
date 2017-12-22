@@ -68,5 +68,10 @@ LeaveNPC:
   npc-name: "&5&lLeave COD"
   npc-type: "creeper"
 ############################
+#Game Settings
+
+#Amount of experience granted per kill
+exp-per-kill: 500
+############################
 #Copyright © 2017 tatemylove. All rights reserved
 

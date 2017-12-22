@@ -1,5 +1,6 @@
 package com.tatemylove.COD.Arenas;
 
+import com.shampaggon.crackshot.CSUtility;
 import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Files.KitFile;
 import com.tatemylove.COD.Files.StatsFile;
@@ -93,6 +94,15 @@ public class TDM  {
 
                         p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§eKnife", null));
 
+                       // if(KitFile.getData().contains(p.getUniqueId().toString())){
+                            CSUtility csUtility = new CSUtility();
+                            ItemStack gun = csUtility.generateWeapon(KitFile.getData().getString(p.getUniqueId().toString() + ".Primary.GunName"));
+                            p.getInventory().setItem(2, gun);
+                       // }
+                        /*if(KitFile.getData().contains(p.getUniqueId().toString())){
+                            CSUtility csUtility = new CSUtility();
+                            csUtility.generateWeapon(KitFile.getData().getString(p.getUniqueId().toString() + ".Secondary.GunName"));
+                        }*/
                         if (redTeam.contains(p)) {
                             p.getInventory().clear();
 

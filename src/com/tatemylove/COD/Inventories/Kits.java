@@ -16,11 +16,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Kits {
-    public HashMap<String, Inventory> kit = new HashMap<>();
+    private HashMap<String, Inventory> kit = new HashMap<>();
 
     Main main;
     private static Kits kitsSS= null;
-    public Inventory inv;
+
+    public Inventory inv = Bukkit.createInventory(null, 54, "§7§lWeapons Crate");
 
     public Kits (Main m){
         main = m;
@@ -55,16 +56,17 @@ public class Kits {
         if(!kit.containsKey(p.getName())) {
             inv = Bukkit.createInventory(p, 54, "§7§lWeapons Crate");
 
-            for (int ID = 0; OwnedFile.getData().contains(p.getUniqueId().toString() + ID); ID++) {
+            for (int ID = 0; OwnedFile.getData().contains(p.getUniqueId().toString() +"."+ ID); ID++) {
 
-                String ammoAmount = OwnedFile.getData().getString(p.getUniqueId().toString() + ID + ".Ammo.AmmoAmount");
-                String gunName = OwnedFile.getData().getString(p.getUniqueId().toString() + ID + ".Gun.GunName");
-                String ammoName = OwnedFile.getData().getString(p.getUniqueId().toString() + ID + ".Ammo.AmmoName");
-                String gunData = OwnedFile.getData().getString(p.getUniqueId().toString() + ID + ".Gun.GunData");
-                String ammoData = OwnedFile.getData().getString(p.getUniqueId().toString() + ID + ".Ammo.AmmoData");
+                String ammoAmount = OwnedFile.getData().getString(p.getUniqueId().toString() +"."+ ID + ".Ammo.AmmoAmount");
+                String gunName = OwnedFile.getData().getString(p.getUniqueId().toString()+"." + ID + ".Gun.GunName");
+                String ammoName = OwnedFile.getData().getString(p.getUniqueId().toString()+"." + ID + ".Ammo.AmmoName");
+                String gunData = OwnedFile.getData().getString(p.getUniqueId().toString()+"." + ID + ".Gun.GunData");
+                String ammoData = OwnedFile.getData().getString(p.getUniqueId().toString()+"." + ID + ".Ammo.AmmoData");
 
                 ArrayList<String> lore = new ArrayList<>();
                 lore.add("§cAmmo Capacity: §2" + ammoAmount);
+                lore.add("§6§l<< Click to Select >>");
 
                 inv.setItem(ID, getMaterial(Material.getMaterial(gunData.toUpperCase()), gunName + "§b(PRIMARY)", lore));
             }
