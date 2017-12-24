@@ -8,6 +8,9 @@ import com.tatemylove.COD.Inventories.Kits;
 import com.tatemylove.COD.JSON.HoverMessages;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
+import com.tatemylove.COD.MySQL.DeathsSQL;
+import com.tatemylove.COD.MySQL.KillsSQL;
+import com.tatemylove.COD.MySQL.WinsSQL;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.ScoreBoard.LobbyBoard;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
@@ -104,14 +107,28 @@ public class MainCommand implements CommandExecutor {
                             main.WaitingPlayers.add(p);
                             p.teleport(getLobby.getLobby(p));
 
+                            Main.kills.put(p.getName(), 0);
+                            Main.deaths.put(p.getName(), 0);
+                            Main.killStreak.put(p.getName(), 0);
+
+                        if(!main.getConfig().getBoolean("MySQL.Enabled")) {
                             int kills = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Kills");
                             int wins = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Wins");
                             int deaths = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Deaths");
 
-                            lobbyBoard.killsH.put(p.getName(), kills);
-                            lobbyBoard.deathsH.put(p.getName(), deaths);
-                            lobbyBoard.winsH.put(p.getName(), wins);
+                            LobbyBoard.killsH.put(p.getName(), kills);
+                            LobbyBoard.deathsH.put(p.getName(), deaths);
+                            LobbyBoard.winsH.put(p.getName(), wins);
                             lobbyBoard.setLobbyBoard(p);
+                        }else{
+                            DeathsSQL deathsSQL = new DeathsSQL(main);
+                            WinsSQL winsSQL = new WinsSQL(main);
+                            KillsSQL killsSQL = new KillsSQL(main);
+                            WinsSQL.getWins(p);
+                            KillsSQL.getKills(p);
+                            DeathsSQL.getDeaths(p);
+                            lobbyBoard.setLobbyBoard(p);
+                        }
 
                             if(!KitFile.getData().contains(p.getUniqueId().toString())){
                                 HoverMessages hoverMessages = new HoverMessages();
@@ -311,7 +328,7 @@ public class MainCommand implements CommandExecutor {
                     }
                 }
             }
-            if(args[0].equalsIgnoreCase("buyguns")){
+            if(args[0].equalsIgnoreCase("buy")){
                 if(p.hasPermission("cod.buyguns")){
                     BuyGuns buy = new BuyGuns(main);
                     buy.loadMenu(p);

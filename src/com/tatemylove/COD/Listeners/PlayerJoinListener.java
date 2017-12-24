@@ -4,6 +4,9 @@ import com.tatemylove.COD.Commands.MainCommand;
 import com.tatemylove.COD.Files.StatsFile;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
+import com.tatemylove.COD.MySQL.DeathsSQL;
+import com.tatemylove.COD.MySQL.KillsSQL;
+import com.tatemylove.COD.MySQL.WinsSQL;
 import com.tatemylove.COD.ScoreBoard.LobbyBoard;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import org.bukkit.Bukkit;
@@ -47,6 +50,18 @@ public class PlayerJoinListener implements Listener {
         }
 
         if(main.getConfig().getBoolean("MySQL.Enabled")){
+            DeathsSQL deathsSQL = new DeathsSQL(main);
+            WinsSQL winsSQL = new WinsSQL(main);
+            KillsSQL killsSQL = new KillsSQL(main);
+
+            deathsSQL.addToDB(p);
+            winsSQL.addToDB(p);
+            killsSQL.addToDB(p);
+
+            WinsSQL.getWins(p);
+            KillsSQL.getKills(p);
+            DeathsSQL.getDeaths(p);
+
 
         }else{
             StatsFile.getData().set(p.getUniqueId().toString() + ".Wins", 0);

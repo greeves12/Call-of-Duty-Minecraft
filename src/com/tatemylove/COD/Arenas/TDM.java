@@ -4,6 +4,7 @@ import com.shampaggon.crackshot.CSUtility;
 import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Files.KitFile;
 import com.tatemylove.COD.Files.StatsFile;
+import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.ScoreBoard.GameBoard;
@@ -87,21 +88,36 @@ public class TDM  {
 
                         GameBoard gameBoard = new GameBoard(main);
                         gameBoard.setGameBoard(p);
+                        p.getInventory().clear();
 
-                        /*if(KitFile.getData().contains(p.getUniqueId().toString())){
+                        p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§eKnife", null));
+
+                        if(KitFile.getData().contains(p.getUniqueId().toString() + ".Primary.GunName")){
                             CSUtility csUtility = new CSUtility();
-                            csUtility.generateWeapon(KitFile.getData().getString(p.getUniqueId().toString() + ".Secondary.GunName"));
-                        }*/
+                            ItemStack gun = csUtility.generateWeapon(KitFile.getData().getString(p.getUniqueId().toString() + ".Primary.GunName"));
+                            p.getInventory().setItem(2, gun);
+
+                            ItemStack ammo = new ItemStack(Material.getMaterial(KitFile.getData().getString(p.getUniqueId().toString() + ".Primary.AmmoData")), Integer.parseInt(KitFile.getData().getString(p.getUniqueId().toString() + ".Primary.AmmoAmount")));
+                            ItemMeta meta = ammo.getItemMeta();
+                            meta.setDisplayName("§e§lPrimary Ammo");
+                            ammo.setItemMeta(meta);
+
+                            p.getInventory().setItem(3, ammo);
+                        }
+
+                        if(KitFile.getData().contains(p.getUniqueId().toString() + ".Secondary.GunName")){
+                            CSUtility csUtility = new CSUtility();
+                            ItemStack gun = csUtility.generateWeapon(KitFile.getData().getString(p.getUniqueId().toString() + ".Secondary.GunName"));
+                            p.getInventory().setItem(5, gun);
+
+                            ItemStack ammo = new ItemStack(Material.getMaterial(KitFile.getData().getString(p.getUniqueId().toString() + ".Secondary.AmmoData")), Integer.parseInt(KitFile.getData().getString(p.getUniqueId().toString() + ".Secondary.AmmoAmount")));
+                            ItemMeta meta = ammo.getItemMeta();
+                            meta.setDisplayName("§e§lSecondary Ammo");
+                            ammo.setItemMeta(meta);
+
+                            p.getInventory().setItem(6, ammo);
+                        }
                         if (redTeam.contains(p)) {
-                            p.getInventory().clear();
-
-                            p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§eKnife", null));
-
-                            if(KitFile.getData().contains(p.getUniqueId().toString() + ".Primary.GunName")){
-                                CSUtility csUtility = new CSUtility();
-                                ItemStack gun = csUtility.generateWeapon(KitFile.getData().getString(p.getUniqueId().toString() + ".Primary.GunName"));
-                                p.getInventory().setItem(2, gun);
-                            }
 
                             p.teleport(getArena.getRedSpawn(p));
 
@@ -202,7 +218,12 @@ public class TDM  {
     public void endTDM() {
         GetArena getArena = new GetArena();
         BaseArena.states = BaseArena.ArenaStates.Countdown;
+        MainRunnable runnable = new MainRunnable(main);
+        runnable.startCountDown();
         for(Player pp : main.PlayingPlayers) {
+            GetLobby lobby = new GetLobby(main);
+            pp.getInventory().clear();
+            pp.teleport(lobby.getLobby(pp));
             if (!main.getConfig().getBoolean("MySQL.Enabled")) {
                 int kills = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Kills");
                 int deaths = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Deaths");

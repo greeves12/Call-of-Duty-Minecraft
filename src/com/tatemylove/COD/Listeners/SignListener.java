@@ -6,6 +6,9 @@ import com.tatemylove.COD.Guns.Guns;
 import com.tatemylove.COD.Inventories.Kits;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
+import com.tatemylove.COD.MySQL.DeathsSQL;
+import com.tatemylove.COD.MySQL.KillsSQL;
+import com.tatemylove.COD.MySQL.WinsSQL;
 import com.tatemylove.COD.ScoreBoard.LobbyBoard;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
 import org.bukkit.block.Sign;
@@ -117,14 +120,28 @@ public class SignListener implements Listener {
                     p.teleport(lobby.getLobby(p));
 
                     LobbyBoard lobbyBoard = new LobbyBoard(main);
-                    int kills = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Kills");
-                    int wins = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Wins");
-                    int deaths = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Deaths");
+                    if(!main.getConfig().getBoolean("MySQL.Enabled")) {
+                        int kills = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Kills");
+                        int wins = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Wins");
+                        int deaths = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Deaths");
 
-                    lobbyBoard.killsH.put(p.getName(), kills);
-                    lobbyBoard.deathsH.put(p.getName(), deaths);
-                    lobbyBoard.winsH.put(p.getName(), wins);
-                    lobbyBoard.setLobbyBoard(p);
+                        LobbyBoard.killsH.put(p.getName(), kills);
+                        LobbyBoard.deathsH.put(p.getName(), deaths);
+                        LobbyBoard.winsH.put(p.getName(), wins);
+                        lobbyBoard.setLobbyBoard(p);
+                    }else{
+                        DeathsSQL deathsSQL = new DeathsSQL(main);
+                        WinsSQL winsSQL = new WinsSQL(main);
+                        KillsSQL killsSQL = new KillsSQL(main);
+                        WinsSQL.getWins(p);
+                        KillsSQL.getKills(p);
+                        DeathsSQL.getDeaths(p);
+                        lobbyBoard.setLobbyBoard(p);
+                    }
+
+                    Main.kills.put(p.getName(), 0);
+                    Main.deaths.put(p.getName(), 0);
+                    Main.killStreak.put(p.getName(), 0);
 
                     main.WaitingPlayers.add(p);
 

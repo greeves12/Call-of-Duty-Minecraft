@@ -105,9 +105,9 @@ public class Main extends JavaPlugin {
                 String ip = getConfig().getString("MySQL.Ip");
                 String database = getConfig().getString("MySQL.Database");
                 mySQL = new MySQL(username, passworld, ip, database);
-                Bukkit.getConsoleSender().sendMessage("§eHooking into MySQL was a success");
+                Bukkit.getConsoleSender().sendMessage(prefix + "§eHooking into MySQL was a success");
             }catch (Exception e){
-                Bukkit.getConsoleSender().sendMessage("§cHooking into MySQL failed! Check your settings.");
+                Bukkit.getConsoleSender().sendMessage(prefix + "§cHooking into MySQL failed! Check your settings.");
             }
         }
 

@@ -7,6 +7,9 @@ import com.tatemylove.COD.Guns.Guns;
 import com.tatemylove.COD.JSON.HoverMessages;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
+import com.tatemylove.COD.MySQL.DeathsSQL;
+import com.tatemylove.COD.MySQL.KillsSQL;
+import com.tatemylove.COD.MySQL.WinsSQL;
 import com.tatemylove.COD.ScoreBoard.LobbyBoard;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
@@ -42,15 +45,30 @@ public class NPCListener implements Listener {
 
                 main.WaitingPlayers.add(p);
 
-                int kills = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Kills");
-                int wins = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Wins");
-                int deaths = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Deaths");
+                Main.kills.put(p.getName(), 0);
+                Main.deaths.put(p.getName(), 0);
+                Main.killStreak.put(p.getName(), 0);
 
-                LobbyBoard lobbyBoard = new LobbyBoard(main);
-                lobbyBoard.killsH.put(p.getName(), kills);
-                lobbyBoard.deathsH.put(p.getName(), deaths);
-                lobbyBoard.winsH.put(p.getName(), wins);
-                lobbyBoard.setLobbyBoard(p);
+                if(!main.getConfig().getBoolean("MySQL.Enabled")) {
+                    int kills = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Kills");
+                    int wins = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Wins");
+                    int deaths = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Deaths");
+
+                    LobbyBoard lobbyBoard = new LobbyBoard(main);
+                    lobbyBoard.killsH.put(p.getName(), kills);
+                    lobbyBoard.deathsH.put(p.getName(), deaths);
+                    lobbyBoard.winsH.put(p.getName(), wins);
+                    lobbyBoard.setLobbyBoard(p);
+                }else{
+                    DeathsSQL deathsSQL = new DeathsSQL(main);
+                    WinsSQL winsSQL = new WinsSQL(main);
+                    KillsSQL killsSQL = new KillsSQL(main);
+                    winsSQL.getWins(p);
+                    killsSQL.getKills(p);
+                    deathsSQL.getDeaths(p);
+                    LobbyBoard lobbyBoard = new LobbyBoard(main);
+                    lobbyBoard.setLobbyBoard(p);
+                }
 
                 if(!KitFile.getData().contains(p.getUniqueId().toString())){
                     HoverMessages hoverMessages = new HoverMessages();

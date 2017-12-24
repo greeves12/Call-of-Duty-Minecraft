@@ -14,9 +14,9 @@ public class LobbyBoard {
     Main main;
     private LobbyBoard lobbyBoard = null;
     private HashMap<String, Scoreboard> lobbyboard = new HashMap<>();
-    public HashMap<String, Integer> winsH = new HashMap<>();
-    public HashMap<String, Integer> killsH = new HashMap<>();
-    public HashMap<String, Integer> deathsH = new HashMap<>();
+    public static HashMap<String, Integer> winsH = new HashMap<>();
+    public static HashMap<String, Integer> killsH = new HashMap<>();
+    public static HashMap<String, Integer> deathsH = new HashMap<>();
 
     public LobbyBoard(Main m){
         main = m;
