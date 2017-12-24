@@ -10,10 +10,7 @@ import com.tatemylove.COD.ScoreBoard.GameBoard;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
 import com.tatemylove.SwiftEconomy.API.SwiftEconomyAPI;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -25,9 +22,9 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class TDM  {
-    public ArrayList<Player> redTeam = new ArrayList<>();
-    public ArrayList<Player> blueTeam = new ArrayList<>();
-    public HashMap<Player, String> Team = new HashMap<>();
+    public static ArrayList<Player> redTeam = new ArrayList<>();
+    public static ArrayList<Player> blueTeam = new ArrayList<>();
+    public static HashMap<Player, String> Team = new HashMap<>();
 
 
     Main main;
@@ -45,6 +42,8 @@ public class TDM  {
                 if (ArenaFile.getData().contains("Arenas." + id + ".Name")) {
                     main.PlayingPlayers.addAll(main.WaitingPlayers);
                     main.WaitingPlayers.clear();
+                    redTeam.clear();
+                    blueTeam.clear();
                     for (int assign = 0; assign < main.PlayingPlayers.size(); assign++) {
                         Player p = main.PlayingPlayers.get(assign);
 
@@ -85,26 +84,24 @@ public class TDM  {
                     main.BlueTeamScore = 0;
                     for (int ID = 0; ID < main.PlayingPlayers.size(); ID++) {
                         final Player p = main.PlayingPlayers.get(ID);
-                        main.kills.put(p.getName(), 0);
-                        main.deaths.put(p.getName(), 0);
-                        main.killStreak.put(p.getName(), 0);
 
                         GameBoard gameBoard = new GameBoard(main);
                         gameBoard.setGameBoard(p);
 
-                        p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§eKnife", null));
-
-                       // if(KitFile.getData().contains(p.getUniqueId().toString())){
-                            CSUtility csUtility = new CSUtility();
-                            ItemStack gun = csUtility.generateWeapon(KitFile.getData().getString(p.getUniqueId().toString() + ".Primary.GunName"));
-                            p.getInventory().setItem(2, gun);
-                       // }
                         /*if(KitFile.getData().contains(p.getUniqueId().toString())){
                             CSUtility csUtility = new CSUtility();
                             csUtility.generateWeapon(KitFile.getData().getString(p.getUniqueId().toString() + ".Secondary.GunName"));
                         }*/
                         if (redTeam.contains(p)) {
                             p.getInventory().clear();
+
+                            p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§eKnife", null));
+
+                            if(KitFile.getData().contains(p.getUniqueId().toString() + ".Primary.GunName")){
+                                CSUtility csUtility = new CSUtility();
+                                ItemStack gun = csUtility.generateWeapon(KitFile.getData().getString(p.getUniqueId().toString() + ".Primary.GunName"));
+                                p.getInventory().setItem(2, gun);
+                            }
 
                             p.teleport(getArena.getRedSpawn(p));
 
@@ -135,6 +132,14 @@ public class TDM  {
                         } else if (blueTeam.contains(p)) {
                             p.getInventory().clear();
                             p.teleport(getArena.getBlueSpawn(p));
+
+                            p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§eKnife", null));
+
+                            if(KitFile.getData().contains(p.getUniqueId().toString() + ".Primary.GunName")){
+                                CSUtility csUtility = new CSUtility();
+                                ItemStack gun = csUtility.generateWeapon(KitFile.getData().getString(p.getUniqueId().toString() + ".Primary.GunName"));
+                                p.getInventory().setItem(2, gun);
+                            }
 
                             Bukkit.getScheduler().scheduleSyncDelayedTask(ThisPlugin.getPlugin(), new Runnable() {
                                 @Override
@@ -181,12 +186,12 @@ public class TDM  {
         return s;
     }
 
-    private String getBetterTeam() {
+    public String getBetterTeam() {
         if (main.RedTeamScore > main.BlueTeamScore) {
             String team = "§c§lRed: §4§l" + main.RedTeamScore + " " + "§9§lBlue: §1§l" + main.BlueTeamScore;
             return team;
         } else if (main.BlueTeamScore > main.RedTeamScore) {
-            String team = "§9§lBlu: §1§l" + main.RedTeamScore + " " + "§9§lBlue: §1§l" + main.BlueTeamScore;
+            String team = "§9§lBlue: §1§l" + main.BlueTeamScore + " " + "§c§lRed: §4§l" + main.RedTeamScore;
             return team;
         } else {
             String team = "§e§lTie: §6§l" + main.RedTeamScore + " §e§l- §6§l" + main.BlueTeamScore;
@@ -275,5 +280,18 @@ public class TDM  {
         main.PlayingPlayers.clear();
         redTeam.clear();
         blueTeam.clear();
+    }
+
+    public Location respawnPlayer(Player p){
+        if(redTeam.contains(p)){
+            GetArena getArena = new GetArena();
+            return getArena.getRedSpawn(p);
+        }else if(blueTeam.contains(p)){
+            GetArena getArena = new GetArena();
+            return getArena.getBlueSpawn(p);
+        }else{
+            return null;
+        }
+
     }
 }

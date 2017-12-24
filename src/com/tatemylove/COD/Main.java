@@ -26,14 +26,14 @@ public class Main extends JavaPlugin {
     public String prefix = "§8§l[COD] ";
     public ArrayList<Player> WaitingPlayers = new ArrayList<>();
     public ArrayList<Player> PlayingPlayers = new ArrayList<>();
-    public HashMap<String, Integer> kills = new HashMap<>();
-    public HashMap<String, Integer> deaths = new HashMap<>();
-    public HashMap<String, Integer> killStreak = new HashMap<>();
+    public static HashMap<String, Integer> kills = new HashMap<>();
+    public static HashMap<String, Integer> deaths = new HashMap<>();
+    public static HashMap<String, Integer> killStreak = new HashMap<>();
     public int min_players = getConfig().getInt("min-players");
     public int max_players = 2;
     private ProtocolManager manager;
-    public int RedTeamScore;
-    public int BlueTeamScore;
+    public int RedTeamScore = 0;
+    public int BlueTeamScore = 0;
     private MySQL mySQL;
 
     @Override
@@ -83,7 +83,7 @@ public class Main extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new SignListener(this), this);
 
         ActivePinger pinger = new ActivePinger(this);
-        pinger.runTaskTimerAsynchronously(this, 0, 20);
+        pinger.runTaskTimer(this, 0, 20);
 
         if(Bukkit.getServer().getPluginManager().getPlugin("SwiftEconomy") != null){
             Bukkit.getConsoleSender().sendMessage( prefix + "§eSwift-Economy found! Hooking in");

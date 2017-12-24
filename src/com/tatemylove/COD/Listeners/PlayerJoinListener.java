@@ -9,6 +9,7 @@ import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -24,9 +25,12 @@ public class PlayerJoinListener implements Listener {
         main = m;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
+        Main.kills.put(p.getName(), 0);
+        Main.deaths.put(p.getName(), 0);
+        Main.killStreak.put(p.getName(), 0);
         if(ThisPlugin.getPlugin().getConfig().getBoolean("auto-join")){
             main.WaitingPlayers.add(e.getPlayer());
             e.getPlayer().sendMessage(main.prefix);

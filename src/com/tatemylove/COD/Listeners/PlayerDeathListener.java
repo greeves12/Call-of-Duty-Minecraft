@@ -10,6 +10,7 @@ import com.tatemylove.COD.KillStreaks.Napalm;
 import com.tatemylove.COD.Leveling.PlayerLevels;
 import com.tatemylove.COD.Main;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
+import com.tatemylove.COD.Utilities.SendCoolMessages;
 import net.minecraft.server.v1_12_R1.PacketPlayInClientCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
@@ -34,37 +35,30 @@ public class PlayerDeathListener implements Listener {
 
         if(BaseArena.type == BaseArena.ArenaType.TDM) {
 
-            TDM tdm = new TDM(main);
-            if ((main.PlayingPlayers.contains(p)) && (main.PlayingPlayers.contains(pp))) {
-                if (((tdm.blueTeam.contains(p) && (tdm.redTeam.contains(pp))) || (tdm.redTeam.contains(p)) && (tdm.blueTeam.contains(pp)))) {
 
-                }
-                if (tdm.redTeam.contains(p)) {
-                    if (tdm.blueTeam.contains(pp)) {
-                        main.BlueTeamScore++;
-                    }
-                } else if (tdm.blueTeam.contains(p)) {
-                    if (tdm.redTeam.contains(pp)) {
-                        main.RedTeamScore++;
-                    }
-                }
-            }
-            int ks = main.killStreak.get(p.getName());
-            int kills = main.kills.get(p.getName());
-            int deaths = main.deaths.get(p.getName());
+            //if(Main.killStreak.containsKey(pp.getName())) {
+                Main.killStreak.put(pp.getName(), Main.killStreak.get(pp.getName()) + 1);
+            //}
+            //if(Main.killStreak.containsKey(p.getName())) {
+                Main.killStreak.put(p.getName(), 0);
+            //}
+            //if(Main.kills.containsKey(pp.getName())) {
+                Main.kills.put(pp.getName(), Main.kills.get(pp.getName()) + 1);
+            //}
+           // if(Main.deaths.containsKey(p.getName())) {
+                Main.deaths.put(p.getName(), Main.deaths.get(p.getName()) + 1);
+            //}
 
-            main.killStreak.put(pp.getName(), ks+1);
-            main.kills.put(pp.getName(), kills+1);
-            main.deaths.put(p.getName(), deaths+1);
+                new BukkitRunnable(){
 
-            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(ThisPlugin.getPlugin(), new Runnable() {
-                @Override
-                public void run() {
-                    if (p.isDead()) {
-                        craftPlayer.getHandle().playerConnection.a(new PacketPlayInClientCommand(PacketPlayInClientCommand.EnumClientCommand.PERFORM_RESPAWN));
+                    @Override
+                    public void run() {
+                        if(p.isDead()) {
+                            craftPlayer.getHandle().playerConnection.a(new PacketPlayInClientCommand(PacketPlayInClientCommand.EnumClientCommand.PERFORM_RESPAWN));
+                        }
                     }
-                }
-            });
+                }.runTaskLater(ThisPlugin.getPlugin(), 20L);
+
         }else if(BaseArena.type == BaseArena.ArenaType.KC){
 
         }
@@ -80,52 +74,52 @@ public class PlayerDeathListener implements Listener {
         PlayerLevels playerLevels = new PlayerLevels(main);
         int exp = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".EXP");
         int level = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Level");
-        playerLevels.addExp(p, main.getConfig().getInt("exp-per-kill"));
+        playerLevels.addExp(pp, main.getConfig().getInt("exp-per-kill"));
 
         if(level == 1){
             if(exp >= playerLevels.levelTwo){
-                playerLevels.addLevel(p, 1);
-                playerLevels.resetExp(p);
+                playerLevels.addLevel(pp, 1);
+                playerLevels.resetExp(pp);
             }
         }else if(level == 2){
             if(exp >= playerLevels.levelThree){
-                playerLevels.addLevel(p, 1);
-                playerLevels.resetExp(p);
+                playerLevels.addLevel(pp, 1);
+                playerLevels.resetExp(pp);
             }
         }else if(level == 3){
             if(exp >= playerLevels.levelFour){
-                playerLevels.addLevel(p, 1);
-                playerLevels.resetExp(p);
+                playerLevels.addLevel(pp, 1);
+                playerLevels.resetExp(pp);
             }
         }else if(level == 4){
             if(exp >= playerLevels.levelFive){
-                playerLevels.addLevel(p, 1);
-                playerLevels.resetExp(p);
+                playerLevels.addLevel(pp, 1);
+                playerLevels.resetExp(pp);
             }
         }else if(level == 5){
             if(exp >= playerLevels.levelSix){
-                playerLevels.addLevel(p, 1);
-                playerLevels.resetExp(p);
+                playerLevels.addLevel(pp, 1);
+                playerLevels.resetExp(pp);
             }
         }else if(level == 6){
             if(exp >= playerLevels.levelSeven){
-                playerLevels.addLevel(p, 1);
-                playerLevels.resetExp(p);
+                playerLevels.addLevel(pp, 1);
+                playerLevels.resetExp(pp);
             }
         }else if(level == 7){
             if(exp >= playerLevels.levelEight){
-                playerLevels.addLevel(p, 1);
-                playerLevels.resetExp(p);
+                playerLevels.addLevel(pp, 1);
+                playerLevels.resetExp(pp);
             }
         }else if(level == 8){
             if(exp >= playerLevels.levelNine){
-                playerLevels.addLevel(p, 1);
-                playerLevels.resetExp(p);
+                playerLevels.addLevel(pp, 1);
+                playerLevels.resetExp(pp);
             }
         }else if(level == 9){
             if(exp >= playerLevels.levelTen){
-                playerLevels.addLevel(p, 1);
-                playerLevels.resetExp(p);
+                playerLevels.addLevel(pp, 1);
+                playerLevels.resetExp(pp);
             }
         }
     }
@@ -135,10 +129,12 @@ public class PlayerDeathListener implements Listener {
         Player p = e.getPlayer();
         TDM tdm = new TDM(main);
         GetArena getArena = new GetArena();
-        if(tdm.redTeam.contains(p)){
-            e.setRespawnLocation(getArena.getRedSpawn(p));
-        }else if(tdm.blueTeam.contains(p)){
-            e.setRespawnLocation(getArena.getBlueSpawn(p));
+        e.setRespawnLocation(tdm.respawnPlayer(p));
+        if(TDM.blueTeam.contains(p)){
+            main.RedTeamScore++;
+        }else if(TDM.redTeam.contains(p)){
+            main.BlueTeamScore++;
         }
+
     }
 }

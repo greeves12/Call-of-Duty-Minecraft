@@ -38,7 +38,7 @@ public class CountDown extends BukkitRunnable {
                 }
                 BaseArena.states = BaseArena.ArenaStates.Started;
                 String type = ArenaFile.getData().getString("Arenas." + getArena.getNextArena() + ".Type");
-                if(type.equals("TDM")) {
+                if(type.equalsIgnoreCase("TDM")) {
                     BaseArena.type = BaseArena.ArenaType.TDM;
                     tdm.assignTeams(Integer.toString(getArena.getCurrentArena()));
                     tdm.startTDM(Integer.toString(getArena.getCurrentArena()));

@@ -26,24 +26,24 @@ public class PlayerInteractListener implements Listener {
     public void onTouch(EntityDamageByEntityEvent e) {
         Entity entity = e.getEntity();
         Entity entity1 = e.getDamager();
-        TDM tdm = new TDM(main);
         if ((entity instanceof Player) && (entity1 instanceof Player)) {
             Player p = (Player) e.getEntity();
             Player pp = (Player) e.getDamager();
+
             if (!ThisPlugin.getPlugin().getConfig().getBoolean("friend-fire")) {
                 if ((main.PlayingPlayers.contains(p)) && (main.PlayingPlayers.contains(pp))) {
-                    if (tdm.blueTeam.contains(p) && (tdm.blueTeam.contains(pp))) {
+                    if (TDM.blueTeam.contains(p) && (TDM.blueTeam.contains(pp))) {
                         e.setCancelled(true);
-                    } else if (tdm.redTeam.contains(p) && (tdm.redTeam.contains(pp))) {
+                        return;
+                    } else if (TDM.redTeam.contains(p) && (TDM.redTeam.contains(pp))) {
                         e.setCancelled(true);
+                        return;
                     }
                 }
             }
-            if(tdm.blueTeam.contains(p) && tdm.redTeam.contains(pp) || (tdm.redTeam.contains(p)) && (tdm.blueTeam.contains(pp))) {
                 if (pp.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD) {
-                    p.setHealth(0);
+                    p.setHealth(0.0D);
                 }
-            }
         }
     }
 

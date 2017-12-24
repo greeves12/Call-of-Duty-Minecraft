@@ -81,9 +81,9 @@ public class GameBoard {
 
             @Override
             public void run() {
-                int kill = main.kills.get(p.getName());
-                int death = main.deaths.get(p.getName());
-                int killstreak = main.killStreak.get(p.getName());
+                int kill = Main.kills.get(p.getName());
+                int death = Main.deaths.get(p.getName());
+                int killstreak = Main.killStreak.get(p.getName());
 
                 board.getTeam("kill").setSuffix("     §a" + kill);
                 board.getTeam("death").setSuffix("     §a" + death);
