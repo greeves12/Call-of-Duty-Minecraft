@@ -111,8 +111,7 @@ public class Main extends JavaPlugin {
             }
         }
 
-        AttackDogs dogs = new AttackDogs(this);
-        dogs.settUp();
+        AttackDogs.settUp();
 
         Moab moab = new Moab(this);
         moab.settUp();

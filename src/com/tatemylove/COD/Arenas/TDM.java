@@ -207,8 +207,8 @@ public class TDM  {
                 int kills = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Kills");
                 int deaths = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Deaths");
 
-                int inKills = main.kills.get(pp.getName());
-                int inDeaths = main.deaths.get(pp.getName());
+                int inKills = Main.kills.get(pp.getName());
+                int inDeaths = Main.deaths.get(pp.getName());
 
                 StatsFile.getData().set(pp.getUniqueId().toString() + ".Kills", inKills + kills);
                 StatsFile.getData().set(pp.getUniqueId().toString() + ".Deaths", inDeaths + deaths);
@@ -229,12 +229,22 @@ public class TDM  {
                 swiftEconomyAPI.giveMoney(pp, ThisPlugin.getPlugin().getConfig().getDouble("lose-amount"));
             }
             for (Player pp : main.PlayingPlayers) {
+                int kills = Main.kills.get(pp.getName());
+                int deaths = Main.deaths.get(pp.getName());
+                double finalkd;
                 pp.sendMessage("");
                 pp.sendMessage("");
                 pp.sendMessage("");
                 pp.sendMessage("§7║ §b§lStatistics:§6§l " + getArena.getCurrentArena());
                 pp.sendMessage("§7║");
                 pp.sendMessage("§7║ §7§lWinner: §c§lRed: §1§l" + main.BlueTeamScore + " " + "§r§9Blue: §4" + main.RedTeamScore + "         §b§lTotal Kills:§a§l ");
+                pp.sendMessage("§7║");
+                if(deaths != 0) {
+                    finalkd = kills / deaths;
+                }else{
+                    finalkd = kills;
+                }
+                pp.sendMessage("§7║ §lKD: §5" + finalkd);
 
                 DecimalFormat df = new DecimalFormat("#.##");
 
@@ -259,12 +269,23 @@ public class TDM  {
                 swiftEconomyAPI.giveMoney(pp, ThisPlugin.getPlugin().getConfig().getDouble("lose-amount"));
             }
             for(Player pp : main.PlayingPlayers){
+                int kills = Main.kills.get(pp.getName());
+                int deaths = Main.deaths.get(pp.getName());
+                double finalkd;
+
                 pp.sendMessage("");
                 pp.sendMessage("");
                 pp.sendMessage("");
                 pp.sendMessage("§7║ §b§lStatistics:§6§l " + getArena.getCurrentArena());
                 pp.sendMessage("§7║");
-                pp.sendMessage("§7║ §7§lWinner: §9§lBlue: §1§l" + main.BlueTeamScore + " " + "§r§cRed: §4" + main.RedTeamScore + "         §b§lTotal Kills:§a§l ");
+                pp.sendMessage("§7║ §7§lWinner: §9§lBlue: §1§l" + main.BlueTeamScore + " " + "§r§cRed: §4" + main.RedTeamScore + "         §b§lTotal Kills:§a§l " + Main.kills.get(pp.getName()));
+                pp.sendMessage("§7║");
+                if(deaths != 0) {
+                    finalkd = kills / deaths;
+                }else{
+                    finalkd = kills;
+                }
+                pp.sendMessage("§7║ §lKD: §5" + finalkd);
 
                 DecimalFormat df = new DecimalFormat("#.##");
 

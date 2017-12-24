@@ -19,16 +19,20 @@ public class GetPlayersOnOtherTeam {
     }
 
     public ArrayList<Player> get(Player p){
-        if(main.PlayingPlayers.contains(p)) return new ArrayList<Player>();
-        if(BaseArena.type == BaseArena.ArenaType.TDM){
-            TDM tdm = new TDM(main);
-            if(tdm.redTeam.contains(p)){
-                return tdm.blueTeam;
-            }else if(tdm.blueTeam.contains(p)){
-                return tdm.redTeam;
+        if(main.WaitingPlayers.contains(p)) return new ArrayList<Player>();
+        if(BaseArena.type == BaseArena.ArenaType.TDM) {
+            if (TDM.redTeam.contains(p)) {
+                return TDM.blueTeam;
+            } else if (TDM.blueTeam.contains(p)) {
+                return TDM.redTeam;
+            } else {
+                ArrayList<Player> players = new ArrayList<Player>();
+                players.addAll(main.PlayingPlayers);
+                if (players.contains(p)) players.remove(p);
+                return players;
             }
-
         }
-        return new ArrayList<>();
+            return new ArrayList<Player>();
+
     }
 }

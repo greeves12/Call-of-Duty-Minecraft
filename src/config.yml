@@ -14,7 +14,7 @@ max-players: 10
 auto-join: false
 
 #Enable or Disable Friendly Fire
-friend-fire: false
+friendly-fire: false
 
 #Time until the game starts
 countdown-time: 20
@@ -72,6 +72,9 @@ LeaveNPC:
 
 #Amount of experience granted per kill
 exp-per-kill: 500
+
+#Cooldown before the player can take damage again (To avoid spawn-killing)
+invincible: 5
 ############################
 #Copyright © 2017 tatemylove. All rights reserved
 

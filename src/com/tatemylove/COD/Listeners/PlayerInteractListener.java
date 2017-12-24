@@ -6,6 +6,7 @@ import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -30,7 +31,7 @@ public class PlayerInteractListener implements Listener {
             Player p = (Player) e.getEntity();
             Player pp = (Player) e.getDamager();
 
-            if (!ThisPlugin.getPlugin().getConfig().getBoolean("friend-fire")) {
+            if (!ThisPlugin.getPlugin().getConfig().getBoolean("friendly-fire")) {
                 if ((main.PlayingPlayers.contains(p)) && (main.PlayingPlayers.contains(pp))) {
                     if (TDM.blueTeam.contains(p) && (TDM.blueTeam.contains(pp))) {
                         e.setCancelled(true);
@@ -41,9 +42,19 @@ public class PlayerInteractListener implements Listener {
                     }
                 }
             }
+            if(main.PlayingPlayers.contains(p)) {
                 if (pp.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD) {
-                    p.setHealth(0.0D);
+                    e.setDamage(2000.0D);
                 }
+            }
+            if(PlayerDeathListener.invincible.contains(p)){
+                e.setCancelled(true);
+            }
+        }else if(entity1 instanceof Wolf){
+            Player p = (Player) e.getEntity();
+            if(main.PlayingPlayers.contains(p)){
+                e.setDamage(8.0D);
+            }
         }
     }
 

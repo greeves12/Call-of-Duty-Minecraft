@@ -37,7 +37,7 @@ public class Napalm {
         TDM tdm = new TDM(main);
 
         if((main.PlayingPlayers.contains(p)) && (main.PlayingPlayers.contains(pp))){
-            if(main.killStreak.get(p.getName()) == 5){
+            if(Main.killStreak.get(p.getName()) == 5){
                 p.getInventory().addItem(napalm);
                 p.sendMessage(main.prefix + "§6AirStrike waiting on your go!");
             }

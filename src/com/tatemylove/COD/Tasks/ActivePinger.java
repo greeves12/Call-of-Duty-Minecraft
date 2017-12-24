@@ -20,11 +20,11 @@ public class ActivePinger extends BukkitRunnable{
     public void run() {
         if(BaseArena.states == BaseArena.ArenaStates.Started){
             MainRunnable runnable = new MainRunnable(main);
-            if(main.RedTeamScore > 10){
+            if(main.RedTeamScore > 20){
                 TDM tdm = new TDM(main);
                 tdm.endTDM();
                 runnable.stopGameTime();
-            }else if(main.BlueTeamScore > 10){
+            }else if(main.BlueTeamScore > 20){
                 TDM tdm = new TDM(main);
                 tdm.endTDM();
                 runnable.stopGameTime();
