@@ -100,7 +100,6 @@ public class PlayerJoinListener implements Listener {
                 p.getInventory().setArmorContents(cmd.armorSaved.get(p));
             }
             p.teleport(lobby.getLobby(p));
-            p.getInventory().clear();
         }
     }
 

@@ -6,6 +6,9 @@ import com.tatemylove.COD.Files.KitFile;
 import com.tatemylove.COD.Files.StatsFile;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
+import com.tatemylove.COD.MySQL.DeathsSQL;
+import com.tatemylove.COD.MySQL.KillsSQL;
+import com.tatemylove.COD.MySQL.WinsSQL;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.ScoreBoard.GameBoard;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
@@ -237,7 +240,15 @@ public class TDM  {
                 StatsFile.saveData();
                 StatsFile.reloadData();
             }else{
+                int inKills = Main.kills.get(pp.getName());
+                int inDeaths = Main.deaths.get(pp.getName());
 
+                DeathsSQL deathsSQL = new DeathsSQL(main);
+                WinsSQL winsSQL = new WinsSQL(main);
+                KillsSQL killsSQL = new KillsSQL(main);
+                deathsSQL.addDeaths(pp, inDeaths);
+                winsSQL.addWins(pp, 1);
+                killsSQL.addKills(pp, inKills);
             }
         }
         if (main.RedTeamScore > main.BlueTeamScore) {
@@ -310,12 +321,14 @@ public class TDM  {
 
                 DecimalFormat df = new DecimalFormat("#.##");
 
-                int wins = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Wins");
+                if(!main.getConfig().getBoolean("MySQL.Enabled")) {
+                    int wins = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Wins");
 
-                StatsFile.getData().set(pp.getUniqueId().toString() + ".Wins", wins+1);
+                    StatsFile.getData().set(pp.getUniqueId().toString() + ".Wins", wins + 1);
 
-                StatsFile.saveData();
-                StatsFile.reloadData();
+                    StatsFile.saveData();
+                    StatsFile.reloadData();
+                }
             }
         }
         main.WaitingPlayers.addAll(main.PlayingPlayers);

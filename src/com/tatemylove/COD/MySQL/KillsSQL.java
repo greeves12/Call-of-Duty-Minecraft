@@ -44,7 +44,7 @@ public KillsSQL(Main m){
     public void addKills(Player p, int amount){
         try{
             if(scoreExist(p)){
-                PreparedStatement ps = MySQL.connection.prepareStatement("UPDATE CODkills SET kills= kills-'" + amount + "' WHERE uuid='" + p.getUniqueId().toString() + "'");
+                PreparedStatement ps = MySQL.connection.prepareStatement("UPDATE CODkills SET kills= kills+'" + amount + "' WHERE uuid='" + p.getUniqueId().toString() + "'");
                 ps.executeUpdate();
                 ps.close();
             }

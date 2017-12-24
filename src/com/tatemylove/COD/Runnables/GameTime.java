@@ -14,7 +14,7 @@ public class GameTime extends BukkitRunnable {
         gameTime = GameTime.this;
     }
 
-    private int timeleft = 600;
+    public static int timeleft;
 
     @Override
     public void run() {

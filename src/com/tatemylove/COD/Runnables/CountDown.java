@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 
 public class CountDown extends BukkitRunnable {
-    public int timeuntilstart = ThisPlugin.getPlugin().getConfig().getInt("countdown-time");
+    public static int timeuntilstart;
 
     Main ma;
     private static CountDown countDown = null;

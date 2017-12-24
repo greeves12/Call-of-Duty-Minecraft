@@ -55,17 +55,17 @@ public class NPCListener implements Listener {
                     int deaths = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Deaths");
 
                     LobbyBoard lobbyBoard = new LobbyBoard(main);
-                    lobbyBoard.killsH.put(p.getName(), kills);
-                    lobbyBoard.deathsH.put(p.getName(), deaths);
-                    lobbyBoard.winsH.put(p.getName(), wins);
+                    LobbyBoard.killsH.put(p.getName(), kills);
+                    LobbyBoard.deathsH.put(p.getName(), deaths);
+                    LobbyBoard.winsH.put(p.getName(), wins);
                     lobbyBoard.setLobbyBoard(p);
                 }else{
                     DeathsSQL deathsSQL = new DeathsSQL(main);
                     WinsSQL winsSQL = new WinsSQL(main);
                     KillsSQL killsSQL = new KillsSQL(main);
-                    winsSQL.getWins(p);
-                    killsSQL.getKills(p);
-                    deathsSQL.getDeaths(p);
+                    WinsSQL.getWins(p);
+                    KillsSQL.getKills(p);
+                    DeathsSQL.getDeaths(p);
                     LobbyBoard lobbyBoard = new LobbyBoard(main);
                     lobbyBoard.setLobbyBoard(p);
                 }

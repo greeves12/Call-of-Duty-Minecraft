@@ -107,9 +107,7 @@ public class MainCommand implements CommandExecutor {
                             main.WaitingPlayers.add(p);
                             p.teleport(getLobby.getLobby(p));
 
-                            Main.kills.put(p.getName(), 0);
-                            Main.deaths.put(p.getName(), 0);
-                            Main.killStreak.put(p.getName(), 0);
+
 
                         if(!main.getConfig().getBoolean("MySQL.Enabled")) {
                             int kills = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Kills");

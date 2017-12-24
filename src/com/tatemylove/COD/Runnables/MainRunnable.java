@@ -20,7 +20,7 @@ public class MainRunnable {
     private int countdown;
     private int gametime;
     public void startCountDown(){
-        GetArena getArena = new GetArena();
+        CountDown.timeuntilstart = main.getConfig().getInt("countdown-time");
         countdown = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(ThisPlugin.getPlugin(), new CountDown(main), 0L, 20L);
     }
     public void stopCountDown(){
@@ -28,6 +28,7 @@ public class MainRunnable {
     }
 
     public void startGameTime(){
+        GameTime.timeleft = main.getConfig().getInt("game-time");
         gametime = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(ThisPlugin.getPlugin(), new GameTime(main), 0L, 20L);
     }
     public void stopGameTime(){

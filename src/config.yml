@@ -19,6 +19,9 @@ friendly-fire: false
 #Time until the game starts
 countdown-time: 20
 
+#Amount of time for the game until it ends (In seconds)
+game-time: 600
+
 #Lobby ScoreBoard name
 lobbyboard-name: "&b&lCOD Lobby"
 

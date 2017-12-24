@@ -113,10 +113,8 @@ public class Main extends JavaPlugin {
 
         AttackDogs.settUp();
 
-        Moab moab = new Moab(this);
-        moab.settUp();
+        Moab.settUp();
 
-        Napalm napalm = new Napalm(this);
-        napalm.settUp();
+        Napalm.settUp();
     }
 }

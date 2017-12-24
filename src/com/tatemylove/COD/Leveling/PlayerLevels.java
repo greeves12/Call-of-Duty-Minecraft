@@ -32,9 +32,12 @@ public class PlayerLevels {
     }
     public void addLevel (Player p, int amount){
         int level = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Level");
-        StatsFile.getData().set(p.getUniqueId().toString() + ".Level", level + amount);
+        int flevel = level+amount;
+
+        StatsFile.getData().set(p.getUniqueId().toString() + ".Level", flevel);
         StatsFile.saveData();
         StatsFile.reloadData();
-        p.sendMessage(main.prefix + "§b§lYou've been promoted to level §e§l" + level+amount);
+
+        p.sendMessage(main.prefix + "§b§lYou've been promoted to level §e§l" + flevel);
     }
 }

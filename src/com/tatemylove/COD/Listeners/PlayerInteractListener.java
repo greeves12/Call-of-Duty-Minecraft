@@ -51,9 +51,11 @@ public class PlayerInteractListener implements Listener {
                 e.setCancelled(true);
             }
         }else if(entity1 instanceof Wolf){
-            Player p = (Player) e.getEntity();
-            if(main.PlayingPlayers.contains(p)){
-                e.setDamage(8.0D);
+            if(entity instanceof Player) {
+                Player p = (Player) entity;
+                if (main.PlayingPlayers.contains(p)) {
+                    e.setDamage(8.0D);
+                }
             }
         }
     }

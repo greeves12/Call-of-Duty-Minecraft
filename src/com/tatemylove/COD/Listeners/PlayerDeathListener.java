@@ -95,11 +95,12 @@ public class PlayerDeathListener implements Listener {
             AttackDogs dogs = new AttackDogs(main);
             dogs.onKill(e);
 
-            //Moab moab = new Moab(main);
-            //moab.onEntityKill(e);
+            Moab moab = new Moab(main);
+            moab.onEntityKill(e);
 
-            //Napalm napalm = new Napalm(main);
-            //napalm.onEntityKill(e);
+            Napalm napalm = new Napalm(main);
+            napalm.onEntityKill(e);
+
             if (two instanceof Player) {
                 Player pp = e.getEntity().getKiller();
                 PlayerLevels playerLevels = new PlayerLevels(main);
