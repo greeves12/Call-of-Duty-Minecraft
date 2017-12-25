@@ -1,5 +1,7 @@
 package com.tatemylove.COD.Commands;
 
+import com.tatemylove.COD.Citizens.JoinNPC;
+import com.tatemylove.COD.Citizens.LeaveNPC;
 import com.tatemylove.COD.Citizens.TryGuns;
 import com.tatemylove.COD.Files.*;
 import com.tatemylove.COD.Guns.BuyGuns;
@@ -15,6 +17,7 @@ import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.ScoreBoard.LobbyBoard;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -102,12 +105,18 @@ public class MainCommand implements CommandExecutor {
             if(args[0].equalsIgnoreCase("join")) {
                 if (p.hasPermission("cod.join")) {
                     if (StatsFile.getData().getBoolean("plugin-enabled")) {
+                        if(main.PlayingPlayers.contains(p)){
+                            p.sendMessage(main.prefix + "§3§lYou cannot be in-game");
+                            return true;
+                        }
                         if(!main.WaitingPlayers.contains(p)) {
                             LobbyBoard lobbyBoard = new LobbyBoard(main);
                             main.WaitingPlayers.add(p);
                             p.teleport(getLobby.getLobby(p));
 
-
+                            Main.kills.put(p.getName(), 0);
+                            Main.deaths.put(p.getName(), 0);
+                            Main.killStreak.put(p.getName(), 0);
 
                         if(!main.getConfig().getBoolean("MySQL.Enabled")) {
                             int kills = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Kills");
@@ -130,7 +139,7 @@ public class MainCommand implements CommandExecutor {
 
                             if(!KitFile.getData().contains(p.getUniqueId().toString())){
                                 HoverMessages hoverMessages = new HoverMessages();
-                                p.sendMessage(main.prefix + p.getName() +" §8It appears you don't have a kit!");
+                                p.sendMessage(main.prefix + "§6§l"+p.getName() +"! §aIt appears you don't have a kit!");
                                 hoverMessages.hoverMessage(p, "/cod kit", "§6§l§nClick here §d§lto select a Kit", "§e§lSelect a Kit");
                             }
 
@@ -147,7 +156,7 @@ public class MainCommand implements CommandExecutor {
                             SendCoolMessages.sendSubTitle(p, "§e§lYou joined the Queue", 10, 30, 10);
 
                             for (Player pp : main.WaitingPlayers) {
-                                pp.sendMessage(main.prefix + "§6§l" + p.getName() + " §e§ljoined the Queue");
+                                pp.sendMessage(ChatColor.translateAlternateColorCodes('&', LanguageFile.getData().getString("join-message").replace("%player%", p.getName())));
                             }
                         }else{
                             p.sendMessage(main.prefix + "§3§lAlready in the Queue");
@@ -165,7 +174,8 @@ public class MainCommand implements CommandExecutor {
                             createArenaCommand.createArena(p, name, args[2].toUpperCase());
                         }
                     }else{
-                        p.sendMessage(main.prefix + "§8/cod create <name> <type>");
+                        p.sendMessage(main.prefix + "§9Available GameModes are §6TDM");
+                        p.sendMessage(main.prefix + "§7/cod create <name> <type>");
                     }
                 }
             }
@@ -181,9 +191,13 @@ public class MainCommand implements CommandExecutor {
                 }
             }
             if(args[0].equalsIgnoreCase("set")){
-                if(p.hasPermission("cod.setspawn")){
-                    int id = Integer.parseInt(args[1]);
-                    createArenaCommand.setSpawns(p, args, id);
+                if(p.hasPermission("cod.setspawn")) {
+                    if (args.length == 3) {
+                        int id = Integer.parseInt(args[1]);
+                        createArenaCommand.setSpawns(p, args, id);
+                    }else{
+                        p.sendMessage(main.prefix + "§7/cod set <ID> <blue/red>");
+                    }
                 }
             }
             if(args[0].equalsIgnoreCase("setlobby")){
@@ -213,7 +227,7 @@ public class MainCommand implements CommandExecutor {
                         }
 
                         for (Player pp : main.WaitingPlayers) {
-                            pp.sendMessage(main.prefix + "§7§l" + p.getName() + " §8§lhas left the Queue");
+                            pp.sendMessage(ChatColor.translateAlternateColorCodes('&', LanguageFile.getData().getString("leave-message").replace("%player%", p.getName())));
                         }
                     }else{
                         p.sendMessage(main.prefix + "§4§lYou are not the in the Queue");
@@ -233,6 +247,14 @@ public class MainCommand implements CommandExecutor {
                     StatsFile.reloadData();
                     GunFile.saveData();
                     GunFile.reloadData();
+                    LanguageFile.saveData();
+                    LanguageFile.reloadData();
+                    KitFile.saveData();
+                    KitFile.reloadData();
+                    OwnedFile.saveData();
+                    OwnedFile.reloadData();
+                    SignFile.saveData();
+                    SignFile.reloadData();
 
                     p.sendMessage(main.prefix + "§8§lConfigs reloaded!");
                 }
@@ -315,14 +337,29 @@ public class MainCommand implements CommandExecutor {
                     }
                 }
             }
-            if(args[0].equalsIgnoreCase("npcspawn")){
+            if(args[0].equalsIgnoreCase("npc")){
                 if(p.hasPermission("cod.npc")) {
-                    if (Bukkit.getServer().getPluginManager().getPlugin("Citizens") != null) {
-                        TryGuns tryGuns = new TryGuns(main);
-                        tryGuns.createNPC(p);
-                        p.sendMessage(main.prefix + "§bNpc spawned on your location");
+                    if (args.length == 2) {
+                        if (Bukkit.getServer().getPluginManager().getPlugin("Citizens") != null) {
+                            if (args[1].equalsIgnoreCase("gunrange")) {
+                                TryGuns tryGuns = new TryGuns(main);
+                                tryGuns.createNPC(p);
+                                p.sendMessage(main.prefix + "§bNpc spawned on your location");
+                            } else if (args[1].equalsIgnoreCase("join")) {
+                                JoinNPC joinNPC = new JoinNPC(main);
+                                joinNPC.createJoin(p);
+                                p.sendMessage(main.prefix + "§bNpc spawned on your location");
+                            } else if (args[1].equalsIgnoreCase("leave")) {
+                                LeaveNPC leaveNPC = new LeaveNPC(main);
+                                leaveNPC.createLeaveNPC(p);
+                                p.sendMessage(main.prefix + "§bNpc spawned on your location");
+                            }
+                        } else {
+                            p.sendMessage(main.prefix + "§cCitizens 2 needs to be installed!");
+                        }
                     }else{
-                        p.sendMessage(main.prefix + "§cCitizens 2 needs to be installed!");
+                        p.sendMessage("§9Available NPC's are join, leave, gunrange");
+                        p.sendMessage(main.prefix + "§5/cod npc <type>");
                     }
                 }
             }

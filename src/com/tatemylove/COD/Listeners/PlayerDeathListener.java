@@ -10,6 +10,7 @@ import com.tatemylove.COD.KillStreaks.AttackDogs;
 import com.tatemylove.COD.KillStreaks.Moab;
 import com.tatemylove.COD.KillStreaks.Napalm;
 import com.tatemylove.COD.Leveling.PlayerLevels;
+import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
@@ -56,6 +57,7 @@ public class PlayerDeathListener implements Listener {
 
             Player p = (Player) e.getEntity();
 
+
             final CraftPlayer craftPlayer = (CraftPlayer) p;
 
             e.getDrops().clear();
@@ -86,7 +88,7 @@ public class PlayerDeathListener implements Listener {
                             craftPlayer.getHandle().playerConnection.a(new PacketPlayInClientCommand(PacketPlayInClientCommand.EnumClientCommand.PERFORM_RESPAWN));
                         }
                     }
-                }.runTaskLater(ThisPlugin.getPlugin(), 20L);
+                }.runTaskLater(ThisPlugin.getPlugin(), 10L);
 
 
             } else if (BaseArena.type == BaseArena.ArenaType.KC) {
@@ -163,9 +165,16 @@ public class PlayerDeathListener implements Listener {
     public void onRespawn(PlayerRespawnEvent e){
         Player p = e.getPlayer();
         TDM tdm = new TDM(main);
+        if(main.PlayingPlayers.contains(p)) {
+            e.setRespawnLocation(tdm.respawnPlayer(p));
+            p.getInventory().clear();
+        }
 
-        e.setRespawnLocation(tdm.respawnPlayer(p));
-        p.getInventory().clear();
+        if(main.WaitingPlayers.contains(p)){
+            GetLobby getLobby = new GetLobby(main);
+            e.setRespawnLocation(getLobby.getLobby(p));
+        }
+
         if(KitFile.getData().contains(p.getUniqueId().toString() + ".Primary.GunName")){
             CSUtility csUtility = new CSUtility();
             ItemStack gun = csUtility.generateWeapon(KitFile.getData().getString(p.getUniqueId().toString() + ".Primary.GunName"));

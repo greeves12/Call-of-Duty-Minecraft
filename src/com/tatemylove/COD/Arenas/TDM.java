@@ -3,6 +3,7 @@ package com.tatemylove.COD.Arenas;
 import com.shampaggon.crackshot.CSUtility;
 import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Files.KitFile;
+import com.tatemylove.COD.Files.LanguageFile;
 import com.tatemylove.COD.Files.StatsFile;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
@@ -11,6 +12,7 @@ import com.tatemylove.COD.MySQL.KillsSQL;
 import com.tatemylove.COD.MySQL.WinsSQL;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.ScoreBoard.GameBoard;
+import com.tatemylove.COD.ScoreBoard.LobbyBoard;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
 import com.tatemylove.SwiftEconomy.API.SwiftEconomyAPI;
@@ -20,6 +22,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -135,7 +139,7 @@ public class TDM  {
                             p.setGameMode(GameMode.SURVIVAL);
                             p.setFoodLevel(20);
                             p.setHealth(20);
-                            p.setDisplayName("§c" + p.getName());
+                            p.setCustomName("§c" + p.getName());
                             p.setCustomNameVisible(true);
                             p.setPlayerListName("§c" + p.getName());
 
@@ -171,7 +175,7 @@ public class TDM  {
                             p.setGameMode(GameMode.SURVIVAL);
                             p.setFoodLevel(20);
                             p.setHealth(20);
-                            p.setDisplayName("§9" + p.getName());
+                            p.setCustomName("§9" + p.getName());
                             p.setCustomNameVisible(true);
                             p.setPlayerListName("§9" + p.getName());
 
@@ -222,6 +226,7 @@ public class TDM  {
         GetArena getArena = new GetArena();
         BaseArena.states = BaseArena.ArenaStates.Countdown;
         MainRunnable runnable = new MainRunnable(main);
+        runnable.stopCountDown();
         runnable.startCountDown();
         for(Player pp : main.PlayingPlayers) {
             GetLobby lobby = new GetLobby(main);
@@ -250,20 +255,49 @@ public class TDM  {
                 winsSQL.addWins(pp, 1);
                 killsSQL.addKills(pp, inKills);
             }
+            Main.kills.put(pp.getName(), 0);
+            Main.deaths.put(pp.getName(), 0);
+            Main.killStreak.put(pp.getName(), 0);
+
+            LobbyBoard lobbyBoard = new LobbyBoard(main);
+            if(!main.getConfig().getBoolean("MySQL.Enabled")) {
+                int kills = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Kills");
+                int wins = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Wins");
+                int deaths = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Deaths");
+
+                LobbyBoard.killsH.put(pp.getName(), kills);
+                LobbyBoard.deathsH.put(pp.getName(), deaths);
+                LobbyBoard.winsH.put(pp.getName(), wins);
+                pp.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+                lobbyBoard.setLobbyBoard(pp);
+            }else{
+                DeathsSQL deathsSQL = new DeathsSQL(main);
+                WinsSQL winsSQL = new WinsSQL(main);
+                KillsSQL killsSQL = new KillsSQL(main);
+                WinsSQL.getWins(pp);
+                KillsSQL.getKills(pp);
+                DeathsSQL.getDeaths(pp);
+                pp.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+                lobbyBoard.setLobbyBoard(pp);
+            }
         }
         if (main.RedTeamScore > main.BlueTeamScore) {
             for(Player pp : redTeam){
                 SwiftEconomyAPI swiftEconomyAPI = new SwiftEconomyAPI();
                 swiftEconomyAPI.giveMoney(pp, ThisPlugin.getPlugin().getConfig().getDouble("win-amount"));
+
+                SendCoolMessages.sendTitle(pp, ChatColor.translateAlternateColorCodes('&', LanguageFile.getData().getString("win-message")), 30, 50, 30);
             }
             for(Player pp : blueTeam){
                 SwiftEconomyAPI swiftEconomyAPI = new SwiftEconomyAPI();
                 swiftEconomyAPI.giveMoney(pp, ThisPlugin.getPlugin().getConfig().getDouble("lose-amount"));
+
+                SendCoolMessages.sendTitle(pp, ChatColor.translateAlternateColorCodes('&', LanguageFile.getData().getString("lose-message")), 30, 50, 30);
             }
             for (Player pp : main.PlayingPlayers) {
                 int kills = Main.kills.get(pp.getName());
                 int deaths = Main.deaths.get(pp.getName());
-                double finalkd;
+                double values = (double) kills / (double) deaths;
                 pp.sendMessage("");
                 pp.sendMessage("");
                 pp.sendMessage("");
@@ -271,12 +305,8 @@ public class TDM  {
                 pp.sendMessage("§7║");
                 pp.sendMessage("§7║ §7§lWinner: §c§lRed: §1§l" + main.BlueTeamScore + " " + "§r§9Blue: §4" + main.RedTeamScore + "         §b§lTotal Kills:§a§l ");
                 pp.sendMessage("§7║");
-                if(deaths != 0) {
-                    finalkd = kills / deaths;
-                }else{
-                    finalkd = kills;
-                }
-                pp.sendMessage("§7║ §lKD: §5" + finalkd);
+
+                pp.sendMessage("§7║ §lKD: §5" + values);
 
                 DecimalFormat df = new DecimalFormat("#.##");
 
@@ -303,7 +333,8 @@ public class TDM  {
             for(Player pp : main.PlayingPlayers){
                 int kills = Main.kills.get(pp.getName());
                 int deaths = Main.deaths.get(pp.getName());
-                double finalkd;
+
+                double value = (double) kills / (double)deaths;
 
                 pp.sendMessage("");
                 pp.sendMessage("");
@@ -312,12 +343,9 @@ public class TDM  {
                 pp.sendMessage("§7║");
                 pp.sendMessage("§7║ §7§lWinner: §9§lBlue: §1§l" + main.BlueTeamScore + " " + "§r§cRed: §4" + main.RedTeamScore + "         §b§lTotal Kills:§a§l " + Main.kills.get(pp.getName()));
                 pp.sendMessage("§7║");
-                if(deaths != 0) {
-                    finalkd = kills / deaths;
-                }else{
-                    finalkd = kills;
-                }
-                pp.sendMessage("§7║ §lKD: §5" + finalkd);
+
+
+                pp.sendMessage("§7║ §lKD: §5" + value);
 
                 DecimalFormat df = new DecimalFormat("#.##");
 
@@ -331,7 +359,21 @@ public class TDM  {
                 }
             }
         }
-        main.WaitingPlayers.addAll(main.PlayingPlayers);
+        if(!main.getConfig().getBoolean("BungeeCord.Enabled")) {
+            main.WaitingPlayers.addAll(main.PlayingPlayers);
+        }else{
+            for(Player pp : main.PlayingPlayers){
+                ByteArrayOutputStream b = new ByteArrayOutputStream();
+                DataOutputStream out = new DataOutputStream(b);
+                try{
+                    out.writeUTF("Connect");
+                    out.writeUTF(main.getConfig().getString("BungeeCord.fallback-server"));
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                pp.sendPluginMessage(ThisPlugin.getPlugin(), "BungeeCord", b.toByteArray());
+            }
+        }
         main.PlayingPlayers.clear();
         redTeam.clear();
         blueTeam.clear();

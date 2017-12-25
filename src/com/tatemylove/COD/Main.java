@@ -14,6 +14,7 @@ import com.tatemylove.COD.MySQL.MySQL;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.Tasks.ActivePinger;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -53,6 +54,8 @@ public class Main extends JavaPlugin {
         OwnedFile.setup(this);
         SignFile.setup(this);
 
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
         File file = new File("plugins/COD/arenas.yml");
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -72,8 +75,6 @@ public class Main extends JavaPlugin {
 
         BaseArena.states = BaseArena.ArenaStates.Countdown;
 
-        manager = ProtocolLibrary.getProtocolManager();
-
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeathListener(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerInteractListener(this), this);
@@ -85,6 +86,13 @@ public class Main extends JavaPlugin {
         ActivePinger pinger = new ActivePinger(this);
         pinger.runTaskTimer(this, 0, 20);
 
+        if(Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
+            manager = ProtocolLibrary.getProtocolManager();
+            Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "ProtocolLib found! Hooking in");
+        }else{
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "ProtocolLib NOT found! Please install it");
+            getPluginLoader().disablePlugin(this);
+        }
         if(Bukkit.getServer().getPluginManager().getPlugin("SwiftEconomy") != null){
             Bukkit.getConsoleSender().sendMessage( prefix + "§eSwift-Economy found! Hooking in");
         }

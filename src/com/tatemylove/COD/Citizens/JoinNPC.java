@@ -16,7 +16,7 @@ public class JoinNPC {
 
     public void createJoin(Player p){
         NPCRegistry registry = CitizensAPI.getNPCRegistry();
-        NPC npc = registry.createNPC(EntityType.valueOf(main.getConfig().getString("JoinNPC.npc-type")), ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("JoinNPC.npc-name")));
+        NPC npc = registry.createNPC(EntityType.valueOf(main.getConfig().getString("JoinNPC.npc-type").toUpperCase()), ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("JoinNPC.npc-name")));
         npc.spawn(p.getLocation());
         p.sendMessage(main.prefix + "§bNPC spawned");
     }

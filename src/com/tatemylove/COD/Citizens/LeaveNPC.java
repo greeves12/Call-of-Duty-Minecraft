@@ -16,7 +16,7 @@ public class LeaveNPC {
 
     public void createLeaveNPC(Player p){
         NPCRegistry registry = CitizensAPI.getNPCRegistry();
-        NPC npc = registry.createNPC(EntityType.valueOf(main.getConfig().getString("LeaveNPC.npc-type")), ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("LeaveNPC.npc-name")));
+        NPC npc = registry.createNPC(EntityType.valueOf(main.getConfig().getString("LeaveNPC.npc-type").toUpperCase()), ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("LeaveNPC.npc-name")));
         npc.spawn(p.getLocation());
         p.sendMessage(main.prefix + "§cNPC spawned");
     }

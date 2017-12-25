@@ -20,12 +20,26 @@ public class HelpCommand {
             p.sendMessage(" §8- §3/cod lobby §7- §bTeleport to the lobby");
         }else if(args.length >= 2){
             if(args[1].equalsIgnoreCase("1")){
-                p.sendMessage("§4§m |   »* |   >»  §r  §6[ §cCOD-Warfare Help §d· §e1/6§d· §6]  §4§m  «<   | *«   | §r");
+                p.sendMessage("§4§m |   »* |   >»  §r  §6[ §cCOD-Warfare Help §d· §e2/6§d· §6]  §4§m  «<   | *«   | §r");
                 p.sendMessage(" §8- §3/cod enable §7- §bEnable the plugin");
                 p.sendMessage(" §8- §3/cod join §7- §bJoin the lobby");
                 p.sendMessage(" §8- §3/cod leave §7- §bLeave the lobby");
                 p.sendMessage(" §8- §3/cod setlobby §7- §bSet the lobby");
                 p.sendMessage(" §8- §3/cod reload §7- §bReloads the plugin");
+            }else if(args[1].equalsIgnoreCase("2")){
+                p.sendMessage("§4§m |   »* |   >»  §r  §6[ §cCOD-Warfare Help §d· §e2/6§d· §6]  §4§m  «<   | *«   | §r");
+                p.sendMessage(" §8- §3/cod make §7- §bMake a gun");
+                p.sendMessage(" §8- §3/cod buy §7- §bBuy a gun");
+                p.sendMessage(" §8- §3/cod kit §7- §bSelect a kit");
+                p.sendMessage(" §8- §3/cod deletegun §7- §bDelete a gun");
+                p.sendMessage(" §8- §3/cod npc §7- §bCreates an NPC (Citizens 2)");
+            }else if(args[1].equalsIgnoreCase("3")){
+                p.sendMessage("§4§m |   »* |   >»  §r  §6[ §cCOD-Warfare Help §d· §e3/6§d· §6]  §4§m  «<   | *«   | §r");
+                p.sendMessage(" §8- §3/cod tryguns §7- §bTest out the guns");
+               /* p.sendMessage(" §8- §3/cod buy §7- §bBuy a gun");
+                p.sendMessage(" §8- §3/cod kit §7- §bSelect a kit");
+                p.sendMessage(" §8- §3/cod deletegun §7- §bDelete a gun");
+                p.sendMessage(" §8- §3/cod npc §7- §bCreates an NPC (Citizens 2)");*/
             }
         }
     }

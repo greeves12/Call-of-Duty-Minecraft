@@ -1,6 +1,7 @@
 package com.tatemylove.COD.Listeners;
 
 import com.tatemylove.COD.Commands.MainCommand;
+import com.tatemylove.COD.Files.LanguageFile;
 import com.tatemylove.COD.Files.StatsFile;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
@@ -10,6 +11,7 @@ import com.tatemylove.COD.MySQL.WinsSQL;
 import com.tatemylove.COD.ScoreBoard.LobbyBoard;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -37,6 +39,9 @@ public class PlayerJoinListener implements Listener {
         if(ThisPlugin.getPlugin().getConfig().getBoolean("auto-join")){
             main.WaitingPlayers.add(e.getPlayer());
             e.getPlayer().sendMessage(main.prefix);
+            for(Player pp : main.WaitingPlayers){
+                pp.sendMessage(ChatColor.translateAlternateColorCodes('&', LanguageFile.getData().getString("join-message").replace("%player%", p.getName())));
+            }
         }
         File file = new File("plugins/COD/arenas.yml");
         try {

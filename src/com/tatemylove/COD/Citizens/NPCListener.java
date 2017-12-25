@@ -2,6 +2,7 @@ package com.tatemylove.COD.Citizens;
 
 import com.tatemylove.COD.Commands.MainCommand;
 import com.tatemylove.COD.Files.KitFile;
+import com.tatemylove.COD.Files.LanguageFile;
 import com.tatemylove.COD.Files.StatsFile;
 import com.tatemylove.COD.Guns.Guns;
 import com.tatemylove.COD.JSON.HoverMessages;
@@ -11,12 +12,18 @@ import com.tatemylove.COD.MySQL.DeathsSQL;
 import com.tatemylove.COD.MySQL.KillsSQL;
 import com.tatemylove.COD.MySQL.WinsSQL;
 import com.tatemylove.COD.ScoreBoard.LobbyBoard;
+import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 
 public class NPCListener implements Listener {
     Main main;
@@ -31,15 +38,16 @@ public class NPCListener implements Listener {
     public void onNPCClick(NPCRightClickEvent e){
         Guns guns = new Guns(main);
         Player p = e.getClicker();
-        if(!main.PlayingPlayers.contains(e.getClicker())) {
+
             if (e.getNPC().getName().equals(ChatColor.translateAlternateColorCodes('&', main.getConfig().getString("GunRange.npc-name")))) {
+                if(!main.PlayingPlayers.contains(e.getClicker())) {
                 guns.createMainMenu(e.getClicker());
-            }
-        }else{
-            e.getClicker().sendMessage(main.prefix + "§e§lYou cannot be in-game to test guns!");
+            }else{
+                    e.getClicker().sendMessage(main.prefix + "§e§lYou cannot be in-game to test guns!");
+                }
         }
-        if(!main.PlayingPlayers.contains(e.getClicker()) || (!main.WaitingPlayers.contains(e.getClicker()))){
-            if(e.getNPC().getName().equalsIgnoreCase(main.getConfig().getString("JoinNPC.npc-name"))){
+        if(!main.PlayingPlayers.contains(e.getClicker()) && (!main.WaitingPlayers.contains(e.getClicker()))){
+            if(e.getNPC().getName().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&',main.getConfig().getString("JoinNPC.npc-name")))){
                 GetLobby getLobby = new GetLobby(main);
                 p.teleport(getLobby.getLobby(p));
 
@@ -88,9 +96,42 @@ public class NPCListener implements Listener {
                 SendCoolMessages.sendTitle(p, "§a", 10, 30, 10);
                 SendCoolMessages.sendSubTitle(p, "§e§lYou joined the Queue", 10, 30, 10);
 
+                for(Player pp : main.WaitingPlayers){
+                    pp.sendMessage(ChatColor.translateAlternateColorCodes('&', LanguageFile.getData().getString("join-message").replace("%player%", p.getName())));
+                }
+            }else if(e.getNPC().getName().equals(ChatColor.translateAlternateColorCodes('&',main.getConfig().getString("LeaveNPC.npc-name")))) {
+                if (main.PlayingPlayers.contains(e.getClicker()) || (main.WaitingPlayers.contains(e.getClicker()))) {
+                    p.getInventory().clear();
+                    if (!main.getConfig().getBoolean("LeaveNPC.BungeeCord.Enabled")) {
+                        MainCommand cmd = new MainCommand(main);
+                        if (cmd.armorSaved.containsKey(p)) {
+
+                            p.getInventory().setArmorContents(cmd.armorSaved.get(p));
+                        }
+                        if (cmd.savedInventory.containsKey(p)) {
+                            p.getInventory().setContents(cmd.savedInventory.get(p));
+
+                        }
+                    } else {
+                        ByteArrayOutputStream b = new ByteArrayOutputStream();
+                        DataOutputStream out = new DataOutputStream(b);
+
+                        try {
+                            out.writeUTF("Connect");
+                            out.writeUTF(main.getConfig().getString("LeaveNPC.BungeeCord.fallback-server"));
+                        } catch (Exception ee) {
+                            ee.printStackTrace();
+                        }
+                        p.sendPluginMessage(ThisPlugin.getPlugin(), "BungeeCord", b.toByteArray());
+                    }
+
+                    for (Player pp : main.WaitingPlayers) {
+                        pp.sendMessage(ChatColor.translateAlternateColorCodes('&', LanguageFile.getData().getString("leave-message").replace("%player%", p.getName())));
+                    }
+                }else{
+                    e.getClicker().sendMessage(main.prefix + "§c§lYou need to be in-game or in the lobby");
+                }
             }
-        }else{
-            p.sendMessage(main.prefix + "§c§lYou are already in the queue or in-game");
         }
     }
 }

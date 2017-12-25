@@ -42,9 +42,10 @@ public class LanguageFile {
         }
 
         language = YamlConfiguration.loadConfiguration(lfile);
-        language.addDefault("join-message", "&e&lYou joined the Queue");
+        language.addDefault("join-message", "&e&l%player% &6joined the Queue");
         language.addDefault("win-message", "&7&lYour team won");
         language.addDefault("lose-message", "&8&lYour team lost");
+        language.addDefault("leave-message", "&e&l%player% &6has left the Queue");
 
         language.options().copyDefaults(true);
         saveData();

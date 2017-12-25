@@ -52,8 +52,8 @@ public class CountDown extends BukkitRunnable {
                         SendCoolMessages.sendSubTitle(p, "§e§lGame starting in §a§l" + timeuntilstart + " seconds", 10, 30, 10);
 
                         String nextArena = ArenaFile.getData().getString("Arenas." + getArena.getNextArena() + ".Name");
-
-                        p.sendMessage(ma.prefix + "§6§l§nUpcoming Arena:§e " + nextArena);
+                        String type = ArenaFile.getData().getString("Arenas." + getArena.getNextArena() + ".Type");
+                        p.sendMessage(ma.prefix + "§6§l§nUpcoming Arena:§e " + nextArena + " §6§l§nGameMode: §e" + type);
                     }
                 }
             }

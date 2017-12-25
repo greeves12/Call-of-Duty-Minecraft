@@ -47,7 +47,7 @@ public class Moab {
                 Player pp = e.getEntity().getKiller();
 
                 if ((main.PlayingPlayers.contains(p)) && (main.PlayingPlayers.contains(pp))) {
-                    if (Main.killStreak.get(p.getName()) == 30) {
+                    if (Main.killStreak.get(pp.getName()) == 30) {
                         pp.getInventory().addItem(Moab);
                         pp.sendMessage(main.prefix + "§c§lYou got a Nuke. Right click to launch!");
                     }
@@ -59,15 +59,15 @@ public class Moab {
     public void onPlayerIneteract(PlayerInteractEvent e) {
 
 
-        for (Player p : main.PlayingPlayers) {
-            p.sendMessage(main.prefix + e.getPlayer().getName() + " §c§llaunched a NUKE!");
-        }
 
         final Player p = e.getPlayer();
 
 
         if (e.getAction() == Action.RIGHT_CLICK_AIR && e.getPlayer().getInventory().getItemInMainHand().equals(Moab)) {
             e.getPlayer().getInventory().setItemInMainHand(null);
+            for (Player pp : main.PlayingPlayers) {
+                pp.sendMessage(main.prefix + e.getPlayer().getName() + " §c§llaunched a NUKE!");
+            }
             BukkitRunnable br = new BukkitRunnable() {
                 @Override
                 public void run() {

@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 public class HoverMessages {
 
     public void hoverMessage(Player p, String cmd, String text, String hoverText){
-        IChatBaseComponent component = IChatBaseComponent.ChatSerializer.a("{\"text\":\"§7§l[COD] \", \"extra\":[{\"text\":\"" + text+"\", \"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + hoverText+ "\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + cmd + "\"}}]}");
+        IChatBaseComponent component = IChatBaseComponent.ChatSerializer.a("{\"text\":\"§8§l[COD] \", \"extra\":[{\"text\":\"" + text+"\", \"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + hoverText+ "\"},\"clickEvent\":{\"action\":\"run_command\",\"value\":\"" + cmd + "\"}}]}");
 
         PacketPlayOutChat packet = new PacketPlayOutChat(component);
 

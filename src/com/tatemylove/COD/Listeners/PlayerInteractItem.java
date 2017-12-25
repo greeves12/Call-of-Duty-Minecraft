@@ -14,6 +14,8 @@ import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -40,6 +42,23 @@ public class PlayerInteractItem implements Listener {
 
         Moab moab = new Moab(main);
         moab.onPlayerIneteract(e);
+    }
+
+    @EventHandler
+    public void onPlace(BlockPlaceEvent e){
+        if(main.PlayingPlayers.contains(e.getPlayer())){
+            if(main.getConfig().getBoolean("no-place")){
+                e.setCancelled(true);
+            }
+        }
+    }
+    @EventHandler
+    public void noBreak(BlockBreakEvent e){
+        if(main.PlayingPlayers.contains(e.getPlayer())){
+            if(main.getConfig().getBoolean("no-break")){
+                e.setCancelled(true);
+            }
+        }
     }
 }
 

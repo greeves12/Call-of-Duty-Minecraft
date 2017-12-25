@@ -48,9 +48,9 @@ public class Napalm {
                 Player pp = e.getEntity().getKiller();
 
                 if ((main.PlayingPlayers.contains(p)) && (main.PlayingPlayers.contains(pp))) {
-                    if (Main.killStreak.get(p.getName()) == 5) {
-                        p.getInventory().addItem(napalm);
-                        p.sendMessage(main.prefix + "§6AirStrike waiting on your go!");
+                    if (Main.killStreak.get(pp.getName()) == 5) {
+                        pp.getInventory().addItem(napalm);
+                        pp.sendMessage(main.prefix + "§6AirStrike waiting on your go!");
                     }
                 }
             }
@@ -60,15 +60,15 @@ public class Napalm {
     public void onInteract(PlayerInteractEvent e){
         GetPlayersOnOtherTeam getPlayersOnOtherTeam = new GetPlayersOnOtherTeam(main);
 
-        e.getPlayer().sendMessage(main.prefix + "§e§lFIRE IN THE HOLE!!");
-
-
-        for(Player p : main.PlayingPlayers){
-            p.sendMessage(main.prefix + "§a§l" + e.getPlayer().getName() + " §b§llaunched an airstrike! TAKE COVER!!");
-        }
 
         if(e.getAction() == Action.RIGHT_CLICK_AIR && e.getPlayer().getInventory().getItemInMainHand().equals(napalm)){
             e.getPlayer().getInventory().setItemInMainHand(null);
+            e.getPlayer().sendMessage(main.prefix + "§e§lFIRE IN THE HOLE!!");
+
+
+            for(Player p : main.PlayingPlayers){
+                p.sendMessage(main.prefix + "§a§l" + e.getPlayer().getName() + " §b§llaunched an airstrike! TAKE COVER!!");
+            }
             BukkitRunnable br = new BukkitRunnable() {
                 @Override
                 public void run() {

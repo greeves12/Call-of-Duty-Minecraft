@@ -20,10 +20,12 @@ public class GameTime extends BukkitRunnable {
     public void run() {
         if(BaseArena.states == BaseArena.ArenaStates.Started){
             if(timeleft == 0){
-                TDM tdm = new TDM(new Main());
-                MainRunnable mainRunnable = new MainRunnable(main);
-                tdm.endTDM();
-                mainRunnable.stopGameTime();
+                if(BaseArena.type == BaseArena.ArenaType.TDM) {
+                    TDM tdm = new TDM(new Main());
+                    MainRunnable mainRunnable = new MainRunnable(main);
+                    tdm.endTDM();
+                    mainRunnable.stopGameTime();
+                }
             }
         }
         timeleft -=1;
