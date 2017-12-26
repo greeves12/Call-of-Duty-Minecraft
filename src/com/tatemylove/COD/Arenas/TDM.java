@@ -124,6 +124,7 @@ public class TDM  {
 
                             p.getInventory().setItem(6, ammo);
                         }
+                        p.closeInventory();
                         if (redTeam.contains(p)) {
 
                             p.teleport(getArena.getRedSpawn(p));

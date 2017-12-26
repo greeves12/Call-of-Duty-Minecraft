@@ -15,6 +15,7 @@ import com.tatemylove.COD.MySQL.KillsSQL;
 import com.tatemylove.COD.MySQL.WinsSQL;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.ScoreBoard.LobbyBoard;
+import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,9 +28,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.HashMap;
 
 public class MainCommand implements CommandExecutor {
@@ -91,15 +90,27 @@ public class MainCommand implements CommandExecutor {
             }
             if(args[0].equalsIgnoreCase("tryguns")){
                 if(p.hasPermission("cod.tryguns")){
-                    Guns guns = new Guns(main);
-                    guns.createMainMenu(p);
+                    if(!main.PlayingPlayers.contains(p)) {
+                        if(main.WaitingPlayers.contains(p)) {
+                            Guns guns = new Guns(main);
+                            guns.createMainMenu(p);
+                        }
+                    }else{
+                        p.sendMessage(main.prefix + "§c§lYou cannot be ingame");
+                    }
                 }
             }
 
             if(args[0].equalsIgnoreCase("kit")){
                 if(p.hasPermission("cod.kits")){
-                    Kits kits = new Kits(main);
-                    kits.loadInventory(p);
+                    if(!main.PlayingPlayers.contains(p)) {
+                        if(main.WaitingPlayers.contains(p)) {
+                            Kits kits = new Kits(main);
+                            kits.loadInventory(p);
+                        }
+                    }else{
+                        p.sendMessage(main.prefix + "§c§lYou cannot be ingame");
+                    }
                 }
             }
             if(args[0].equalsIgnoreCase("join")) {
@@ -109,7 +120,7 @@ public class MainCommand implements CommandExecutor {
                             p.sendMessage(main.prefix + "§3§lYou cannot be in-game");
                             return true;
                         }
-                        if(!main.WaitingPlayers.contains(p)) {
+                        if((!main.WaitingPlayers.contains(p))) {
                             LobbyBoard lobbyBoard = new LobbyBoard(main);
                             main.WaitingPlayers.add(p);
                             p.teleport(getLobby.getLobby(p));
@@ -139,7 +150,7 @@ public class MainCommand implements CommandExecutor {
 
                             if(!KitFile.getData().contains(p.getUniqueId().toString())){
                                 HoverMessages hoverMessages = new HoverMessages();
-                                p.sendMessage(main.prefix + "§6§l"+p.getName() +"! §aIt appears you don't have a kit!");
+                                p.sendMessage(main.prefix + "§6§l"+p.getName() +"! §7It appears you don't have a kit!");
                                 hoverMessages.hoverMessage(p, "/cod kit", "§6§l§nClick here §d§lto select a Kit", "§e§lSelect a Kit");
                             }
 
@@ -207,30 +218,53 @@ public class MainCommand implements CommandExecutor {
             }
             if(args[0].equalsIgnoreCase("lobby")){
                 if(p.hasPermission("cod.lobby")){
-                    p.teleport(getLobby.getLobby(p));
+                    if(!main.PlayingPlayers.contains(p)) {
+                        if(main.WaitingPlayers.contains(p)) {
+                            p.teleport(getLobby.getLobby(p));
+                        }
+                    }else{
+                        p.sendMessage(main.prefix + "§c§lYou cannot be ingame");
+                    }
                 }
             }
             if(args[0].equalsIgnoreCase("leave")){
                 if(p.hasPermission("cod.leave")) {
+                    if (!main.getConfig().getBoolean("BungeeCord.Enabled")) {
                     if (main.WaitingPlayers.contains(p)) {
-                        main.WaitingPlayers.remove(p);
-                        SendCoolMessages.sendTitle(p, "§b", 10, 30, 10);
-                        SendCoolMessages.sendSubTitle(p, "§8§lLeft COD lobby", 10, 30, 10);
-                        p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
-                        p.sendMessage(main.prefix + "§8§lLeft COD lobby");
-                        p.getInventory().clear();
-                        if(armorSaved.containsKey(p)) {
-                            p.getInventory().setArmorContents(armorSaved.get(p));
-                        }
-                        if(savedInventory.containsKey(p)) {
-                            p.getInventory().setContents(savedInventory.get(p));
-                        }
+                            main.WaitingPlayers.remove(p);
+                            SendCoolMessages.sendTitle(p, "§b", 10, 30, 10);
+                            SendCoolMessages.sendSubTitle(p, "§8§lLeft COD lobby", 10, 30, 10);
+                            p.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+                            p.sendMessage(main.prefix + "§8§lLeft COD lobby");
+                            p.getInventory().clear();
+                            if (armorSaved.containsKey(p)) {
+                                p.getInventory().setArmorContents(armorSaved.get(p));
+                            }
+                            if (savedInventory.containsKey(p)) {
+                                p.getInventory().setContents(savedInventory.get(p));
+                            }
 
-                        for (Player pp : main.WaitingPlayers) {
-                            pp.sendMessage(ChatColor.translateAlternateColorCodes('&', LanguageFile.getData().getString("leave-message").replace("%player%", p.getName())));
+                            for (Player pp : main.WaitingPlayers) {
+                                pp.sendMessage(ChatColor.translateAlternateColorCodes('&', LanguageFile.getData().getString("leave-message").replace("%player%", p.getName())));
+                            }
+                        } else {
+                            p.sendMessage(main.prefix + "§4§lYou are not the in the Queue");
                         }
                     }else{
-                        p.sendMessage(main.prefix + "§4§lYou are not the in the Queue");
+                        if(main.WaitingPlayers.contains(p)){
+                            main.WaitingPlayers.remove(p);
+
+                            ByteArrayOutputStream b = new ByteArrayOutputStream();
+                            DataOutputStream out = new DataOutputStream(b);
+
+                            try{
+                                out.writeUTF("Connect");
+                                out.writeUTF(main.getConfig().getString("BungeeCord.fallback-server"));
+                            }catch(Exception e){
+                                e.printStackTrace();
+                            }
+                            p.sendPluginMessage(ThisPlugin.getPlugin(), "BungeeCord", b.toByteArray());
+                        }
                     }
                 }
             }
@@ -365,8 +399,14 @@ public class MainCommand implements CommandExecutor {
             }
             if(args[0].equalsIgnoreCase("buy")){
                 if(p.hasPermission("cod.buyguns")){
-                    BuyGuns buy = new BuyGuns(main);
-                    buy.loadMenu(p);
+                    if(!main.PlayingPlayers.contains(p)) {
+                        if(main.WaitingPlayers.contains(p)) {
+                            BuyGuns buy = new BuyGuns(main);
+                            buy.loadMenu(p);
+                        }
+                    }else{
+                        p.sendMessage(main.prefix + "§c§lYou cannot be ingame");
+                    }
                 }
             }
         }
