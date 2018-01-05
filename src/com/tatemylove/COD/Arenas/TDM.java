@@ -154,16 +154,9 @@ public class TDM  {
 
 
                         } else if (blueTeam.contains(p)) {
-                            p.getInventory().clear();
                             p.teleport(getArena.getBlueSpawn(p));
 
                             p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§eKnife", null));
-
-                            if(KitFile.getData().contains(p.getUniqueId().toString() + ".Primary.GunName")){
-                                CSUtility csUtility = new CSUtility();
-                                ItemStack gun = csUtility.generateWeapon(KitFile.getData().getString(p.getUniqueId().toString() + ".Primary.GunName"));
-                                p.getInventory().setItem(2, gun);
-                            }
 
                             Bukkit.getScheduler().scheduleSyncDelayedTask(ThisPlugin.getPlugin(), new Runnable() {
                                 @Override

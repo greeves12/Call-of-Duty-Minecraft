@@ -13,6 +13,7 @@ import com.tatemylove.COD.Listeners.*;
 import com.tatemylove.COD.MySQL.MySQL;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.Tasks.ActivePinger;
+import com.tatemylove.COD.Updater.Updater;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -53,6 +54,7 @@ public class Main extends JavaPlugin {
         KitFile.setup(this);
         OwnedFile.setup(this);
         SignFile.setup(this);
+        UpdateFile.setup(this);
 
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
@@ -117,6 +119,13 @@ public class Main extends JavaPlugin {
             }catch (Exception e){
                 Bukkit.getConsoleSender().sendMessage(prefix + "§cHooking into MySQL failed! Check your settings.");
             }
+        }
+
+        if(UpdateFile.getData().getBoolean("auto-update")){
+            Updater updater = new Updater(this, 284756, getFile(), Updater.UpdateType.DEFAULT, true);
+
+        }else{
+            Updater updater = new Updater(this, 284756, getFile(), Updater.UpdateType.NO_DOWNLOAD, true);
         }
 
         AttackDogs.settUp();
