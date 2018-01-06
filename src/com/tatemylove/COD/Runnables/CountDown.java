@@ -2,6 +2,7 @@ package com.tatemylove.COD.Runnables;
 
 import com.tatemylove.COD.Arenas.BaseArena;
 import com.tatemylove.COD.Arenas.GetArena;
+import com.tatemylove.COD.Arenas.KillArena;
 import com.tatemylove.COD.Arenas.TDM;
 import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Main;
@@ -42,6 +43,11 @@ public class CountDown extends BukkitRunnable {
                     BaseArena.type = BaseArena.ArenaType.TDM;
                     tdm.assignTeams(Integer.toString(getArena.getCurrentArena()));
                     tdm.startTDM(Integer.toString(getArena.getCurrentArena()));
+                }else if(type.equalsIgnoreCase("KC")){
+                    BaseArena.type = BaseArena.ArenaType.KC;
+                    KillArena killArena = new KillArena(ma);
+                    killArena.assignTeam(Integer.toString(getArena.getCurrentArena()));
+                    killArena.startKC(Integer.toString(getArena.getCurrentArena()));
                 }
                 runnable.stopCountDown();
             }

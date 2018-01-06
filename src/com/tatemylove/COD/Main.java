@@ -17,6 +17,7 @@ import com.tatemylove.COD.Updater.Updater;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -122,10 +123,10 @@ public class Main extends JavaPlugin {
         }
 
         if(UpdateFile.getData().getBoolean("auto-update")){
-            Updater updater = new Updater(this, 284756, getFile(), Updater.UpdateType.DEFAULT, true);
+            Updater updater = new Updater(this, 284756, getFile(), Updater.UpdateType.DEFAULT, false);
 
         }else{
-            Updater updater = new Updater(this, 284756, getFile(), Updater.UpdateType.NO_DOWNLOAD, true);
+            Updater updater = new Updater(this, 284756, getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
         }
 
         AttackDogs.settUp();
@@ -133,5 +134,6 @@ public class Main extends JavaPlugin {
         Moab.settUp();
 
         Napalm.settUp();
+
     }
 }
