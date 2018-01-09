@@ -122,13 +122,6 @@ public class Main extends JavaPlugin {
             }
         }
 
-        if(UpdateFile.getData().getBoolean("auto-update")){
-            Updater updater = new Updater(this, 284756, getFile(), Updater.UpdateType.DEFAULT, false);
-
-        }else{
-            Updater updater = new Updater(this, 284756, getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
-        }
-
         AttackDogs.settUp();
 
         Moab.settUp();

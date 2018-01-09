@@ -10,6 +10,7 @@ import com.tatemylove.COD.MySQL.KillsSQL;
 import com.tatemylove.COD.MySQL.WinsSQL;
 import com.tatemylove.COD.ScoreBoard.LobbyBoard;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
+import com.tatemylove.COD.Updater.Updater;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -36,6 +37,11 @@ public class PlayerJoinListener implements Listener {
         Main.kills.put(p.getName(), 0);
         Main.deaths.put(p.getName(), 0);
         Main.killStreak.put(p.getName(), 0);
+
+        if(p.hasPermission("cod.getupdates")){
+            Updater updater = new Updater();
+            updater.update(p);
+        }
         if(ThisPlugin.getPlugin().getConfig().getBoolean("auto-join")){
             main.WaitingPlayers.add(e.getPlayer());
             e.getPlayer().sendMessage(main.prefix);
