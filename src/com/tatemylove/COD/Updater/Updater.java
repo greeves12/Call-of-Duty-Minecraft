@@ -63,7 +63,7 @@ public class Updater {
 
             int latestVersion = Integer.parseInt(tagname.substring(1, tagname.length()));
 
-            URL download = new URL("https://github.com/greeves12/COD/releases/download/" + latestVersion + "/COD.jar");
+            URL download = new URL("https://github.com/greeves12/COD/releases/download/v" + latestVersion + "/COD.jar");
 
             if(latestVersion > Integer.parseInt(version)) {
                 InputStream in = download.openStream();

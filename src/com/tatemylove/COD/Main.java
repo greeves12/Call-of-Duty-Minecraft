@@ -13,6 +13,7 @@ import com.tatemylove.COD.Listeners.*;
 import com.tatemylove.COD.MySQL.MySQL;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.Tasks.ActivePinger;
+import com.tatemylove.COD.Tasks.GetLevel;
 import com.tatemylove.COD.Updater.Updater;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -88,6 +89,9 @@ public class Main extends JavaPlugin {
 
         ActivePinger pinger = new ActivePinger(this);
         pinger.runTaskTimer(this, 0, 20);
+
+        GetLevel getLevel = new GetLevel(this);
+        getLevel.runTaskTimerAsynchronously(this, 0, 20);
 
         if(Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
             manager = ProtocolLibrary.getProtocolManager();

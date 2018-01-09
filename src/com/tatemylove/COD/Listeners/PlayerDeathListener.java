@@ -137,7 +137,7 @@ public class PlayerDeathListener implements Listener {
                 int level = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Level");
                 playerLevels.addExp(pp, main.getConfig().getInt("exp-per-kill"));
 
-                if (level == 1) {
+               /* if (level == 1) {
                     if (exp >= playerLevels.levelTwo) {
                         playerLevels.addLevel(pp, 1);
                         playerLevels.resetExp(pp);
@@ -182,7 +182,7 @@ public class PlayerDeathListener implements Listener {
                         playerLevels.addLevel(pp, 1);
                         playerLevels.resetExp(pp);
                     }
-                }
+                }*/
                 invincible.add(p);
             }
         }

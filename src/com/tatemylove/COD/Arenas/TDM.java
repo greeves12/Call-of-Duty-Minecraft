@@ -5,6 +5,7 @@ import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Files.KitFile;
 import com.tatemylove.COD.Files.LanguageFile;
 import com.tatemylove.COD.Files.StatsFile;
+import com.tatemylove.COD.Leveling.PlayerLevels;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
 import com.tatemylove.COD.MySQL.DeathsSQL;
@@ -277,12 +278,16 @@ public class TDM  {
         }
         if (main.RedTeamScore > main.BlueTeamScore) {
             for(Player pp : redTeam){
+                PlayerLevels level = new PlayerLevels(main);
+                level.addExp(pp, 5000);
                 SwiftEconomyAPI swiftEconomyAPI = new SwiftEconomyAPI();
                 swiftEconomyAPI.giveMoney(pp, ThisPlugin.getPlugin().getConfig().getDouble("win-amount"));
 
                 SendCoolMessages.sendTitle(pp, ChatColor.translateAlternateColorCodes('&', LanguageFile.getData().getString("win-message")), 30, 50, 30);
             }
             for(Player pp : blueTeam){
+                PlayerLevels level = new PlayerLevels(main);
+                level.addExp(pp, 1000);
                 SwiftEconomyAPI swiftEconomyAPI = new SwiftEconomyAPI();
                 swiftEconomyAPI.giveMoney(pp, ThisPlugin.getPlugin().getConfig().getDouble("lose-amount"));
 
@@ -317,10 +322,14 @@ public class TDM  {
             }
         }else if(main.BlueTeamScore > main.RedTeamScore){
             for(Player pp : blueTeam){
+                PlayerLevels level = new PlayerLevels(main);
+                level.addExp(pp, 5000);
                 SwiftEconomyAPI swiftEconomyAPI = new SwiftEconomyAPI();
                 swiftEconomyAPI.giveMoney(pp, ThisPlugin.getPlugin().getConfig().getDouble("win-amount"));
             }
             for(Player pp : redTeam){
+                PlayerLevels level = new PlayerLevels(main);
+                level.addExp(pp, 1000);
                 SwiftEconomyAPI swiftEconomyAPI = new SwiftEconomyAPI();
                 swiftEconomyAPI.giveMoney(pp, ThisPlugin.getPlugin().getConfig().getDouble("lose-amount"));
             }
