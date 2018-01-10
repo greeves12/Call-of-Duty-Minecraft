@@ -22,6 +22,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -137,5 +140,13 @@ public class Main extends JavaPlugin {
 
         Napalm.settUp();
 
+        boolean checkIfExists = new File("plugins/COD/downloads", "COD.jar").exists();
+        if(checkIfExists){
+            File copyFile = new File("plugins/COD/downloads/COD.jar");
+            File toDelete = new File("plugins/COD.jar");
+            toDelete.delete();
+            copyFile.renameTo(new File("plugins/" + copyFile.getName()));
+            copyFile.delete();
+        }
     }
 }
