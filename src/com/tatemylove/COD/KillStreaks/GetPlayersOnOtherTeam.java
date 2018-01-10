@@ -1,6 +1,7 @@
 package com.tatemylove.COD.KillStreaks;
 
 import com.tatemylove.COD.Arenas.BaseArena;
+import com.tatemylove.COD.Arenas.KillArena;
 import com.tatemylove.COD.Arenas.TDM;
 import com.tatemylove.COD.Main;
 import org.bukkit.entity.Player;
@@ -29,6 +30,17 @@ public class GetPlayersOnOtherTeam {
                 ArrayList<Player> players = new ArrayList<Player>();
                 players.addAll(main.PlayingPlayers);
                 if (players.contains(p)) players.remove(p);
+                return players;
+            }
+        }else if(BaseArena.type == BaseArena.ArenaType.KC){
+            if(KillArena.blueTeam.contains(p)){
+                return KillArena.redTeam;
+            }else if(KillArena.redTeam.contains(p)){
+                return KillArena.blueTeam;
+            }else{
+                ArrayList<Player> players = new ArrayList<>();
+                players.addAll(main.PlayingPlayers);
+                if(players.contains(p)) players.remove(p);
                 return players;
             }
         }

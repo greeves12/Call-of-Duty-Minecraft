@@ -1,6 +1,7 @@
 package com.tatemylove.COD.Runnables;
 
 import com.tatemylove.COD.Arenas.BaseArena;
+import com.tatemylove.COD.Arenas.KillArena;
 import com.tatemylove.COD.Arenas.TDM;
 import com.tatemylove.COD.Main;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -25,6 +26,11 @@ public class GameTime extends BukkitRunnable {
                     MainRunnable mainRunnable = new MainRunnable(main);
                     tdm.endTDM();
                     mainRunnable.stopGameTime();
+                }else if(BaseArena.type == BaseArena.ArenaType.KC){
+                    KillArena killArena = new KillArena(main);
+                    MainRunnable runnable = new MainRunnable(main);
+                    killArena.endKill();
+                    runnable.stopGameTime();
                 }
             }
         }

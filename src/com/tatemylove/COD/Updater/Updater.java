@@ -12,7 +12,9 @@ import java.util.logging.Logger;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.tatemylove.COD.Main;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
+import com.tatemylove.COD.Utilities.NewChat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -22,7 +24,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class Updater {
 
     public void update(Player p){
-        String version = "1.0.4";
+        String version = Main.version;
         String parsedVersion = version.replace(".", "");
 
         try {
@@ -54,13 +56,11 @@ public class Updater {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     public void autoUpdate(){
         try {
-            String version = "1.0.4";
+            String version = Main.version;
             String parseVersion = version.replace(".", "");
 
             String tagname = null;
@@ -88,11 +88,11 @@ public class Updater {
                        try {
 
                            InputStream in = download.openStream();
-                           File temp = new File("plugins/COD/downloads");
+                           File temp = new File("plugins/update");
                            if (!temp.exists()) {
                                temp.mkdir();
                            }
-                           Path path = new File("plugins/COD/downloads" + File.separator + "COD.jar").toPath();
+                           Path path = new File("plugins/update" + File.separator + "COD.jar").toPath();
                            Files.copy(in, path, StandardCopyOption.REPLACE_EXISTING);
 
                        }catch(IOException e){

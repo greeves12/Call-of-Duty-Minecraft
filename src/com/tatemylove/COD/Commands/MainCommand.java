@@ -1,5 +1,6 @@
 package com.tatemylove.COD.Commands;
 
+import com.tatemylove.COD.Arenas.BaseArena;
 import com.tatemylove.COD.Citizens.JoinNPC;
 import com.tatemylove.COD.Citizens.LeaveNPC;
 import com.tatemylove.COD.Citizens.TryGuns;
@@ -13,9 +14,11 @@ import com.tatemylove.COD.Main;
 import com.tatemylove.COD.MySQL.DeathsSQL;
 import com.tatemylove.COD.MySQL.KillsSQL;
 import com.tatemylove.COD.MySQL.WinsSQL;
+import com.tatemylove.COD.Runnables.CountDown;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.ScoreBoard.LobbyBoard;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
+import com.tatemylove.COD.Utilities.NewChat;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -406,6 +409,18 @@ public class MainCommand implements CommandExecutor {
                         }
                     }else{
                         p.sendMessage(main.prefix + "§c§lYou cannot be ingame");
+                    }
+                }
+            }
+            if(args[0].equalsIgnoreCase("forcestart")){
+                if(p.hasPermission("cod.force")){
+                    if(BaseArena.states == BaseArena.ArenaStates.Countdown){
+                        if(main.min_players > main.WaitingPlayers.size()){
+                            MainRunnable runnable = new MainRunnable(main);
+                            CountDown.timeuntilstart = 0;
+                            runnable.stopCountDown();
+                            p.sendMessage(main.prefix + NewChat.getNewColor("&6Force starting COD..."));
+                        }
                     }
                 }
             }

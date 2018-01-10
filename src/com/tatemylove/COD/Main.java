@@ -31,6 +31,7 @@ import java.util.HashMap;
 public class Main extends JavaPlugin {
 
     public String prefix = "§8§l[COD] ";
+    public static final String version = "1.0.4";
     public ArrayList<Player> WaitingPlayers = new ArrayList<>();
     public ArrayList<Player> PlayingPlayers = new ArrayList<>();
     public static HashMap<String, Integer> kills = new HashMap<>();
@@ -140,13 +141,16 @@ public class Main extends JavaPlugin {
 
         Napalm.settUp();
 
-        boolean checkIfExists = new File("plugins/COD/downloads", "COD.jar").exists();
+
+        //Not required anymore as Bukkit will replace the downloaded file from the updates folder
+
+        /*boolean checkIfExists = new File("plugins/COD/downloads", "COD.jar").exists();
         if(checkIfExists){
             File copyFile = new File("plugins/COD/downloads/COD.jar");
             File toDelete = new File("plugins/COD.jar");
             toDelete.delete();
             copyFile.renameTo(new File("plugins/" + copyFile.getName()));
             copyFile.delete();
-        }
+        }*/
     }
 }
