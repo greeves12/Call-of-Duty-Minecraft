@@ -24,7 +24,7 @@ import java.util.Random;
 public class AttackDogs {
     Main main;
     private static AttackDogs attackDogs = null;
-    public static ItemStack dogs = new ItemStack(Material.BONE);
+    public final static ItemStack dogs = new ItemStack(Material.BONE);
 
     public AttackDogs(Main m){
         main = m;

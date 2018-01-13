@@ -19,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 
 public class Napalm {
-    private static ItemStack napalm = new ItemStack(Material.SUGAR);
+    public final static ItemStack napalm = new ItemStack(Material.SUGAR);
 
     Main main;
     private static Napalm napalms = null;
@@ -76,7 +76,7 @@ public class Napalm {
                         if(!(getPlayersOnOtherTeam.get(e.getPlayer()).isEmpty())){
                             for(Player pp : getPlayersOnOtherTeam.get(e.getPlayer())){
                                 if(!(isUnderRoof(pp))){
-                                    pp.getWorld().createExplosion(pp.getLocation(), 3.0F);
+                                    pp.getWorld().createExplosion(pp.getLocation().getX(), pp.getLocation().getY(), pp.getLocation().getZ(), 3.0F, false, false);
                                     pp.damage(2000);
                                 }
                             }

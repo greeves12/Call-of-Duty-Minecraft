@@ -26,7 +26,7 @@ public class Moab {
         main = m;
         moab = Moab.this;
     }
-    private static ItemStack Moab = new ItemStack(Material.TNT);
+    private final static ItemStack Moab = new ItemStack(Material.TNT);
 
     public static void settUp(){
         ItemMeta meta = Moab.getItemMeta();

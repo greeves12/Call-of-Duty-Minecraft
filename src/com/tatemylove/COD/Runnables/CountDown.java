@@ -14,7 +14,7 @@ public class CountDown extends BukkitRunnable {
     public static int timeuntilstart;
     private final String nextArena = ArenaFile.getData().getString("Arenas." + GetArena.getNextArena() + ".Name");
     private final String type = ArenaFile.getData().getString("Arenas." + GetArena.getNextArena() + ".Type");
-    private final int id = GetArena.getCurrentArena();
+    public static final int id = GetArena.getCurrentArena();
 
     Main ma;
     private static CountDown countDown = null;

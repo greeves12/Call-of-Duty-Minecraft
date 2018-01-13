@@ -1,9 +1,6 @@
 package com.tatemylove.COD.Listeners;
 
-import com.tatemylove.COD.KillStreaks.AttackDogs;
-import com.tatemylove.COD.KillStreaks.GetPlayersOnOtherTeam;
-import com.tatemylove.COD.KillStreaks.Moab;
-import com.tatemylove.COD.KillStreaks.Napalm;
+import com.tatemylove.COD.KillStreaks.*;
 import com.tatemylove.COD.Main;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import org.bukkit.DyeColor;
@@ -16,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -42,6 +40,20 @@ public class PlayerInteractItem implements Listener {
 
         Moab moab = new Moab(main);
         moab.onPlayerIneteract(e);
+
+        if(main.isCreating.contains(e.getPlayer())){
+            Player p = e.getPlayer();
+
+           // String pos = null;
+           // String
+            //int step = main.step.get(p.getName());
+             //   if (e.getAction() == Action.RIGHT_CLICK_AIR) {
+              //      if (step  == 0){
+
+              //      }
+             //   }
+
+        }
     }
 
     @EventHandler
@@ -59,6 +71,11 @@ public class PlayerInteractItem implements Listener {
                 e.setCancelled(true);
             }
         }
+    }
+    @EventHandler
+    public void onEggUse(PlayerEggThrowEvent e){
+        CarePackage carePackage = new CarePackage(main);
+        carePackage.onUse(e);
     }
 }
 

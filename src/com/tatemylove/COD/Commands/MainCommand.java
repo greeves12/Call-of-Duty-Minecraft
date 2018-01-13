@@ -32,13 +32,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainCommand implements CommandExecutor {
     Main main;
-    public MainCommand(Main m){
+
+    public MainCommand(Main m) {
         main = m;
     }
+
     public HashMap<Player, ItemStack[]> savedInventory = new HashMap<>();
     public HashMap<Player, ItemStack[]> armorSaved = new HashMap<>();
 
@@ -49,20 +52,20 @@ public class MainCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             if (args.length == 0) {
-                    p.sendMessage("§8§l§nCOD-Warfare");
-                    p.sendMessage("");
-                    p.sendMessage("§7Author: §etatemylove");
-                    p.sendMessage("§7Commands: §e/cod help");
+                p.sendMessage("§8§l§nCOD-Warfare");
+                p.sendMessage("");
+                p.sendMessage("§7Author: §etatemylove");
+                p.sendMessage("§7Commands: §e/cod help");
                 return true;
             }
-            if(args[0].equalsIgnoreCase("help")){
-                if(p.hasPermission("cod.help")){
+            if (args[0].equalsIgnoreCase("help")) {
+                if (p.hasPermission("cod.help")) {
                     HelpCommand helpCommand = new HelpCommand();
                     helpCommand.helpMe(p, args);
                 }
             }
-            if(args[0].equalsIgnoreCase("enable")){
-                if(p.hasPermission("cod.enable")) {
+            if (args[0].equalsIgnoreCase("enable")) {
+                if (p.hasPermission("cod.enable")) {
                     if (!StatsFile.getData().getBoolean("plugin-enabled")) {
                         File file = new File("plugins/COD/arenas.yml");
                         File lobby = new File("plugins/COD/lobby.yml");
@@ -86,44 +89,44 @@ public class MainCommand implements CommandExecutor {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    }else{
+                    } else {
                         p.sendMessage(main.prefix + "§aPlugin Already Enabled");
                     }
                 }
             }
-            if(args[0].equalsIgnoreCase("tryguns")){
-                if(p.hasPermission("cod.tryguns")){
-                    if(!main.PlayingPlayers.contains(p)) {
-                        if(main.WaitingPlayers.contains(p)) {
+            if (args[0].equalsIgnoreCase("tryguns")) {
+                if (p.hasPermission("cod.tryguns")) {
+                    if (!main.PlayingPlayers.contains(p)) {
+                        if (main.WaitingPlayers.contains(p)) {
                             Guns guns = new Guns(main);
                             guns.createMainMenu(p);
                         }
-                    }else{
+                    } else {
                         p.sendMessage(main.prefix + "§c§lYou cannot be ingame");
                     }
                 }
             }
 
-            if(args[0].equalsIgnoreCase("kit")){
-                if(p.hasPermission("cod.kits")){
-                    if(!main.PlayingPlayers.contains(p)) {
-                        if(main.WaitingPlayers.contains(p)) {
+            if (args[0].equalsIgnoreCase("kit")) {
+                if (p.hasPermission("cod.kits")) {
+                    if (!main.PlayingPlayers.contains(p)) {
+                        if (main.WaitingPlayers.contains(p)) {
                             Kits kits = new Kits(main);
                             kits.loadInventory(p);
                         }
-                    }else{
+                    } else {
                         p.sendMessage(main.prefix + "§c§lYou cannot be ingame");
                     }
                 }
             }
-            if(args[0].equalsIgnoreCase("join")) {
+            if (args[0].equalsIgnoreCase("join")) {
                 if (p.hasPermission("cod.join")) {
                     if (StatsFile.getData().getBoolean("plugin-enabled")) {
-                        if(main.PlayingPlayers.contains(p)){
+                        if (main.PlayingPlayers.contains(p)) {
                             p.sendMessage(main.prefix + "§3§lYou cannot be in-game");
                             return true;
                         }
-                        if((!main.WaitingPlayers.contains(p))) {
+                        if ((!main.WaitingPlayers.contains(p))) {
                             LobbyBoard lobbyBoard = new LobbyBoard(main);
                             main.WaitingPlayers.add(p);
                             p.teleport(getLobby.getLobby(p));
@@ -132,37 +135,37 @@ public class MainCommand implements CommandExecutor {
                             Main.deaths.put(p.getName(), 0);
                             Main.killStreak.put(p.getName(), 0);
 
-                        if(!main.getConfig().getBoolean("MySQL.Enabled")) {
-                            int kills = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Kills");
-                            int wins = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Wins");
-                            int deaths = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Deaths");
+                            if (!main.getConfig().getBoolean("MySQL.Enabled")) {
+                                int kills = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Kills");
+                                int wins = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Wins");
+                                int deaths = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Deaths");
 
-                            LobbyBoard.killsH.put(p.getName(), kills);
-                            LobbyBoard.deathsH.put(p.getName(), deaths);
-                            LobbyBoard.winsH.put(p.getName(), wins);
-                            lobbyBoard.setLobbyBoard(p);
-                        }else{
-                            DeathsSQL deathsSQL = new DeathsSQL(main);
-                            WinsSQL winsSQL = new WinsSQL(main);
-                            KillsSQL killsSQL = new KillsSQL(main);
-                            WinsSQL.getWins(p);
-                            KillsSQL.getKills(p);
-                            DeathsSQL.getDeaths(p);
-                            lobbyBoard.setLobbyBoard(p);
-                        }
+                                LobbyBoard.killsH.put(p.getName(), kills);
+                                LobbyBoard.deathsH.put(p.getName(), deaths);
+                                LobbyBoard.winsH.put(p.getName(), wins);
+                                lobbyBoard.setLobbyBoard(p);
+                            } else {
+                                DeathsSQL deathsSQL = new DeathsSQL(main);
+                                WinsSQL winsSQL = new WinsSQL(main);
+                                KillsSQL killsSQL = new KillsSQL(main);
+                                WinsSQL.getWins(p);
+                                KillsSQL.getKills(p);
+                                DeathsSQL.getDeaths(p);
+                                lobbyBoard.setLobbyBoard(p);
+                            }
 
-                            if(!KitFile.getData().contains(p.getUniqueId().toString())){
+                            if (!KitFile.getData().contains(p.getUniqueId().toString())) {
                                 HoverMessages hoverMessages = new HoverMessages();
-                                p.sendMessage(main.prefix + "§6§l"+p.getName() +"! §7It appears you don't have a kit!");
+                                p.sendMessage(main.prefix + "§6§l" + p.getName() + "! §7It appears you don't have a kit!");
                                 hoverMessages.hoverMessage(p, "/cod kit", "§6§l§nClick here §d§lto select a Kit", "§e§lSelect a Kit");
                             }
 
-                            if(p.getInventory().getContents().length > 0) {
+                            if (p.getInventory().getContents().length > 0) {
                                 savedInventory.put(p, p.getInventory().getContents());
                                 p.getInventory().clear();
                             }
 
-                            if(p.getInventory().getArmorContents().length > 0){
+                            if (p.getInventory().getArmorContents().length > 0) {
                                 armorSaved.put(p, p.getInventory().getArmorContents());
                             }
 
@@ -172,68 +175,68 @@ public class MainCommand implements CommandExecutor {
                             for (Player pp : main.WaitingPlayers) {
                                 pp.sendMessage(ChatColor.translateAlternateColorCodes('&', LanguageFile.getData().getString("join-message").replace("%player%", p.getName())));
                             }
-                        }else{
+                        } else {
                             p.sendMessage(main.prefix + "§3§lAlready in the Queue");
                         }
-                    }else{
+                    } else {
                         p.sendMessage(main.prefix + "§7COD is not setup. Ask an Administrator to set it up.");
                     }
                 }
             }
-            if(args[0].equalsIgnoreCase("create")){
-                if(p.hasPermission("cod.create")) {
-                    if(args.length == 3) {
+            if (args[0].equalsIgnoreCase("create")) {
+                if (p.hasPermission("cod.create")) {
+                    if (args.length == 3) {
                         String name = args[1];
                         if ((args[2].equalsIgnoreCase("tdm")) || (args[2].equalsIgnoreCase("kc")) || (args[2].equalsIgnoreCase("inf"))) {
                             createArenaCommand.createArena(p, name, args[2].toUpperCase());
                         }
-                    }else{
+                    } else {
                         p.sendMessage(main.prefix + "§9Available GameModes are §6TDM §a, §6KC §e(Kill Confirmed) §a, §6INF §e(Infected)");
                         p.sendMessage(main.prefix + "§7/cod create <name> <type>");
                     }
                 }
             }
-            if(args[0].equalsIgnoreCase("delete")){
-                if(p.hasPermission("cod.delete")) {
+            if (args[0].equalsIgnoreCase("delete")) {
+                if (p.hasPermission("cod.delete")) {
                     Integer id = Integer.valueOf(args[1]);
 
                     if (args.length == 2) {
                         createArenaCommand.deleteArena(p, id);
-                    }else{
+                    } else {
                         p.sendMessage(main.prefix + "§7/cod delete <ID>");
                     }
                 }
             }
-            if(args[0].equalsIgnoreCase("set")){
-                if(p.hasPermission("cod.setspawn")) {
+            if (args[0].equalsIgnoreCase("set")) {
+                if (p.hasPermission("cod.setspawn")) {
                     if (args.length == 3) {
                         int id = Integer.parseInt(args[1]);
                         createArenaCommand.setSpawns(p, args, id);
-                    }else{
+                    } else {
                         p.sendMessage(main.prefix + "§7/cod set <ID> <blue/red>");
                     }
                 }
             }
-            if(args[0].equalsIgnoreCase("setlobby")){
-                if(p.hasPermission("cod.setlobby")){
+            if (args[0].equalsIgnoreCase("setlobby")) {
+                if (p.hasPermission("cod.setlobby")) {
                     getLobby.setLobby(p);
                 }
             }
-            if(args[0].equalsIgnoreCase("lobby")){
-                if(p.hasPermission("cod.lobby")){
-                    if(!main.PlayingPlayers.contains(p)) {
-                        if(main.WaitingPlayers.contains(p)) {
+            if (args[0].equalsIgnoreCase("lobby")) {
+                if (p.hasPermission("cod.lobby")) {
+                    if (!main.PlayingPlayers.contains(p)) {
+                        if (main.WaitingPlayers.contains(p)) {
                             p.teleport(getLobby.getLobby(p));
                         }
-                    }else{
+                    } else {
                         p.sendMessage(main.prefix + "§c§lYou cannot be ingame");
                     }
                 }
             }
-            if(args[0].equalsIgnoreCase("leave")){
-                if(p.hasPermission("cod.leave")) {
+            if (args[0].equalsIgnoreCase("leave")) {
+                if (p.hasPermission("cod.leave")) {
                     if (!main.getConfig().getBoolean("BungeeCord.Enabled")) {
-                    if (main.WaitingPlayers.contains(p)) {
+                        if (main.WaitingPlayers.contains(p)) {
                             main.WaitingPlayers.remove(p);
                             SendCoolMessages.sendTitle(p, "§b", 10, 30, 10);
                             SendCoolMessages.sendSubTitle(p, "§8§lLeft COD lobby", 10, 30, 10);
@@ -253,17 +256,17 @@ public class MainCommand implements CommandExecutor {
                         } else {
                             p.sendMessage(main.prefix + "§4§lYou are not the in the Queue");
                         }
-                    }else{
-                        if(main.WaitingPlayers.contains(p)){
+                    } else {
+                        if (main.WaitingPlayers.contains(p)) {
                             main.WaitingPlayers.remove(p);
 
                             ByteArrayOutputStream b = new ByteArrayOutputStream();
                             DataOutputStream out = new DataOutputStream(b);
 
-                            try{
+                            try {
                                 out.writeUTF("Connect");
                                 out.writeUTF(main.getConfig().getString("BungeeCord.fallback-server"));
-                            }catch(Exception e){
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             p.sendPluginMessage(ThisPlugin.getPlugin(), "BungeeCord", b.toByteArray());
@@ -271,8 +274,8 @@ public class MainCommand implements CommandExecutor {
                     }
                 }
             }
-            if(args[0].equalsIgnoreCase("reload")){
-                if(p.hasPermission("cod.reload")){
+            if (args[0].equalsIgnoreCase("reload")) {
+                if (p.hasPermission("cod.reload")) {
                     main.saveDefaultConfig();
                     main.reloadConfig();
 
@@ -296,10 +299,25 @@ public class MainCommand implements CommandExecutor {
                     p.sendMessage(main.prefix + "§8§lConfigs reloaded!");
                 }
             }
-            if(args[0].equalsIgnoreCase("make")){
-                if(p.hasPermission("cod.makegun")) {
+            if (args[0].equalsIgnoreCase("make")) {
+                if (p.hasPermission("cod.makegun")) {
                     if (args.length == 9) {
                         Guns guns = new Guns(main);
+
+                        //savedInventory.put(p, p.getInventory().getContents());
+                        //armorSaved.put(p, p.getInventory().getArmorContents());
+                       // p.getInventory().clear();
+
+                      //  main.isCreating.add(p);
+
+                      //  ArrayList<String> lore = new ArrayList<>();
+                      //  lore.add("§eRight Click!");
+
+                     //   p.getInventory().setItem(1, getMaterial(Material.WOOD_HOE, "§bPrimary", lore));
+                      //  p.getInventory().setItem(7, getMaterial(Material.WOOD_HOE, "§b4Secondary", lore));
+
+                     //   main.step.put(p.getName(), 0);
+
                         String gunID = args[2];
                         String gunName = args[3];
                         String ammoID = args[4];
@@ -353,77 +371,88 @@ public class MainCommand implements CommandExecutor {
                     }else{
                         p.sendMessage(main.prefix + "§7/cod make §6<primary/secondary> <Gun Material> <Gun Name> <Ammo Material> <Ammo Amount> <Ammo Name> <Level Unlock> <Gun Cost>");
                     }
-                }
-            }
-            if(args[0].equalsIgnoreCase("deletegun")){
-                if(p.hasPermission("cod.deletegun")) {
-                    if (args.length == 2) {
-                        int id = Integer.parseInt(args[1]);
-                        Guns guns = new Guns(main);
-                        if (GunFile.getData().contains("Guns." + id)) {
-                            GunFile.getData().set("Guns." + id, null);
-                            GunFile.saveData();
-                            GunFile.reloadData();
-                            p.sendMessage(main.prefix + "§aGun Deleted");
-                            guns.loadGuns();
-                        } else {
-                            p.sendMessage(main.prefix + "§aGun with that ID doesn't exist");
-                        }
-                    }else{
-                        p.sendMessage(main.prefix + "§7/cod deletegun <ID>");
                     }
                 }
-            }
-            if(args[0].equalsIgnoreCase("npc")){
-                if(p.hasPermission("cod.npc")) {
-                    if (args.length == 2) {
-                        if (Bukkit.getServer().getPluginManager().getPlugin("Citizens") != null) {
-                            if (args[1].equalsIgnoreCase("gunrange")) {
-                                TryGuns tryGuns = new TryGuns(main);
-                                tryGuns.createNPC(p);
-                                p.sendMessage(main.prefix + "§bNpc spawned on your location");
-                            } else if (args[1].equalsIgnoreCase("join")) {
-                                JoinNPC joinNPC = new JoinNPC(main);
-                                joinNPC.createJoin(p);
-                                p.sendMessage(main.prefix + "§bNpc spawned on your location");
-                            } else if (args[1].equalsIgnoreCase("leave")) {
-                                LeaveNPC leaveNPC = new LeaveNPC(main);
-                                leaveNPC.createLeaveNPC(p);
-                                p.sendMessage(main.prefix + "§bNpc spawned on your location");
+                if (args[0].equalsIgnoreCase("deletegun")) {
+                    if (p.hasPermission("cod.deletegun")) {
+                        if (args.length == 2) {
+                            int id = Integer.parseInt(args[1]);
+                            Guns guns = new Guns(main);
+                            if (GunFile.getData().contains("Guns." + id)) {
+                                GunFile.getData().set("Guns." + id, null);
+                                GunFile.saveData();
+                                GunFile.reloadData();
+                                p.sendMessage(main.prefix + "§aGun Deleted");
+                                guns.loadGuns();
+                            } else {
+                                p.sendMessage(main.prefix + "§aGun with that ID doesn't exist");
                             }
                         } else {
-                            p.sendMessage(main.prefix + "§cCitizens 2 needs to be installed!");
-                        }
-                    }else{
-                        p.sendMessage("§9Available NPC's are join, leave, gunrange");
-                        p.sendMessage(main.prefix + "§5/cod npc <type>");
-                    }
-                }
-            }
-            if(args[0].equalsIgnoreCase("buy")){
-                if(p.hasPermission("cod.buyguns")){
-                    if(!main.PlayingPlayers.contains(p)) {
-                        if(main.WaitingPlayers.contains(p)) {
-                            BuyGuns buy = new BuyGuns(main);
-                            buy.loadMenu(p);
-                        }
-                    }else{
-                        p.sendMessage(main.prefix + "§c§lYou cannot be ingame");
-                    }
-                }
-            }
-            if(args[0].equalsIgnoreCase("forcestart")){
-                if(p.hasPermission("cod.force")){
-                    if(BaseArena.states == BaseArena.ArenaStates.Countdown){
-                        if(main.min_players > main.WaitingPlayers.size()){
-                            MainRunnable runnable = new MainRunnable(main);
-                            CountDown.timeuntilstart = 0;
-                            p.sendMessage(main.prefix + NewChat.getNewColor("&6Force starting COD..."));
+                            p.sendMessage(main.prefix + "§7/cod deletegun <ID>");
                         }
                     }
                 }
+                if (args[0].equalsIgnoreCase("npc")) {
+                    if (p.hasPermission("cod.npc")) {
+                        if (args.length == 2) {
+                            if (Bukkit.getServer().getPluginManager().getPlugin("Citizens") != null) {
+                                if (args[1].equalsIgnoreCase("gunrange")) {
+                                    TryGuns tryGuns = new TryGuns(main);
+                                    tryGuns.createNPC(p);
+                                    p.sendMessage(main.prefix + "§bNpc spawned on your location");
+                                } else if (args[1].equalsIgnoreCase("join")) {
+                                    JoinNPC joinNPC = new JoinNPC(main);
+                                    joinNPC.createJoin(p);
+                                    p.sendMessage(main.prefix + "§bNpc spawned on your location");
+                                } else if (args[1].equalsIgnoreCase("leave")) {
+                                    LeaveNPC leaveNPC = new LeaveNPC(main);
+                                    leaveNPC.createLeaveNPC(p);
+                                    p.sendMessage(main.prefix + "§bNpc spawned on your location");
+                                }
+                            } else {
+                                p.sendMessage(main.prefix + "§cCitizens 2 needs to be installed!");
+                            }
+                        } else {
+                            p.sendMessage("§9Available NPC's are join, leave, gunrange");
+                            p.sendMessage(main.prefix + "§5/cod npc <type>");
+                        }
+                    }
+                }
+                if (args[0].equalsIgnoreCase("buy")) {
+                    if (p.hasPermission("cod.buyguns")) {
+                        if (!main.PlayingPlayers.contains(p)) {
+                            if (main.WaitingPlayers.contains(p)) {
+                                BuyGuns buy = new BuyGuns(main);
+                                buy.loadMenu(p);
+                            }
+                        } else {
+                            p.sendMessage(main.prefix + "§c§lYou cannot be ingame");
+                        }
+                    }
+                }
+                if (args[0].equalsIgnoreCase("forcestart")) {
+                    if (p.hasPermission("cod.force")) {
+                        if (BaseArena.states == BaseArena.ArenaStates.Countdown) {
+                            if (main.min_players > main.WaitingPlayers.size()) {
+                                MainRunnable runnable = new MainRunnable(main);
+                                CountDown.timeuntilstart = 0;
+                                p.sendMessage(main.prefix + NewChat.getNewColor("&6Force starting COD..."));
+                            }
+                        }
+                    }
+                }
             }
+            return true;
         }
-        return true;
+
+        private ItemStack getMaterial (Material m, String name, ArrayList<String> lore){
+        ItemStack s = new ItemStack(m);
+        ItemMeta me = s.getItemMeta();
+        me.setDisplayName(name);
+        me.setLore(lore);
+        s.setItemMeta(me);
+        return s;
+        }
+
     }
-}
+

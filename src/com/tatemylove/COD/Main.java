@@ -7,12 +7,14 @@ import com.tatemylove.COD.Citizens.NPCListener;
 import com.tatemylove.COD.Commands.MainCommand;
 import com.tatemylove.COD.Files.*;
 import com.tatemylove.COD.KillStreaks.AttackDogs;
+import com.tatemylove.COD.KillStreaks.CarePackage;
 import com.tatemylove.COD.KillStreaks.Moab;
 import com.tatemylove.COD.KillStreaks.Napalm;
 import com.tatemylove.COD.Listeners.*;
 import com.tatemylove.COD.MySQL.MySQL;
 import com.tatemylove.COD.Runnables.MainRunnable;
 import com.tatemylove.COD.Tasks.ActivePinger;
+import com.tatemylove.COD.Tasks.ChestFinder;
 import com.tatemylove.COD.Tasks.GetLevel;
 import com.tatemylove.COD.Updater.Updater;
 import org.bukkit.Bukkit;
@@ -27,12 +29,14 @@ import java.util.HashMap;
 public class Main extends JavaPlugin {
 
     public String prefix = "§8§l[COD] ";
-    public static final String version = "1.0.5";
+    public static final String version = "1.0.6";
     public ArrayList<Player> WaitingPlayers = new ArrayList<>();
     public ArrayList<Player> PlayingPlayers = new ArrayList<>();
+    public ArrayList<Player> isCreating = new ArrayList<>();
     public static HashMap<String, Integer> kills = new HashMap<>();
     public static HashMap<String, Integer> deaths = new HashMap<>();
     public static HashMap<String, Integer> killStreak = new HashMap<>();
+    public HashMap<String, Integer> step = new HashMap<>();
     public int min_players = getConfig().getInt("min-players");
     public int max_players = 2;
     private ProtocolManager manager;
@@ -93,6 +97,9 @@ public class Main extends JavaPlugin {
         GetLevel getLevel = new GetLevel(this);
         getLevel.runTaskTimerAsynchronously(this, 0, 20);
 
+        ChestFinder chestFinder = new ChestFinder();
+        chestFinder.runTaskTimer(this, 0, 60);
+
         if(Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
             manager = ProtocolLibrary.getProtocolManager();
             Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "ProtocolLib found! Hooking in");
@@ -136,6 +143,8 @@ public class Main extends JavaPlugin {
         Moab.settUp();
 
         Napalm.settUp();
+
+        CarePackage.settUp();
 
 
         //Not required anymore as Bukkit will replace the downloaded file from the updates folder

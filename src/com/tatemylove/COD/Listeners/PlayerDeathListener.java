@@ -5,6 +5,7 @@ import com.tatemylove.COD.Arenas.*;
 import com.tatemylove.COD.Files.KitFile;
 import com.tatemylove.COD.Files.StatsFile;
 import com.tatemylove.COD.KillStreaks.AttackDogs;
+import com.tatemylove.COD.KillStreaks.CarePackage;
 import com.tatemylove.COD.KillStreaks.Moab;
 import com.tatemylove.COD.KillStreaks.Napalm;
 import com.tatemylove.COD.Leveling.PlayerLevels;
@@ -134,6 +135,9 @@ public class PlayerDeathListener implements Listener {
 
                 Napalm napalm = new Napalm(main);
                 napalm.onEntityKill(e);
+
+                CarePackage c = new CarePackage(main);
+                c.onKill(e);
             }
 
             if (two instanceof Player) {
