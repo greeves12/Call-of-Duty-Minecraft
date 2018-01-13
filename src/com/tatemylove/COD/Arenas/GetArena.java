@@ -10,13 +10,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class GetArena {
-    private GetArena getArena = null;
     public GetArena(){
-        getArena = GetArena.this;
     }
     private static int CurrentArena;
 
-    private int chooseNextMap()
+    private static int chooseNextMap()
     {
         ArrayList<Integer> numbers = new ArrayList();
         for (int k = 0; ArenaFile.getData().contains("Arenas." + k + ".Name"); k++) {
@@ -26,18 +24,18 @@ public class GetArena {
         return numbers.get(0);
     }
 
-    public  int getNextArena()
+    public static  int getNextArena()
     {
         CurrentArena = chooseNextMap();
         return CurrentArena;
     }
 
-    public  int getCurrentArena()
+    public static int getCurrentArena()
     {
         return CurrentArena;
     }
 
-    public  Location getBlueSpawn(Player p){
+    public static Location getBlueSpawn(Player p){
         final double x;
         final double y;
         final double z;
@@ -59,7 +57,7 @@ public class GetArena {
         return blueSpawn;
     }
 
-    public  Location getRedSpawn(Player p){
+    public static Location getRedSpawn(Player p){
         final double x;
         final double y;
         final double z;

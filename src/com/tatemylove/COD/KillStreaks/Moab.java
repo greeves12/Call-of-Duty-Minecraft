@@ -84,7 +84,7 @@ public class Moab {
             };
             if (BaseArena.type == BaseArena.ArenaType.TDM) {
                 TDM tdm = new TDM(main);
-                tdm.endTDM();
+               tdm.endTDM();
             }
             br.runTaskLater(ThisPlugin.getPlugin(), 60L);
         }

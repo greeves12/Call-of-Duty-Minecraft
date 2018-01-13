@@ -184,11 +184,11 @@ public class MainCommand implements CommandExecutor {
                 if(p.hasPermission("cod.create")) {
                     if(args.length == 3) {
                         String name = args[1];
-                        if ((args[2].equalsIgnoreCase("tdm")) || (args[2].equalsIgnoreCase("kc"))) {
+                        if ((args[2].equalsIgnoreCase("tdm")) || (args[2].equalsIgnoreCase("kc")) || (args[2].equalsIgnoreCase("inf"))) {
                             createArenaCommand.createArena(p, name, args[2].toUpperCase());
                         }
                     }else{
-                        p.sendMessage(main.prefix + "§9Available GameModes are §6TDM §aand KC §e(Kill Confirmed)");
+                        p.sendMessage(main.prefix + "§9Available GameModes are §6TDM §a, §6KC §e(Kill Confirmed) §a, §6INF §e(Infected)");
                         p.sendMessage(main.prefix + "§7/cod create <name> <type>");
                     }
                 }
@@ -418,7 +418,6 @@ public class MainCommand implements CommandExecutor {
                         if(main.min_players > main.WaitingPlayers.size()){
                             MainRunnable runnable = new MainRunnable(main);
                             CountDown.timeuntilstart = 0;
-                            runnable.stopCountDown();
                             p.sendMessage(main.prefix + NewChat.getNewColor("&6Force starting COD..."));
                         }
                     }

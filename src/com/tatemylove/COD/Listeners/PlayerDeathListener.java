@@ -1,10 +1,7 @@
 package com.tatemylove.COD.Listeners;
 
 import com.shampaggon.crackshot.CSUtility;
-import com.tatemylove.COD.Arenas.BaseArena;
-import com.tatemylove.COD.Arenas.GetArena;
-import com.tatemylove.COD.Arenas.KillArena;
-import com.tatemylove.COD.Arenas.TDM;
+import com.tatemylove.COD.Arenas.*;
 import com.tatemylove.COD.Files.KitFile;
 import com.tatemylove.COD.Files.StatsFile;
 import com.tatemylove.COD.KillStreaks.AttackDogs;
@@ -120,23 +117,33 @@ public class PlayerDeathListener implements Listener {
                         blueWool.setMetadata("codBlueTag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
                     }
 
+            }else if(BaseArena.type == BaseArena.ArenaType.INFECT){
+                if(InfectArena.humans.contains(p)){
+                    InfectArena.humans.remove(p);
+                    InfectArena.infect.add(p);
+                    SendCoolMessages.sendTitle(p, "§6You DIED", 20, 20, 20);
+                    SendCoolMessages.sendSubTitle(p, "§8§lYou're now Infected", 20, 20, 20);
+                }
             }
-            AttackDogs dogs = new AttackDogs(main);
-            dogs.onKill(e);
+            if(BaseArena.type != BaseArena.ArenaType.INFECT) {
+                AttackDogs dogs = new AttackDogs(main);
+                dogs.onKill(e);
 
-            Moab moab = new Moab(main);
-            moab.onEntityKill(e);
+                Moab moab = new Moab(main);
+                moab.onEntityKill(e);
 
-            Napalm napalm = new Napalm(main);
-            napalm.onEntityKill(e);
+                Napalm napalm = new Napalm(main);
+                napalm.onEntityKill(e);
+            }
 
             if (two instanceof Player) {
                 Player pp = e.getEntity().getKiller();
                 PlayerLevels playerLevels = new PlayerLevels(main);
-                int exp = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".EXP");
-                int level = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Level");
+                //int exp = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".EXP");
+                //int level = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Level");
                 playerLevels.addExp(pp, main.getConfig().getInt("exp-per-kill"));
 
+                //Not required anymore as I globally refresh this through an async task, improving performance
                /* if (level == 1) {
                     if (exp >= playerLevels.levelTwo) {
                         playerLevels.addLevel(pp, 1);
@@ -183,38 +190,45 @@ public class PlayerDeathListener implements Listener {
                         playerLevels.resetExp(pp);
                     }
                 }*/
-                invincible.add(p);
+               if(BaseArena.type != BaseArena.ArenaType.INFECT) {
+                   invincible.add(p);
+               }
             }
         }
     }
 
     @EventHandler
-    public void onRespawn(PlayerRespawnEvent e){
+    public void onRespawn(PlayerRespawnEvent e) {
         Player p = e.getPlayer();
         TDM tdm = new TDM(main);
-        if(main.PlayingPlayers.contains(p)) {
-            if(BaseArena.type == BaseArena.ArenaType.TDM) {
-                e.setRespawnLocation(tdm.respawnPlayer(p));
+        if (main.PlayingPlayers.contains(p)) {
+            if (BaseArena.type == BaseArena.ArenaType.TDM) {
+               e.setRespawnLocation(tdm.respawnPlayer(p));
                 p.getInventory().clear();
-            }else if(BaseArena.type == BaseArena.ArenaType.KC){
+            } else if (BaseArena.type == BaseArena.ArenaType.KC) {
                 KillArena killArena = new KillArena(main);
-                e.setRespawnLocation(killArena.respawnPlayer(p));
+               e.setRespawnLocation(killArena.respawnPlayer(p));
                 p.getInventory().clear();
+            }else if(BaseArena.type == BaseArena.ArenaType.INFECT){
+                InfectArena infectArena = new InfectArena(main);
+                e.setRespawnLocation(infectArena.respawnPlayer(p));
             }
         }
 
-        if(main.WaitingPlayers.contains(p)){
+        if (main.WaitingPlayers.contains(p)) {
             GetLobby getLobby = new GetLobby(main);
             e.setRespawnLocation(getLobby.getLobby(p));
         }
 
-        if(KitFile.getData().contains(p.getUniqueId().toString() + ".Primary.GunName")){
-            CSUtility csUtility = new CSUtility();
-            ItemStack gun = csUtility.generateWeapon(KitFile.getData().getString(p.getUniqueId().toString() + ".Primary.GunName"));
-            p.getInventory().setItem(2, gun);
+        if (BaseArena.type != BaseArena.ArenaType.INFECT) {
+            if (KitFile.getData().contains(p.getUniqueId().toString() + ".Primary.GunName")) {
+                CSUtility csUtility = new CSUtility();
+                ItemStack gun = csUtility.generateWeapon(KitFile.getData().getString(p.getUniqueId().toString() + ".Primary.GunName"));
+                p.getInventory().setItem(2, gun);
+            }
         }
         p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§eKnife"));
-        if(BaseArena.type == BaseArena.ArenaType.TDM) {
+        if (BaseArena.type == BaseArena.ArenaType.TDM) {
             if (TDM.blueTeam.contains(p)) {
                 main.RedTeamScore++;
                 Color c = Color.fromRGB(0, 0, 255);
@@ -230,19 +244,50 @@ public class PlayerDeathListener implements Listener {
                 p.getInventory().setLeggings(getColor(Material.LEATHER_LEGGINGS, c));
                 p.getInventory().setBoots(getColor(Material.LEATHER_BOOTS, c));
             }
-        }
-        new BukkitRunnable(){
-            int time = main.getConfig().getInt("invincible");
-            @Override
-            public void run() {
-                if(time == 0){
-                    cancel();
-                    invincible.remove(p);
-                    p.sendMessage(main.prefix + "§cPvP timer has ended for you");
-                }
-                time-=1;
+        }else if(BaseArena.type == BaseArena.ArenaType.KC){
+            if(KillArena.blueTeam.contains(p)){
+                Color c = Color.fromRGB(0, 0, 255);
+                p.getInventory().setHelmet(getColor(Material.LEATHER_HELMET, c));
+                p.getInventory().setChestplate(getColor(Material.LEATHER_CHESTPLATE, c));
+                p.getInventory().setLeggings(getColor(Material.LEATHER_LEGGINGS, c));
+                p.getInventory().setBoots(getColor(Material.LEATHER_BOOTS, c));
+            }else if(KillArena.redTeam.contains(p)){
+                Color c = Color.fromRGB(255, 0, 0);
+                p.getInventory().setHelmet(getColor(Material.LEATHER_HELMET, c));
+                p.getInventory().setChestplate(getColor(Material.LEATHER_CHESTPLATE, c));
+                p.getInventory().setLeggings(getColor(Material.LEATHER_LEGGINGS, c));
+                p.getInventory().setBoots(getColor(Material.LEATHER_BOOTS, c));
             }
-        }.runTaskTimer(ThisPlugin.getPlugin(), 0L, 20L);
+        }else if(BaseArena.type == BaseArena.ArenaType.INFECT){
+            if(InfectArena.humans.contains(p)){
+                Color c = Color.fromRGB(0, 0, 255);
+                p.getInventory().setHelmet(getColor(Material.LEATHER_HELMET, c));
+                p.getInventory().setChestplate(getColor(Material.LEATHER_CHESTPLATE, c));
+                p.getInventory().setLeggings(getColor(Material.LEATHER_LEGGINGS, c));
+                p.getInventory().setBoots(getColor(Material.LEATHER_BOOTS, c));
+            }else if(InfectArena.infect.contains(p)){
+                Color c = Color.fromRGB(255, 0, 0);
+                p.getInventory().setHelmet(getColor(Material.LEATHER_HELMET, c));
+                p.getInventory().setChestplate(getColor(Material.LEATHER_CHESTPLATE, c));
+                p.getInventory().setLeggings(getColor(Material.LEATHER_LEGGINGS, c));
+                p.getInventory().setBoots(getColor(Material.LEATHER_BOOTS, c));
+            }
+        }
+        if (BaseArena.type != BaseArena.ArenaType.INFECT) {
+            new BukkitRunnable() {
+                int time = main.getConfig().getInt("invincible");
+
+                @Override
+                public void run() {
+                    if (time == 0) {
+                        cancel();
+                        invincible.remove(p);
+                        p.sendMessage(main.prefix + "§cPvP timer has ended for you");
+                    }
+                    time -= 1;
+                }
+            }.runTaskTimer(ThisPlugin.getPlugin(), 0L, 20L);
+        }
     }
 
     private ItemStack getColor(Material m, Color c){
@@ -276,7 +321,7 @@ public class PlayerDeathListener implements Listener {
                     e.getItem().remove();
                     main.BlueTeamScore++;
                     if(main.BlueTeamScore >= 30){
-                        killArena.endKill();
+                       killArena.endKill();
                     }
                 }
             }else if(e.getItem().hasMetadata("codBlueTag")){

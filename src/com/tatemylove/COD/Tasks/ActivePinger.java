@@ -1,6 +1,7 @@
 package com.tatemylove.COD.Tasks;
 
 import com.tatemylove.COD.Arenas.BaseArena;
+import com.tatemylove.COD.Arenas.InfectArena;
 import com.tatemylove.COD.Arenas.KillArena;
 import com.tatemylove.COD.Arenas.TDM;
 import com.tatemylove.COD.Files.StatsFile;
@@ -32,7 +33,7 @@ public class ActivePinger extends BukkitRunnable{
                     runnable.stopGameTime();
                 } else if (main.BlueTeamScore > 30) {
                     TDM tdm = new TDM(main);
-                    tdm.endTDM();
+                   tdm.endTDM();
                     runnable.stopGameTime();
                 }
             }else if(BaseArena.type == BaseArena.ArenaType.KC){
@@ -40,8 +41,16 @@ public class ActivePinger extends BukkitRunnable{
                     killArena.endKill();
                     runnable.stopGameTime();
                 }else if(main.BlueTeamScore > 30){
-                    killArena.endKill();
+                   killArena.endKill();
                     runnable.stopGameTime();
+                }
+            }else if(BaseArena.type == BaseArena.ArenaType.INFECT){
+                if(InfectArena.humans.size() < 1){
+                    for(Player pp : main.PlayingPlayers) {
+                        InfectArena infectArena = new InfectArena(main);
+                        infectArena.endInfect(pp);
+                        pp.sendMessage(main.prefix + "§aGame has ended! Teleporting you back to the lobby!");
+                    }
                 }
             }
 
@@ -49,7 +58,7 @@ public class ActivePinger extends BukkitRunnable{
                 TDM tdm = new TDM(main);
                 if(BaseArena.type == BaseArena.ArenaType.TDM) {
                     if (TDM.redTeam.contains(pp)) {
-                        SendCoolMessages.TabHeaderAndFooter("§4§lRed §c§lTeam", "§6§lCOD\n" + tdm.getBetterTeam(), pp);
+                       SendCoolMessages.TabHeaderAndFooter("§4§lRed §c§lTeam", "§6§lCOD\n" + tdm.getBetterTeam(), pp);
                     } else if (TDM.blueTeam.contains(pp)) {
                         SendCoolMessages.TabHeaderAndFooter("§9§lBlue §1§lTeam", "§6§lCOD\n" + tdm.getBetterTeam(), pp);
                     }

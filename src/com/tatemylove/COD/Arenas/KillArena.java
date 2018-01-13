@@ -121,7 +121,7 @@ public class KillArena {
                         p.closeInventory();
                         if (redTeam.contains(p)) {
 
-                            p.teleport(getArena.getRedSpawn(p));
+                            p.teleport(GetArena.getRedSpawn(p));
 
                             Bukkit.getScheduler().scheduleSyncDelayedTask(ThisPlugin.getPlugin(), new Runnable() {
                                 @Override
@@ -149,7 +149,7 @@ public class KillArena {
 
                         } else if (blueTeam.contains(p)) {
 
-                            p.teleport(getArena.getBlueSpawn(p));
+                            p.teleport(GetArena.getBlueSpawn(p));
 
                             Bukkit.getScheduler().scheduleSyncDelayedTask(ThisPlugin.getPlugin(), new Runnable() {
                                 @Override
@@ -184,10 +184,10 @@ public class KillArena {
     public Location respawnPlayer(Player p){
         if(redTeam.contains(p)){
             GetArena getArena = new GetArena();
-            return getArena.getRedSpawn(p);
+            return GetArena.getRedSpawn(p);
         }else if(blueTeam.contains(p)){
             GetArena getArena = new GetArena();
-            return getArena.getBlueSpawn(p);
+            return GetArena.getBlueSpawn(p);
         }else{
             return null;
         }
@@ -309,7 +309,7 @@ public class KillArena {
                 pp.sendMessage("");
                 pp.sendMessage("");
                 pp.sendMessage("");
-                pp.sendMessage("§7║ §b§lStatistics:§6§l " + getArena.getCurrentArena());
+                pp.sendMessage("§7║ §b§lStatistics:§6§l " + GetArena.getCurrentArena());
                 pp.sendMessage("§7║");
                 pp.sendMessage("§7║ §7§lWinner: §c§lRed: §1§l" + main.BlueTeamScore + " " + "§r§9Blue: §4" + main.RedTeamScore + "         §b§lTotal Kills:§a§l ");
                 pp.sendMessage("§7║");
@@ -351,7 +351,7 @@ public class KillArena {
                 pp.sendMessage("");
                 pp.sendMessage("");
                 pp.sendMessage("");
-                pp.sendMessage("§7║ §b§lStatistics:§6§l " + getArena.getCurrentArena());
+                pp.sendMessage("§7║ §b§lStatistics:§6§l " + GetArena.getCurrentArena());
                 pp.sendMessage("§7║");
                 pp.sendMessage("§7║ §7§lWinner: §9§lBlue: §1§l" + main.BlueTeamScore + " " + "§r§cRed: §4" + main.RedTeamScore + "         §b§lTotal Kills:§a§l " + Main.kills.get(pp.getName()));
                 pp.sendMessage("§7║");

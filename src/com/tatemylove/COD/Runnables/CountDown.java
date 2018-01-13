@@ -1,9 +1,6 @@
 package com.tatemylove.COD.Runnables;
 
-import com.tatemylove.COD.Arenas.BaseArena;
-import com.tatemylove.COD.Arenas.GetArena;
-import com.tatemylove.COD.Arenas.KillArena;
-import com.tatemylove.COD.Arenas.TDM;
+import com.tatemylove.COD.Arenas.*;
 import com.tatemylove.COD.Files.ArenaFile;
 import com.tatemylove.COD.Main;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
@@ -15,6 +12,9 @@ import java.util.ArrayList;
 
 public class CountDown extends BukkitRunnable {
     public static int timeuntilstart;
+    private final String nextArena = ArenaFile.getData().getString("Arenas." + GetArena.getNextArena() + ".Name");
+    private final String type = ArenaFile.getData().getString("Arenas." + GetArena.getNextArena() + ".Type");
+    private final int id = GetArena.getCurrentArena();
 
     Main ma;
     private static CountDown countDown = null;
@@ -38,16 +38,21 @@ public class CountDown extends BukkitRunnable {
                     return;
                 }
                 BaseArena.states = BaseArena.ArenaStates.Started;
-                String type = ArenaFile.getData().getString("Arenas." + getArena.getNextArena() + ".Type");
+                String type = ArenaFile.getData().getString("Arenas." + id + ".Type");
                 if(type.equalsIgnoreCase("TDM")) {
                     BaseArena.type = BaseArena.ArenaType.TDM;
-                    tdm.assignTeams(Integer.toString(getArena.getCurrentArena()));
-                    tdm.startTDM(Integer.toString(getArena.getCurrentArena()));
+                    tdm.assignTeams(Integer.toString(id));
+                    tdm.startTDM(Integer.toString(id));
                 }else if(type.equalsIgnoreCase("KC")){
                     BaseArena.type = BaseArena.ArenaType.KC;
                     KillArena killArena = new KillArena(ma);
-                    killArena.assignTeam(Integer.toString(getArena.getCurrentArena()));
-                    killArena.startKC(Integer.toString(getArena.getCurrentArena()));
+                    killArena.assignTeam(Integer.toString(id));
+                    killArena.startKC(Integer.toString(id));
+                }else if(type.equalsIgnoreCase("INF")){
+                    BaseArena.type = BaseArena.ArenaType.INFECT;
+                    InfectArena infectArena = new InfectArena(ma);
+                    infectArena.assignTeams(Integer.toString(id));
+                    infectArena.startInfect(Integer.toString(id));
                 }
                 runnable.stopCountDown();
             }
@@ -57,9 +62,14 @@ public class CountDown extends BukkitRunnable {
                         SendCoolMessages.sendTitle(p, "§b", 10, 30, 10);
                         SendCoolMessages.sendSubTitle(p, "§e§lGame starting in §a§l" + timeuntilstart + " seconds", 10, 30, 10);
 
-                        String nextArena = ArenaFile.getData().getString("Arenas." + getArena.getNextArena() + ".Name");
-                        String type = ArenaFile.getData().getString("Arenas." + getArena.getNextArena() + ".Type");
-                        p.sendMessage(ma.prefix + "§6§l§nUpcoming Arena:§e " + nextArena + " §6§l§nGameMode: §e" + type);
+
+                        if (type.equalsIgnoreCase("TDM")) {
+                            p.sendMessage(ma.prefix + "§6§l§nUpcoming Arena:§a " + nextArena + " §4§l§nGameMode:§a" + type);
+                        }else if(type.equalsIgnoreCase("KC")){
+                            p.sendMessage(ma.prefix + "§6§l§nUpcoming Arena:§a " + nextArena + " §4§l§nGameMode:§a Kill Confirmed");
+                        }else if(type.equalsIgnoreCase("INF")){
+                            p.sendMessage(ma.prefix + "§6§l§nUpcoming Arena:§a " + nextArena + " §4§l§nGameMode:§a Infected");
+                        }
                     }
                 }
             }

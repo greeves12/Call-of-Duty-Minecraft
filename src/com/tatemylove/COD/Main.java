@@ -18,20 +18,16 @@ import com.tatemylove.COD.Updater.Updater;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main extends JavaPlugin {
 
     public String prefix = "§8§l[COD] ";
-    public static final String version = "1.0.4";
+    public static final String version = "1.0.5";
     public ArrayList<Player> WaitingPlayers = new ArrayList<>();
     public ArrayList<Player> PlayingPlayers = new ArrayList<>();
     public static HashMap<String, Integer> kills = new HashMap<>();
