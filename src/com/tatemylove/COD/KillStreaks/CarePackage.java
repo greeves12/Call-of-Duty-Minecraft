@@ -62,6 +62,7 @@ public class CarePackage {
     public void onUse(PlayerEggThrowEvent e){
 
        // if((e.getPlayer().getInventory().getItemInMainHand().equals(carePackage))){
+        if(main.PlayingPlayers.contains(e.getPlayer())){
             e.setHatching(false);
 
             final Location loc = e.getEgg().getLocation();
@@ -81,10 +82,10 @@ public class CarePackage {
 
             if(id == 0){
                 inv.addItem(Napalm.napalm);
-            }else if(id == 1){
+            }else if(id == 1) {
                 inv.addItem(AttackDogs.dogs);
-           // }
-
+                // }
+            }
         }
     }
 }
