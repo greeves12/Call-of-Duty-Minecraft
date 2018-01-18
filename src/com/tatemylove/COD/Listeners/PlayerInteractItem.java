@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -76,6 +77,11 @@ public class PlayerInteractItem implements Listener {
     public void onEggUse(PlayerEggThrowEvent e){
         CarePackage carePackage = new CarePackage(main);
         carePackage.onUse(e);
+    }
+
+    @EventHandler
+    public void onMove(FoodLevelChangeEvent e){
+
     }
 }
 

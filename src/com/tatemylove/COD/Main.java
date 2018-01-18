@@ -19,7 +19,9 @@ import com.tatemylove.COD.Tasks.GetLevel;
 import com.tatemylove.COD.Updater.Updater;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -60,7 +62,27 @@ public class Main extends JavaPlugin {
         KitFile.setup(this);
         OwnedFile.setup(this);
         SignFile.setup(this);
-        UpdateFile.setup(this);
+
+        File addons = new File("plugins/COD/addons");
+
+        if(!addons.exists()){
+            addons.mkdir();
+        }
+
+        File dir = new File("plugins/COD/addons");
+        File[] directoryListing = dir.listFiles();
+
+        if(directoryListing != null){
+            for(File child : directoryListing) {
+                if (child.isFile()) {
+                    try {
+                        getPluginLoader().loadPlugin(child);
+                    } catch (InvalidPluginException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
 
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
@@ -133,10 +155,8 @@ public class Main extends JavaPlugin {
             }
         }
 
-        if(UpdateFile.getData().getBoolean("auto-update")){
             Updater updater = new Updater();
             updater.autoUpdate();
-        }
 
         AttackDogs.settUp();
 
