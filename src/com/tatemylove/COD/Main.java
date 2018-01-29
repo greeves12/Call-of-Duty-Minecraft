@@ -22,6 +22,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.InvalidPluginException;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -31,9 +32,10 @@ import java.util.HashMap;
 public class Main extends JavaPlugin {
 
     public String prefix = "§8§l[COD] ";
-    public static final String version = "1.0.7";
+    public static final String version = "1.0.9";
     public ArrayList<Player> WaitingPlayers = new ArrayList<>();
     public ArrayList<Player> PlayingPlayers = new ArrayList<>();
+    public ArrayList<Player> nonPlayers = new ArrayList<>();
     public ArrayList<Player> isCreating = new ArrayList<>();
     public static HashMap<String, Integer> kills = new HashMap<>();
     public static HashMap<String, Integer> deaths = new HashMap<>();
@@ -72,17 +74,18 @@ public class Main extends JavaPlugin {
         File dir = new File("plugins/COD/addons");
         File[] directoryListing = dir.listFiles();
 
-        if(directoryListing != null){
+        /*if(directoryListing != null){
             for(File child : directoryListing) {
-                if (child.isFile()) {
+                //if (!child.isDirectory()) {
                     try {
-                        getPluginLoader().loadPlugin(child);
+                        //getPluginLoader().loadPlugin(child).onEnable();
+
                     } catch (InvalidPluginException e) {
                         e.printStackTrace();
                     }
-                }
+                //}
             }
-        }
+        }*/
 
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
@@ -112,6 +115,7 @@ public class Main extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new NPCListener(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InventoryListener(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new SignListener(this), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new ChatListener(this), this);
 
         ActivePinger pinger = new ActivePinger(this);
         pinger.runTaskTimer(this, 0, 20);
@@ -119,8 +123,8 @@ public class Main extends JavaPlugin {
         GetLevel getLevel = new GetLevel(this);
         getLevel.runTaskTimerAsynchronously(this, 0, 20);
 
-        ChestFinder chestFinder = new ChestFinder();
-        chestFinder.runTaskTimer(this, 0, 60);
+        ChestFinder chestFinder = new ChestFinder(this);
+        chestFinder.runTaskTimer(this, 0, 40);
 
         if(Bukkit.getPluginManager().getPlugin("ProtocolLib") != null) {
             manager = ProtocolLibrary.getProtocolManager();

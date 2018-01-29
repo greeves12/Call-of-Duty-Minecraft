@@ -30,8 +30,8 @@ public class PlayerLevels {
         StatsFile.saveData();
         StatsFile.reloadData();
     }
-    public void resetExp (Player p){
-        StatsFile.getData().set(p.getUniqueId().toString() + ".EXP", 0);
+    public void resetExp (Player p, int amount){
+        StatsFile.getData().set(p.getUniqueId().toString() + ".EXP", amount);
         StatsFile.saveData();
         StatsFile.reloadData();
     }
@@ -44,5 +44,11 @@ public class PlayerLevels {
         StatsFile.reloadData();
 
         p.sendMessage(main.prefix + "§b§lYou've been promoted to level §e§l" + flevel);
+    }
+    public int getLevel(Player p){
+        return StatsFile.getData().getInt(p.getUniqueId().toString() + ".Level");
+    }
+    public int getEXP(Player p ){
+        return StatsFile.getData().getInt(p.getUniqueId().toString() + ".EXP");
     }
 }

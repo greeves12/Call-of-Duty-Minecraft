@@ -38,6 +38,8 @@ public class PlayerJoinListener implements Listener {
         Main.deaths.put(p.getName(), 0);
         Main.killStreak.put(p.getName(), 0);
 
+        main.nonPlayers.add(p);
+
         if(p.hasPermission("cod.getupdates")){
             Updater updater = new Updater();
             updater.update(p);

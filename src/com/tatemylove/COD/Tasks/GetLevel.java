@@ -17,55 +17,14 @@ public class GetLevel extends BukkitRunnable {
     @Override
     public void run() {
         if (BaseArena.states == BaseArena.ArenaStates.Started) {
-            for (Player pp : main.PlayingPlayers) {
+            for (Player p : main.PlayingPlayers) {
                 PlayerLevels playerLevels = new PlayerLevels(main);
-                int exp = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".EXP");
-                int level = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Level");
-                if (level == 1) {
-                    if (exp >= playerLevels.levelTwo) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 2) {
-                    if (exp >= playerLevels.levelThree) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 3) {
-                    if (exp >= playerLevels.levelFour) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 4) {
-                    if (exp >= playerLevels.levelFive) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 5) {
-                    if (exp >= playerLevels.levelSix) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 6) {
-                    if (exp >= playerLevels.levelSeven) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 7) {
-                    if (exp >= playerLevels.levelEight) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 8) {
-                    if (exp >= playerLevels.levelNine) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 9) {
-                    if (exp >= playerLevels.levelTen) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
+                int exp = playerLevels.getEXP(p);
+                int newXP = exp * 500;
+
+                if(exp >= newXP){
+                    playerLevels.resetExp(p, exp - newXP);
+                    playerLevels.addLevel(p, 1);
                 }
             }
         }
