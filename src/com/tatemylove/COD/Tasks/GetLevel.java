@@ -19,8 +19,9 @@ public class GetLevel extends BukkitRunnable {
         if (BaseArena.states == BaseArena.ArenaStates.Started) {
             for (Player p : main.PlayingPlayers) {
                 PlayerLevels playerLevels = new PlayerLevels(main);
+                int level = playerLevels.getLevel(p);
                 int exp = playerLevels.getEXP(p);
-                int newXP = exp * 500;
+                int newXP = level * 500;
 
                 if(exp >= newXP){
                     playerLevels.resetExp(p, exp - newXP);

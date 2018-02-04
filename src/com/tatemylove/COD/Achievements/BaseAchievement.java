@@ -1,4 +1,10 @@
 package com.tatemylove.COD.Achievements;
 
-public class BaseAchievement {
+public enum  BaseAchievement {
+
+        First_Blood,
+        Riot_Control,
+        Level_10,
+        Multi_Kill,
+        First_Win
 }

@@ -1,5 +1,6 @@
 package com.tatemylove.COD.Listeners;
 
+import com.tatemylove.COD.Achievements.AchievementSQL;
 import com.tatemylove.COD.Commands.MainCommand;
 import com.tatemylove.COD.Files.LanguageFile;
 import com.tatemylove.COD.Files.StatsFile;
@@ -34,6 +35,12 @@ public class PlayerJoinListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
+
+        AchievementSQL achievementSQL = new AchievementSQL();
+        if(main.getConfig().getBoolean("MySQL.Enabled")){
+            achievementSQL.addToDB(p);
+        }
+
         Main.kills.put(p.getName(), 0);
         Main.deaths.put(p.getName(), 0);
         Main.killStreak.put(p.getName(), 0);

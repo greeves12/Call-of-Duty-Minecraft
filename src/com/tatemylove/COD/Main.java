@@ -32,7 +32,7 @@ import java.util.HashMap;
 public class Main extends JavaPlugin {
 
     public String prefix = "§8§l[COD] ";
-    public static final String version = "1.0.9";
+    public static final String version = "1.1.0";
     public ArrayList<Player> WaitingPlayers = new ArrayList<>();
     public ArrayList<Player> PlayingPlayers = new ArrayList<>();
     public ArrayList<Player> nonPlayers = new ArrayList<>();
@@ -64,6 +64,7 @@ public class Main extends JavaPlugin {
         KitFile.setup(this);
         OwnedFile.setup(this);
         SignFile.setup(this);
+        AchievementFile.setup(this);
 
         File addons = new File("plugins/COD/addons");
 
@@ -152,7 +153,7 @@ public class Main extends JavaPlugin {
                 String passworld = getConfig().getString("MySQL.Password");
                 String ip = getConfig().getString("MySQL.Ip");
                 String database = getConfig().getString("MySQL.Database");
-                mySQL = new MySQL(username, passworld, ip, database);
+                mySQL = new MySQL(username, passworld, ip, database, this);
                 Bukkit.getConsoleSender().sendMessage(prefix + "§eHooking into MySQL was a success");
             }catch (Exception e){
                 Bukkit.getConsoleSender().sendMessage(prefix + "§cHooking into MySQL failed! Check your settings.");

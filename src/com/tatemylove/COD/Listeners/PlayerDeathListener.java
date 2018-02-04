@@ -1,6 +1,7 @@
 package com.tatemylove.COD.Listeners;
 
 import com.shampaggon.crackshot.CSUtility;
+import com.tatemylove.COD.Achievements.AchievementSQL;
 import com.tatemylove.COD.Arenas.*;
 import com.tatemylove.COD.Files.KitFile;
 import com.tatemylove.COD.Files.StatsFile;
@@ -66,6 +67,8 @@ public class PlayerDeathListener implements Listener {
     public void onDeath(EntityDeathEvent e) {
         Entity one = e.getEntity();
         Entity two = e.getEntity().getKiller();
+        AchievementSQL achievementSQL = new AchievementSQL();
+
         if (one instanceof Player) {
 
             Player p = (Player) e.getEntity();
@@ -85,6 +88,14 @@ public class PlayerDeathListener implements Listener {
                 // if(Main.deaths.containsKey(p.getName())) {
                 Main.deaths.put(p.getName(), Main.deaths.get(p.getName()) + 1);
                 //}
+                if(main.getConfig().getBoolean("MySQL.Enabled")) {
+                    int kills = Main.kills.get(pp.getName());
+                    if(kills >= 1) {
+                      //  if (!achievementSQL.hasAchievement(pp, "fb")) {
+                         //   achievementSQL.setAchievement(pp, "fb", "first_blood");
+                       // }
+                    }
+                }
             }
 
             final CraftPlayer craftPlayer = (CraftPlayer) p;
@@ -143,57 +154,9 @@ public class PlayerDeathListener implements Listener {
             if (two instanceof Player) {
                 Player pp = e.getEntity().getKiller();
                 PlayerLevels playerLevels = new PlayerLevels(main);
-                //int exp = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".EXP");
-                //int level = StatsFile.getData().getInt(pp.getUniqueId().toString() + ".Level");
                 playerLevels.addExp(pp, main.getConfig().getInt("exp-per-kill"));
 
-                //Not required anymore as I globally refresh this through an async task, improving performance
-               /* if (level == 1) {
-                    if (exp >= playerLevels.levelTwo) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 2) {
-                    if (exp >= playerLevels.levelThree) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 3) {
-                    if (exp >= playerLevels.levelFour) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 4) {
-                    if (exp >= playerLevels.levelFive) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 5) {
-                    if (exp >= playerLevels.levelSix) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 6) {
-                    if (exp >= playerLevels.levelSeven) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 7) {
-                    if (exp >= playerLevels.levelEight) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 8) {
-                    if (exp >= playerLevels.levelNine) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                } else if (level == 9) {
-                    if (exp >= playerLevels.levelTen) {
-                        playerLevels.addLevel(pp, 1);
-                        playerLevels.resetExp(pp);
-                    }
-                }*/
+
                if(BaseArena.type != BaseArena.ArenaType.INFECT) {
                    invincible.add(p);
                }

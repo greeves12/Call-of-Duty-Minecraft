@@ -150,9 +150,6 @@ public class InventoryListener implements Listener {
                                     OwnedFile.saveData();
                                     OwnedFile.reloadData();
                                     p.sendMessage(main.prefix + "§aPurchase successful!");
-
-                                   // SwiftEconomyAPI api = new SwiftEconomyAPI();
-                                   // api.removeMoney(p, cost);
                                     p.closeInventory();
                                 }else if (type.equalsIgnoreCase("SECONDARY")) {
                                     OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoAmount", ammoAmount);

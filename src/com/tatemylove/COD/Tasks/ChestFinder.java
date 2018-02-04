@@ -25,14 +25,6 @@ public class ChestFinder extends BukkitRunnable {
         if(BaseArena.states == BaseArena.ArenaStates.Started){
         String world = ArenaFile.getData().getString("Arenas." + CountDown.timeuntilstart + ".Spawns.Red.World");
 
-       for(Player p : Bukkit.getServer().getOnlinePlayers()){
-           if(main.WaitingPlayers.contains(p)){
-               main.nonPlayers.remove(p);
-           }else{
-               main.WaitingPlayers.add(p);
-           }
-       }
-
         for(Chunk c : Bukkit.getServer().getWorld(world).getLoadedChunks()) {
             for (BlockState b : c.getTileEntities()) {
                 if (b instanceof Chest) {

@@ -8,14 +8,21 @@
   <component name="ChangeListManager">
     <list default="true" id="74620c00-edc5-4f10-bf3f-b73195cb0244" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/KillStreaks/CarePackage.class" afterPath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/KillStreaks/CarePackage.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Listeners/PlayerInteractItem.class" afterPath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Listeners/PlayerInteractItem.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Main.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Updater/Updater.class" afterPath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Updater/Updater.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD/plugin.yml" afterPath="$PROJECT_DIR$/out/production/COD/plugin.yml" />
-      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD/Leveling/PlayerLevels.java" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD/Leveling/PlayerLevels.java" />
+      <change beforePath="$PROJECT_DIR$/COD.iml" afterPath="$PROJECT_DIR$/COD.iml" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Achievements/BaseAchievement.class" afterPath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Achievements/BaseAchievement.class" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Listeners/InventoryListener.class" afterPath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Listeners/InventoryListener.class" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Listeners/PlayerDeathListener$1.class" afterPath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Listeners/PlayerDeathListener$1.class" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Listeners/PlayerDeathListener$2.class" afterPath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Listeners/PlayerDeathListener$2.class" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Listeners/PlayerDeathListener.class" afterPath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Listeners/PlayerDeathListener.class" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Listeners/PlayerJoinListener.class" afterPath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Listeners/PlayerJoinListener.class" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Main.class" afterPath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/Main.class" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/MySQL/MySQL.class" afterPath="$PROJECT_DIR$/out/production/COD/com/tatemylove/COD/MySQL/MySQL.class" />
+      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD/Achievements/BaseAchievement.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/InventoryListener.java" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/InventoryListener.java" />
+      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerDeathListener.java" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerDeathListener.java" />
       <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerJoinListener.java" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerJoinListener.java" />
       <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD/Main.java" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD/Main.java" />
+      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD/MySQL/MySQL.java" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD/MySQL/MySQL.java" />
       <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/ChestFinder.java" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/ChestFinder.java" />
       <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/GetLevel.java" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/GetLevel.java" />
       <change beforePath="$PROJECT_DIR$/src/plugin.yml" afterPath="$PROJECT_DIR$/src/plugin.yml" />
@@ -30,11 +37,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="Guns.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Guns/Guns.java">
+      <file leaf-file-name="PlayerJoinListener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerJoinListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+            <state relative-caret-position="375">
+              <caret line="40" column="38" lean-forward="false" selection-start-line="40" selection-start-column="38" selection-end-line="40" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -43,7 +50,7 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
+            <state relative-caret-position="125">
               <caret line="34" column="47" lean-forward="false" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -52,84 +59,98 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SignListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/SignListener.java">
+      <file leaf-file-name="MySQL.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/MySQL/MySQL.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="825">
+              <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+              <folding>
+                <marker date="1517731552208" expanded="true" signature="1164:1229" ph="CREATE TABLE... IF" />
+                <marker date="1517731552208" expanded="true" signature="1401:1469" ph="CREATE TABLE... IF" />
+                <marker date="1517731552208" expanded="true" signature="1639:1703" ph="CREATE TABLE... IF" />
+                <marker date="1517731552208" expanded="true" signature="1882:2047" ph="CREATE TABLE... IF" />
+                <marker date="1517731552208" expanded="true" signature="2225:2256" ph="ALTER TABLE CODachievements... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WinsSQL.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/MySQL/WinsSQL.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="100">
-              <caret line="28" column="13" lean-forward="false" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PlayerJoinListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerJoinListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="40" column="31" lean-forward="false" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChestFinder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/ChestFinder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="625">
-              <caret line="37" column="31" lean-forward="false" selection-start-line="37" selection-start-column="31" selection-end-line="37" selection-end-column="31" />
+              <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
               <folding>
-                <element signature="e#600#601#0" expanded="true" />
-                <element signature="e#624#625#0" expanded="true" />
+                <marker date="1514099549056" expanded="true" signature="559:654" ph="INSERT into CODwins... " />
+                <marker date="1514099549056" expanded="true" signature="941:965" ph="SELECT uuid CODwins" />
+                <marker date="1514099549056" expanded="true" signature="1490:1584" ph="UPDATE CODwins... " />
+                <marker date="1514099549056" expanded="true" signature="1869:1890" ph="SELECT * FRO... CODwins" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlayerLevels.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Leveling/PlayerLevels.java">
+      <file leaf-file-name="AchievementSQL.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Achievements/AchievementSQL.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="725">
-              <caret line="33" column="75" lean-forward="false" selection-start-line="33" selection-start-column="75" selection-end-line="33" selection-end-column="75" />
-              <folding>
-                <element signature="e#1654#1655#0" expanded="true" />
-                <element signature="e#1742#1743#0" expanded="true" />
-                <element signature="e#1776#1777#0" expanded="true" />
-                <element signature="e#1862#1863#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GetLevel.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/GetLevel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="21" column="49" lean-forward="false" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ChatListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/ChatListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="725">
-              <caret line="29" column="72" lean-forward="false" selection-start-line="29" selection-start-column="72" selection-end-line="29" selection-end-column="72" />
+            <state relative-caret-position="893">
+              <caret line="57" column="23" lean-forward="true" selection-start-line="57" selection-start-column="23" selection-end-line="57" selection-end-column="23" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#401#402#0" expanded="true" />
-                <element signature="e#425#426#0" expanded="true" />
+                <marker date="1517732777300" expanded="true" signature="334:365" ph="SELECT uuid CODachievement" />
+                <marker date="1517732777300" expanded="true" signature="916:959" ph="INSERT into CODachievement... " />
+                <marker date="1517732777300" expanded="true" signature="916:989" ph="INSERT into CODachievement... " />
+                <marker date="1517732777300" expanded="true" signature="916:995" ph="INSERT into CODachievement... " />
+                <marker date="1517732777300" expanded="true" signature="916:996" ph="INSERT into CODachievement... " />
+                <marker date="1517732777300" expanded="true" signature="916:998" ph="INSERT into CODachievement... " />
+                <marker date="1517732777300" expanded="true" signature="1304:1335" ph="SELECT uuid CODachievement" />
+                <marker date="1517732777300" expanded="true" signature="1901:1911" ph="UPDATE CODachievement... " />
+                <marker date="1517732777300" expanded="true" signature="1901:1920" ph="UPDATE CODkills... " />
+                <marker date="1517732777300" expanded="true" signature="1901:1921" ph="UPDATE CODkills... " />
+                <marker date="1517732777300" expanded="true" signature="1901:1947" ph="UPDATE CODkills... " />
+                <marker date="1517732777300" expanded="true" signature="1901:2001" ph="UPDATE CODachievement... " />
+                <marker date="1517732777300" expanded="true" signature="1901:2002" ph="UPDATE CODachievement... " />
+                <marker date="1517732777300" expanded="true" signature="1901:2003" ph="UPDATE CODachievement... " />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ActivePinger.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/ActivePinger.java">
+      <file leaf-file-name="AchievementLocal.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Achievements/AchievementLocal.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+            <state relative-caret-position="525">
+              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#332#333#0" expanded="true" />
+                <element signature="e#364#365#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BaseAchievement.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Achievements/BaseAchievement.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="175">
+              <caret line="7" column="19" lean-forward="false" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="KillsSQL.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/MySQL/KillsSQL.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="725">
+              <caret line="46" column="130" lean-forward="false" selection-start-line="46" selection-start-column="130" selection-end-line="46" selection-end-column="130" />
+              <folding>
+                <marker date="1514154332588" expanded="true" signature="478:503" ph="SELECT uuid CODkills" />
+                <marker date="1514154332588" expanded="true" signature="1045:1142" ph="INSERT into CODkills... " />
+                <marker date="1514154332588" expanded="true" signature="1469:1566" ph="UPDATE CODkills... " />
+                <marker date="1514154332588" expanded="true" signature="1853:1875" ph="SELECT * FRO... CODkills" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -139,6 +160,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
               <caret line="3" column="14" lean-forward="false" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PlayerDeathListener.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerDeathListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="750">
+              <caret line="95" column="25" lean-forward="false" selection-start-line="95" selection-start-column="25" selection-end-line="95" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -164,15 +195,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Commands/CreateArenaCommand.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Guns/BuyGuns.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Guns/Guns.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Packets/WrapperPlayServerTitle.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Arenas/BaseArena.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Files/SignFile.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Citizens/TryGuns.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Inventories/Kits.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/MySQL/MySQL.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/ScoreBoard/LobbyBoard.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/MySQL/WinsSQL.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/MySQL/KillsSQL.java" />
@@ -202,17 +228,22 @@
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Commands/MainCommand.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/KillStreaks/Moab.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/KillStreaks/AttackDogs.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerDeathListener.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Runnables/CountDown.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/KillStreaks/Napalm.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/InventoryListener.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerInteractItem.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/KillStreaks/CarePackage.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Leveling/PlayerLevels.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/GetLevel.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/InventoryListener.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Files/AchievementFile.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Achievements/BaseAchievement.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Achievements/AchievementLocal.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerJoinListener.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/ChestFinder.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/MySQL/MySQL.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/ChatListener.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/GetLevel.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/ChestFinder.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Achievements/AchievementSQL.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerDeathListener.java" />
         <option value="$PROJECT_DIR$/src/plugin.yml" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD/Main.java" />
       </list>
@@ -265,7 +296,6 @@
     </navigator>
     <panes>
       <pane id="AndroidView" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -289,7 +319,7 @@
               <item name="COD" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="COD" type="462c0819:PsiDirectoryNode" />
-              <item name="Leveling" type="462c0819:PsiDirectoryNode" />
+              <item name="Achievements" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="COD" type="b2602c69:ProjectViewProjectNode" />
@@ -303,20 +333,35 @@
               <item name="COD" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="COD" type="462c0819:PsiDirectoryNode" />
+              <item name="MySQL" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="COD" type="b2602c69:ProjectViewProjectNode" />
+              <item name="COD" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="COD" type="462c0819:PsiDirectoryNode" />
+              <item name="ScoreBoard" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="COD" type="b2602c69:ProjectViewProjectNode" />
+              <item name="COD" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="COD" type="462c0819:PsiDirectoryNode" />
               <item name="Tasks" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ReconReports" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/SwiftEconomy.jar!/" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -508,11 +553,12 @@
       <workItem from="1516303859147" duration="1221000" />
       <workItem from="1516331089157" duration="8000" />
       <workItem from="1517267936643" duration="2308000" />
+      <workItem from="1517728731388" duration="4142000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="156540000" />
+    <option name="totallyTimeSpent" value="160682000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="3862" height="2122" extended-state="6" />
@@ -520,14 +566,14 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32940573" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32940573" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -537,8 +583,8 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -560,48 +606,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Arenas/KillArena.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4850">
-          <caret line="211" column="0" lean-forward="true" selection-start-line="211" selection-start-column="0" selection-end-line="211" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Arenas/TDM.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6200">
-          <caret line="269" column="0" lean-forward="true" selection-start-line="269" selection-start-column="0" selection-end-line="269" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Commands/CreateArenaCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Commands/MainCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4100">
-          <caret line="190" column="17" lean-forward="true" selection-start-line="190" selection-start-column="17" selection-end-line="190" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Runnables/CountDown.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1250">
-          <caret line="60" column="39" lean-forward="false" selection-start-line="60" selection-start-column="39" selection-end-line="60" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerDeathListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1800">
-          <caret line="90" column="0" lean-forward="true" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2600">
@@ -623,13 +627,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="700">
           <caret line="32" column="0" lean-forward="true" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/ScoreBoard/LobbyBoard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -676,13 +673,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Arenas/TDM.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3225">
-          <caret line="157" column="39" lean-forward="false" selection-start-line="157" selection-start-column="39" selection-end-line="157" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/KillStreaks/GetPlayersOnOtherTeam.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
@@ -711,20 +701,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerInteractListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/InventoryListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2800">
-          <caret line="131" column="0" lean-forward="false" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/KillStreaks/AttackDogs.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-430">
@@ -732,24 +708,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerInteractItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/KillStreaks/Moab.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="28" column="18" lean-forward="false" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerDeathListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4084">
-          <caret line="142" column="37" lean-forward="false" selection-start-line="142" selection-start-column="37" selection-end-line="142" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -781,13 +743,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Achievements/BaseAchievement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/API/CODAPI.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="50">
@@ -811,27 +766,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Files/ArenaFile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="12" column="13" lean-forward="false" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/MySQL/DeathsSQL.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1400">
-          <caret line="61" column="29" lean-forward="false" selection-start-line="61" selection-start-column="29" selection-end-line="61" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/ScoreBoard/GameBoard.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2200">
           <caret line="101" column="14" lean-forward="false" selection-start-line="101" selection-start-column="14" selection-end-line="101" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -847,9 +785,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
           <caret line="33" column="35" lean-forward="false" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -869,14 +804,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/GetLevel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="21" column="49" lean-forward="false" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/ActivePinger.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="275">
@@ -885,10 +812,102 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Leveling/PlayerLevels.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="725">
+          <caret line="33" column="75" lean-forward="false" selection-start-line="33" selection-start-column="75" selection-end-line="33" selection-end-column="75" />
+          <folding>
+            <element signature="e#1654#1655#0" expanded="false" />
+            <element signature="e#1742#1743#0" expanded="false" />
+            <element signature="e#1776#1777#0" expanded="false" />
+            <element signature="e#1862#1863#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Arenas/TDM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1057">
+          <caret line="157" column="39" lean-forward="false" selection-start-line="157" selection-start-column="39" selection-end-line="157" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Files/ArenaFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="26" column="13" lean-forward="true" selection-start-line="13" selection-start-column="3" selection-end-line="62" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Files/AchievementFile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="13" column="59" lean-forward="false" selection-start-line="13" selection-start-column="59" selection-end-line="13" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/InventoryListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="151" column="90" lean-forward="false" selection-start-line="151" selection-start-column="90" selection-end-line="151" selection-end-column="90" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerInteractItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerInteractListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="18" column="13" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/MySQL/DeathsSQL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1225">
+          <caret line="61" column="29" lean-forward="false" selection-start-line="61" selection-start-column="29" selection-end-line="61" selection-end-column="29" />
+          <folding>
+            <marker date="1514154332504" expanded="true" signature="571:670" ph="INSERT into CODdeaths... " />
+            <marker date="1514154332504" expanded="true" signature="957:983" ph="SELECT uuid CODdeaths" />
+            <marker date="1514154332504" expanded="true" signature="1510:1610" ph="UPDATE CODdeaths... " />
+            <marker date="1514154332504" expanded="true" signature="1898:1921" ph="SELECT * FRO... CODdeaths" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/ChatListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="35" column="0" lean-forward="true" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/GetLevel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="31" column="5" lean-forward="true" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Tasks/ChestFinder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="625">
-          <caret line="37" column="31" lean-forward="false" selection-start-line="37" selection-start-column="31" selection-end-line="37" selection-end-column="31" />
+        <state relative-caret-position="850">
+          <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
           <folding>
             <element signature="e#600#601#0" expanded="true" />
             <element signature="e#624#625#0" expanded="true" />
@@ -896,36 +915,114 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Leveling/PlayerLevels.java">
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/ScoreBoard/LobbyBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1018">
+          <caret line="102" column="5" lean-forward="true" selection-start-line="102" selection-start-column="5" selection-end-line="102" selection-end-column="5" />
+          <folding>
+            <element signature="e#3058#3580#0" expanded="true" />
+            <element signature="e#3579#3580#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/MySQL/MySQL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="825">
+          <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding>
+            <marker date="1517731552208" expanded="true" signature="1164:1229" ph="CREATE TABLE... IF" />
+            <marker date="1517731552208" expanded="true" signature="1401:1469" ph="CREATE TABLE... IF" />
+            <marker date="1517731552208" expanded="true" signature="1639:1703" ph="CREATE TABLE... IF" />
+            <marker date="1517731552208" expanded="true" signature="1882:2047" ph="CREATE TABLE... IF" />
+            <marker date="1517731552208" expanded="true" signature="2225:2256" ph="ALTER TABLE CODachievements... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/MySQL/WinsSQL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding>
+            <marker date="1514099549056" expanded="true" signature="559:654" ph="INSERT into CODwins... " />
+            <marker date="1514099549056" expanded="true" signature="941:965" ph="SELECT uuid CODwins" />
+            <marker date="1514099549056" expanded="true" signature="1490:1584" ph="UPDATE CODwins... " />
+            <marker date="1514099549056" expanded="true" signature="1869:1890" ph="SELECT * FRO... CODwins" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/MySQL/KillsSQL.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="725">
-          <caret line="33" column="75" lean-forward="false" selection-start-line="33" selection-start-column="75" selection-end-line="33" selection-end-column="75" />
+          <caret line="46" column="130" lean-forward="false" selection-start-line="46" selection-start-column="130" selection-end-line="46" selection-end-column="130" />
           <folding>
-            <element signature="e#1654#1655#0" expanded="true" />
-            <element signature="e#1742#1743#0" expanded="true" />
-            <element signature="e#1776#1777#0" expanded="true" />
-            <element signature="e#1862#1863#0" expanded="true" />
+            <marker date="1514154332588" expanded="true" signature="478:503" ph="SELECT uuid CODkills" />
+            <marker date="1514154332588" expanded="true" signature="1045:1142" ph="INSERT into CODkills... " />
+            <marker date="1514154332588" expanded="true" signature="1469:1566" ph="UPDATE CODkills... " />
+            <marker date="1514154332588" expanded="true" signature="1853:1875" ph="SELECT * FRO... CODkills" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Achievements/AchievementLocal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#332#333#0" expanded="true" />
+            <element signature="e#364#365#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Achievements/BaseAchievement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="7" column="19" lean-forward="false" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Achievements/AchievementSQL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="893">
+          <caret line="57" column="23" lean-forward="true" selection-start-line="57" selection-start-column="23" selection-end-line="57" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1517732777300" expanded="true" signature="334:365" ph="SELECT uuid CODachievement" />
+            <marker date="1517732777300" expanded="true" signature="916:959" ph="INSERT into CODachievement... " />
+            <marker date="1517732777300" expanded="true" signature="916:989" ph="INSERT into CODachievement... " />
+            <marker date="1517732777300" expanded="true" signature="916:995" ph="INSERT into CODachievement... " />
+            <marker date="1517732777300" expanded="true" signature="916:996" ph="INSERT into CODachievement... " />
+            <marker date="1517732777300" expanded="true" signature="916:998" ph="INSERT into CODachievement... " />
+            <marker date="1517732777300" expanded="true" signature="1304:1335" ph="SELECT uuid CODachievement" />
+            <marker date="1517732777300" expanded="true" signature="1901:1911" ph="UPDATE CODachievement... " />
+            <marker date="1517732777300" expanded="true" signature="1901:1920" ph="UPDATE CODkills... " />
+            <marker date="1517732777300" expanded="true" signature="1901:1921" ph="UPDATE CODkills... " />
+            <marker date="1517732777300" expanded="true" signature="1901:1947" ph="UPDATE CODkills... " />
+            <marker date="1517732777300" expanded="true" signature="1901:2001" ph="UPDATE CODachievement... " />
+            <marker date="1517732777300" expanded="true" signature="1901:2002" ph="UPDATE CODachievement... " />
+            <marker date="1517732777300" expanded="true" signature="1901:2003" ph="UPDATE CODachievement... " />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerJoinListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="40" column="31" lean-forward="false" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
+        <state relative-caret-position="375">
+          <caret line="40" column="38" lean-forward="false" selection-start-line="40" selection-start-column="38" selection-end-line="40" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/ChatListener.java">
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Listeners/PlayerDeathListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="725">
-          <caret line="29" column="72" lean-forward="false" selection-start-line="29" selection-start-column="72" selection-end-line="29" selection-end-column="72" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#401#402#0" expanded="true" />
-            <element signature="e#425#426#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="750">
+          <caret line="95" column="25" lean-forward="false" selection-start-line="95" selection-start-column="25" selection-end-line="95" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -939,7 +1036,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
+        <state relative-caret-position="125">
           <caret line="34" column="47" lean-forward="false" selection-start-line="34" selection-start-column="47" selection-end-line="34" selection-end-column="47" />
           <folding>
             <element signature="imports" expanded="true" />
