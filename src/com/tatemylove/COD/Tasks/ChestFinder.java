@@ -23,7 +23,7 @@ public class ChestFinder extends BukkitRunnable {
     @Override
     public void run() {
         if(BaseArena.states == BaseArena.ArenaStates.Started){
-        String world = ArenaFile.getData().getString("Arenas." + CountDown.timeuntilstart + ".Spawns.Red.World");
+        String world = ArenaFile.getData().getString("Arenas." + CountDown.id + ".Spawns.Red.World");
 
         for(Chunk c : Bukkit.getServer().getWorld(world).getLoadedChunks()) {
             for (BlockState b : c.getTileEntities()) {

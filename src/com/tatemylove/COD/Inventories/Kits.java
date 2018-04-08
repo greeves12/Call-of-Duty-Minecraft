@@ -63,12 +63,17 @@ public class Kits {
                 String ammoName = OwnedFile.getData().getString(p.getUniqueId().toString()+"." + ID + ".Ammo.AmmoName");
                 String gunData = OwnedFile.getData().getString(p.getUniqueId().toString()+"." + ID + ".Gun.GunData");
                 String ammoData = OwnedFile.getData().getString(p.getUniqueId().toString()+"." + ID + ".Ammo.AmmoData");
+                String type = OwnedFile.getData().getString(p.getUniqueId().toString() + "." + ID + ".Type");
 
                 ArrayList<String> lore = new ArrayList<>();
-                lore.add("§cAmmo Capacity: §2" + ammoAmount);
+                lore.add("§3Clip Size: §2" + ammoAmount);
                 lore.add("§6§l<< Click to Select >>");
 
-                inv.setItem(ID, getMaterial(Material.getMaterial(gunData.toUpperCase()), gunName + "§b(PRIMARY)", lore));
+                if(type.equalsIgnoreCase("PRIMARY")) {
+                    inv.setItem(ID, getMaterial(Material.getMaterial(gunData.toUpperCase()), gunName + "§b(PRIMARY)", lore));
+                }else if(type.equalsIgnoreCase("SECONDARY")){
+                    inv.setItem(ID, getMaterial(Material.getMaterial(gunData.toUpperCase()), gunName + "§b(SECONDARY)", lore));
+                }
             }
             p.openInventory(inv);
         }

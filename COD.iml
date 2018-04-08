@@ -21,7 +21,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/Test Server/plugins/ProtocolLib.jar!/" />
+          <root url="jar://$USER_HOME$/Downloads/ProtocolLib.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -30,16 +30,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/Test Server/plugins/Citizens.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/Test Server/plugins/CrackShot.jar!/" />
+          <root url="jar://$USER_HOME$/Downloads/Citizens.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -49,6 +40,15 @@
       <library>
         <CLASSES>
           <root url="jar://$USER_HOME$/Downloads/SwiftEconomy.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Downloads/CrackShot.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

@@ -1,6 +1,6 @@
 main: com.tatemylove.COD.Main
 name: COD
 author: tatemylove
-version: 1.1.0
+version: 1.1.1
 commands:
   cod:

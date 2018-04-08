@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class BuyGuns {
     Main main;
     public Inventory buyPrimary = Bukkit.createInventory(null, 54, "§c§lPrimary Weapons");
-    public Inventory buySecondary = Bukkit.createInventory(null, 54, "s");
+    public Inventory buySecondary = Bukkit.createInventory(null, 54, "§7§lSecondary Weapons");
     public Inventory mainStore = Bukkit.createInventory(null, 54, "§5§lPurchase Weapons");
     private HashMap<String, Inventory> invs = new HashMap<>();
 
@@ -87,6 +87,7 @@ public class BuyGuns {
 
                 ArrayList<String> lore = new ArrayList<>();
                 lore.add("§3§lLevel: §2" + levelUnlock);
+                lore.add("§3§lClip Size: §2" + ammoAmount);
                 if(main.getConfig().getBoolean("SwiftEconomy.Enabled")){
                     lore.add("§6§lCost: §4$" + cost);
                 }

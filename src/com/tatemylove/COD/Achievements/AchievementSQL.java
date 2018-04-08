@@ -52,8 +52,9 @@ public class AchievementSQL {
     }
 
     public void setAchievement(Player p, String achievement, String message){
+        String value = "true";
         try{
-            PreparedStatement ps = MySQL.connection.prepareStatement("UPDATE CODkills SET '" + achievement +"'=true'" + "' WHERE uuid='" + p.getUniqueId().toString() + "'");
+            PreparedStatement ps = MySQL.connection.prepareStatement("UPDATE CODachievement SET fb='" + achievement + "' WHERE uuid='" + p.getUniqueId().toString() + "'");
             ps.executeUpdate();
             ps.close();
         }catch (Exception e){

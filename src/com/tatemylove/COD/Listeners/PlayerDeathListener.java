@@ -91,9 +91,9 @@ public class PlayerDeathListener implements Listener {
                 if(main.getConfig().getBoolean("MySQL.Enabled")) {
                     int kills = Main.kills.get(pp.getName());
                     if(kills >= 1) {
-                      //  if (!achievementSQL.hasAchievement(pp, "fb")) {
-                         //   achievementSQL.setAchievement(pp, "fb", "first_blood");
-                       // }
+                        if (!achievementSQL.hasAchievement(pp, "fb")) {
+                           achievementSQL.setAchievement(pp, "fb", "first_blood");
+                        }
                     }
                 }
             }

@@ -113,7 +113,7 @@ public class InventoryListener implements Listener {
                                         SwiftEconomyAPI api = new SwiftEconomyAPI();
                                         api.removeMoney(p, cost);
                                         p.closeInventory();
-                                    }else if (type.equalsIgnoreCase("SECONDARY")) {
+                                    }else if (GunFile.getData().getString("Guns." + i + ".POS").equalsIgnoreCase("SECONDARY")) {
                                         OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoAmount", ammoAmount);
                                         OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Gun.GunName", gunName);
                                         OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoName", ammoName);
@@ -151,7 +151,7 @@ public class InventoryListener implements Listener {
                                     OwnedFile.reloadData();
                                     p.sendMessage(main.prefix + "§aPurchase successful!");
                                     p.closeInventory();
-                                }else if (type.equalsIgnoreCase("SECONDARY")) {
+                                }else if (GunFile.getData().getString("Guns." + i + ".POS").equalsIgnoreCase("SECONDARY")) {
                                     OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoAmount", ammoAmount);
                                     OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Gun.GunName", gunName);
                                     OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoName", ammoName);
@@ -171,7 +171,105 @@ public class InventoryListener implements Listener {
                     }
                 }
                 e.setCancelled(true);
-            }else if(inventory.getName().equals(buyGuns.mainStore.getName())){
+            }else if(inventory.getName().equals(buyGuns.buySecondary.getName())){
+                for(int i = 0; GunFile.getData().contains("Guns." + i); i++){
+                    if(e.getSlot() == i){
+                        String ammoAmount = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoAmount");
+                        String gunName = GunFile.getData().getString("Guns." + i + ".Gun.GunName");
+                        String ammoName = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoName");
+                        String gunData = GunFile.getData().getString("Guns." + i + ".Gun.GunData");
+                        String ammoData = GunFile.getData().getString("Guns." + i + ".Ammo.AmmoData");
+                        String type = GunFile.getData().getString("Guns." + i + ".POS");
+
+
+                        int cost = GunFile.getData().getInt("Guns." + i + ".Cost");
+                        int levelUnlock = GunFile.getData().getInt("Guns." + i + ".Level");
+                        int pLevel = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Level");
+
+                        if(pLevel >= levelUnlock){
+                            if(main.getConfig().getBoolean("SwiftEconomy.Enabled")){
+                                double money = SwiftEconomyAPI.playerMoney.get(p.getName());
+                                if(money >= cost){
+                                    int ID=0;
+                                    while(!(OwnedFile.getData().get(p.getUniqueId().toString() + "." + ID) == null)){
+                                        ID++;
+                                    }
+
+
+                                    if(GunFile.getData().getString("Guns." + i + ".POS").equalsIgnoreCase("PRIMARY")) {
+                                        OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoAmount", ammoAmount);
+                                        OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Gun.GunName", gunName);
+                                        OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoName", ammoName);
+                                        OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Gun.GunData", gunData);
+                                        OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoData", ammoData);
+                                        OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Type", type);
+                                        OwnedFile.saveData();
+                                        OwnedFile.reloadData();
+                                        p.sendMessage(main.prefix + "§aPurchase successful!");
+
+                                        SwiftEconomyAPI api = new SwiftEconomyAPI();
+                                        api.removeMoney(p, cost);
+                                        p.closeInventory();
+                                    }else if (GunFile.getData().getString("Guns." + i + ".POS").equalsIgnoreCase("SECONDARY")) {
+                                        OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoAmount", ammoAmount);
+                                        OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Gun.GunName", gunName);
+                                        OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoName", ammoName);
+                                        OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Gun.GunData", gunData);
+                                        OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoData", ammoData);
+                                        OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Type", type);
+                                        OwnedFile.saveData();
+                                        OwnedFile.reloadData();
+
+                                        SwiftEconomyAPI economyAPI = new SwiftEconomyAPI();
+                                        economyAPI.removeMoney(p, cost);
+
+                                        p.sendMessage(main.prefix + "§aPurchase successful!");
+                                        p.closeInventory();
+                                    }
+                                }else{
+                                    p.sendMessage(main.prefix + "§cPurchase failed! Not enough funds.");
+                                    p.closeInventory();
+                                }
+                            }else{
+                                int ID=0;
+                                while(!(OwnedFile.getData().get(p.getUniqueId().toString() + "." + ID) == null)){
+                                    ID++;
+                                }
+
+
+                                if(GunFile.getData().getString("Guns." + i + ".POS").equalsIgnoreCase("PRIMARY")) {
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoAmount", ammoAmount);
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Gun.GunName", gunName);
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoName", ammoName);
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Gun.GunData", gunData);
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoData", ammoData);
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Type", type);
+                                    OwnedFile.saveData();
+                                    OwnedFile.reloadData();
+                                    p.sendMessage(main.prefix + "§aPurchase successful!");
+                                    p.closeInventory();
+                                }else if (GunFile.getData().getString("Guns." + i + ".POS").equalsIgnoreCase("SECONDARY")) {
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoAmount", ammoAmount);
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Gun.GunName", gunName);
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoName", ammoName);
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Gun.GunData", gunData);
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Ammo.AmmoData", ammoData);
+                                    OwnedFile.getData().set(p.getUniqueId().toString() + "." + ID + ".Type", type);
+                                    OwnedFile.saveData();
+                                    OwnedFile.reloadData();
+                                    p.sendMessage(main.prefix + "§aPurchase successful!");
+                                    p.closeInventory();
+                                }
+                            }
+                        }else{
+                            p.sendMessage(main.prefix + "§cYour level isn't high enough");
+                            p.closeInventory();
+                        }
+                    }
+                }
+                e.setCancelled(true);
+
+            } else if(inventory.getName().equals(buyGuns.mainStore.getName())){
                 if(e.getSlot() == 1){
                     p.closeInventory();
                     buyGuns.loadPrimary(p);
