@@ -28,7 +28,7 @@ public class Guns {
     }
 
     public void createMainMenu(Player p){
-        ItemStack stack = new ItemStack(Material.WOOD_HOE);
+        ItemStack stack = new ItemStack(Material.WOODEN_HOE);
         ItemMeta stackMeta = stack.getItemMeta();
         stackMeta.setDisplayName("§3§lPrimary Guns");
         stackMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -38,7 +38,7 @@ public class Guns {
         stack.setItemMeta(stackMeta);
         tryGuns.setItem(1, stack);
 
-        ItemStack stack1 = new ItemStack(Material.WOOD_SPADE);
+        ItemStack stack1 = new ItemStack(Material.WOODEN_SHOVEL);
         ItemMeta meta = stack1.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.setLore(lore);

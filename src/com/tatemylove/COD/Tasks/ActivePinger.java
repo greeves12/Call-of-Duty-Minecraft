@@ -26,15 +26,19 @@ public class ActivePinger extends BukkitRunnable{
         if(BaseArena.states == BaseArena.ArenaStates.Started){
             MainRunnable runnable = new MainRunnable(main);
             KillArena killArena = new KillArena(main);
+            TDM tdm = new TDM(main);
             if(BaseArena.type == BaseArena.ArenaType.TDM) {
                 if (main.RedTeamScore > 30) {
-                    TDM tdm = new TDM(main);
+
                     tdm.endTDM();
                     runnable.stopGameTime();
                 } else if (main.BlueTeamScore > 30) {
-                    TDM tdm = new TDM(main);
+
                    tdm.endTDM();
                     runnable.stopGameTime();
+                }
+                if(main.PlayingPlayers.size() < 2){
+                    tdm.endTDM();
                 }
             }else if(BaseArena.type == BaseArena.ArenaType.KC){
                 if(main.RedTeamScore > 30){
@@ -43,6 +47,9 @@ public class ActivePinger extends BukkitRunnable{
                 }else if(main.BlueTeamScore > 30){
                    killArena.endKill();
                     runnable.stopGameTime();
+                }
+                if(main.PlayingPlayers.size() < 2){
+                    killArena.endKill();
                 }
             }else if(BaseArena.type == BaseArena.ArenaType.INFECT){
                 if(InfectArena.humans.size() < 1){
@@ -55,7 +62,6 @@ public class ActivePinger extends BukkitRunnable{
             }
 
             for(Player pp : main.PlayingPlayers){
-                TDM tdm = new TDM(main);
                 if(BaseArena.type == BaseArena.ArenaType.TDM) {
                     if (TDM.redTeam.contains(pp)) {
                        SendCoolMessages.TabHeaderAndFooter("§4§lRed §c§lTeam", "§6§lCOD\n" + tdm.getBetterTeam(), pp);

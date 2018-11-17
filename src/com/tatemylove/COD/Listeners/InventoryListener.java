@@ -276,6 +276,8 @@ public class InventoryListener implements Listener {
                 }else if(e.getSlot() == 7){
                     p.closeInventory();
                     buyGuns.loadSecondary(p);
+                }else if(e.getSlot() == 49){
+                    p.closeInventory();
                 }
                 e.setCancelled(true);
             }else if(inventory.getName().equals(kits.inv.getName())){

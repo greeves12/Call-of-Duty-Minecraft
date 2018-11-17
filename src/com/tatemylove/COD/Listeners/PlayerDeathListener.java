@@ -14,13 +14,13 @@ import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
 import com.tatemylove.COD.ThisPlugin.ThisPlugin;
 import com.tatemylove.COD.Utilities.SendCoolMessages;
-import net.minecraft.server.v1_12_R1.ItemMapEmpty;
-import net.minecraft.server.v1_12_R1.PacketPlayInClientCommand;
+import net.minecraft.server.v1_13_R2.ItemMapEmpty;
+import net.minecraft.server.v1_13_R2.PacketPlayInClientCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -117,8 +117,8 @@ public class PlayerDeathListener implements Listener {
             } else if (BaseArena.type == BaseArena.ArenaType.KC) {
                 KillArena killArena = new KillArena(main);
 
-                ItemStack blueTag = new ItemStack(Material.WOOL, 1, (byte) 11);
-                ItemStack redTag = new ItemStack(Material.WOOL, 1, (byte) 14);
+                ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
+                ItemStack redTag = new ItemStack(Material.RED_WOOL, 1);
                     if(KillArena.redTeam.contains(p)){
                         Location loc = p.getLocation();
                         Item redWool = p.getWorld().dropItem(loc, redTag);

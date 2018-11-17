@@ -88,7 +88,7 @@ public class GameBoard {
         objective.getScore(ChatColor.DARK_AQUA.toString()).setScore(2);
 
 
-        if(gameboard.get(p.getName()) == null) gameboard.put(p.getName(), board);
+      gameboard.put(p.getName(), board);
 
         createBoard(p);
 

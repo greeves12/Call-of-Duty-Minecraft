@@ -42,7 +42,7 @@ public class PlayerJoinListener implements Listener {
         }
 
         Main.kills.put(p.getName(), 0);
-        Main.deaths.put(p.getName(), 0);
+       Main.deaths.put(p.getName(), 0);
         Main.killStreak.put(p.getName(), 0);
 
         main.nonPlayers.add(p);
@@ -84,14 +84,30 @@ public class PlayerJoinListener implements Listener {
 
 
         }else{
-            StatsFile.getData().set(p.getUniqueId().toString() + ".Wins", 0);
-            StatsFile.getData().set(p.getUniqueId().toString() + ".Kills", 0);
-            StatsFile.getData().set(p.getUniqueId().toString() + ".Deaths", 0);
-            StatsFile.getData().set(p.getUniqueId().toString() + ".Level", 1);
-            StatsFile.getData().set(p.getUniqueId().toString() + ".EXP", 0);
-            StatsFile.saveData();
-            StatsFile.reloadData();
+            if(!StatsFile.getData().contains(p.getUniqueId().toString())) {
+                StatsFile.getData().set(p.getUniqueId().toString() + ".Wins", 0);
+                StatsFile.getData().set(p.getUniqueId().toString() + ".Kills", 0);
+                StatsFile.getData().set(p.getUniqueId().toString() + ".Deaths", 0);
+                StatsFile.getData().set(p.getUniqueId().toString() + ".Level", 1);
+                StatsFile.getData().set(p.getUniqueId().toString() + ".EXP", 0);
+                StatsFile.saveData();
+                StatsFile.reloadData();
+            }else{
+                int kills = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Kills");
+                int wins = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Wins");
+                int deaths = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Deaths");
+                int level = StatsFile.getData().getInt(p.getUniqueId().toString() + ".Level");
+                int exp = StatsFile.getData().getInt(p.getUniqueId().toString() + ".EXP");
+
+                LobbyBoard.winsH.put(p.getName(), wins);
+                LobbyBoard.killsH.put(p.getName(), kills);
+                LobbyBoard.deathsH.put(p.getName(), deaths);
+            }
         }
+
+        LobbyBoard lobbyBoard = new LobbyBoard(main);
+
+        lobbyBoard.setLobbyBoard(p);
     }
 
     @EventHandler

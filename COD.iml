@@ -10,18 +10,18 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/BuildTools/craftbukkit-1.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/BuildTools/craftbukkit-1.13.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/Desktop/BuildTools/craftbukkit-1.12.2.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/BuildTools/craftbukkit-1.13.2.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/ProtocolLib.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/Bukkit Plugins/ProtocolLib (1).jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -30,7 +30,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/Citizens.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/CrackShot.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -39,7 +39,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/SwiftEconomy.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/SwiftEconomy.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -48,7 +48,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/CrackShot.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/Citizens.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

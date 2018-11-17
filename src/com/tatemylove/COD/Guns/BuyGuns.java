@@ -33,8 +33,8 @@ public class BuyGuns {
 
         ArrayList<String> lore2 = new ArrayList<>();
         lore2.add("§6§lClick to Exit");
-        mainStore.setItem(1, getMaterial(Material.WOOD_HOE, "§c§lPrimary Weapons", lore));
-        mainStore.setItem(7, getMaterial(Material.WOOD_SPADE, "§7§lSecondary Weapons", lore));
+        mainStore.setItem(1, getMaterial(Material.WOODEN_HOE, "§c§lPrimary Weapons", lore));
+        mainStore.setItem(7, getMaterial(Material.WOODEN_SHOVEL, "§7§lSecondary Weapons", lore));
         mainStore.setItem(49, getMaterial(Material.EMERALD, "§2§lExit",lore2 ));
 
         p.openInventory(mainStore);
@@ -60,6 +60,7 @@ public class BuyGuns {
 
                     ArrayList<String> lore = new ArrayList<>();
                     lore.add("§3§lLevel: §2" + levelUnlock);
+                    lore.add("§3§lClip Size: §2" + ammoAmount);
                     if(main.getConfig().getBoolean("SwiftEconomy.Enabled")){
                         lore.add("§6§lCost: §4$" + cost);
                     }

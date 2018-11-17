@@ -32,7 +32,7 @@ import java.util.HashMap;
 public class Main extends JavaPlugin {
 
     public String prefix = "§8§l[COD] ";
-    public static final String version = "1.1.1";
+    public static final String version = "1.1.3";
     public ArrayList<Player> WaitingPlayers = new ArrayList<>();
     public ArrayList<Player> PlayingPlayers = new ArrayList<>();
     public ArrayList<Player> nonPlayers = new ArrayList<>();

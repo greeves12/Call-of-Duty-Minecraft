@@ -83,7 +83,7 @@ public class LobbyBoard {
 
 
 
-        if(lobbyboard.get(p.getName()) == null) lobbyboard.put(p.getName(), board);
+         lobbyboard.put(p.getName(), board);
 
         createBoard(p);
 
