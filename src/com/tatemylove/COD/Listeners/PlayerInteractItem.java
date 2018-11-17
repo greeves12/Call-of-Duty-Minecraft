@@ -42,17 +42,11 @@ public class PlayerInteractItem implements Listener {
         Moab moab = new Moab(main);
         moab.onPlayerIneteract(e);
 
+        UAV uav = new UAV(main);
+        uav.onUse(e);
+
         if(main.isCreating.contains(e.getPlayer())){
             Player p = e.getPlayer();
-
-           // String pos = null;
-           // String
-            //int step = main.step.get(p.getName());
-             //   if (e.getAction() == Action.RIGHT_CLICK_AIR) {
-              //      if (step  == 0){
-
-              //      }
-             //   }
 
         }
     }

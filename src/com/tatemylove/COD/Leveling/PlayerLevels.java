@@ -9,7 +9,7 @@ public class PlayerLevels {
     public PlayerLevels(Main m){
         main = m;
     }
-  
+
 
     public void addExp (Player p, int amount){
         int exp = StatsFile.getData().getInt(p.getUniqueId().toString() + ".EXP");

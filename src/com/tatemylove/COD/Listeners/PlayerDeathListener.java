@@ -5,10 +5,7 @@ import com.tatemylove.COD.Achievements.AchievementSQL;
 import com.tatemylove.COD.Arenas.*;
 import com.tatemylove.COD.Files.KitFile;
 import com.tatemylove.COD.Files.StatsFile;
-import com.tatemylove.COD.KillStreaks.AttackDogs;
-import com.tatemylove.COD.KillStreaks.CarePackage;
-import com.tatemylove.COD.KillStreaks.Moab;
-import com.tatemylove.COD.KillStreaks.Napalm;
+import com.tatemylove.COD.KillStreaks.*;
 import com.tatemylove.COD.Leveling.PlayerLevels;
 import com.tatemylove.COD.Lobby.GetLobby;
 import com.tatemylove.COD.Main;
@@ -149,6 +146,9 @@ public class PlayerDeathListener implements Listener {
 
                 CarePackage c = new CarePackage(main);
                 c.onKill(e);
+
+                UAV uav = new UAV(main);
+                uav.onKill(e);
             }
 
             if (two instanceof Player) {

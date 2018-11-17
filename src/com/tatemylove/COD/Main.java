@@ -6,10 +6,7 @@ import com.tatemylove.COD.Arenas.BaseArena;
 import com.tatemylove.COD.Citizens.NPCListener;
 import com.tatemylove.COD.Commands.MainCommand;
 import com.tatemylove.COD.Files.*;
-import com.tatemylove.COD.KillStreaks.AttackDogs;
-import com.tatemylove.COD.KillStreaks.CarePackage;
-import com.tatemylove.COD.KillStreaks.Moab;
-import com.tatemylove.COD.KillStreaks.Napalm;
+import com.tatemylove.COD.KillStreaks.*;
 import com.tatemylove.COD.Listeners.*;
 import com.tatemylove.COD.MySQL.MySQL;
 import com.tatemylove.COD.Runnables.MainRunnable;
@@ -19,10 +16,7 @@ import com.tatemylove.COD.Tasks.GetLevel;
 import com.tatemylove.COD.Updater.Updater;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.InvalidPluginException;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -32,7 +26,7 @@ import java.util.HashMap;
 public class Main extends JavaPlugin {
 
     public String prefix = "§8§l[COD] ";
-    public static final String version = "1.1.3";
+    public static final String version = "1.1.4";
     public ArrayList<Player> WaitingPlayers = new ArrayList<>();
     public ArrayList<Player> PlayingPlayers = new ArrayList<>();
     public ArrayList<Player> nonPlayers = new ArrayList<>();
@@ -170,6 +164,8 @@ public class Main extends JavaPlugin {
         Napalm.settUp();
 
         CarePackage.settUp();
+
+        UAV.settUp();
 
 
         //Not required anymore as Bukkit will replace the downloaded file from the updates folder

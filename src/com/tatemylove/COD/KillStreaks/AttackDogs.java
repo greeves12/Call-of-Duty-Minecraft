@@ -51,7 +51,7 @@ public class AttackDogs {
                 Player pp = e.getEntity().getKiller();
 
                 if ((main.PlayingPlayers.contains(p)) && (main.PlayingPlayers.contains(pp))) {
-                    if (Main.killStreak.get(pp.getName()) == 15) {
+                    if (Main.killStreak.get(pp.getName()) == 8) {
                         pp.getInventory().addItem(dogs);
                         pp.sendMessage(main.prefix + "§c§lYou got Dogs. Right click to deploy!");
 
@@ -63,11 +63,6 @@ public class AttackDogs {
 
     public void onInteract(PlayerInteractEvent e) {
         GetPlayersOnOtherTeam getPlayersOnOtherTeam = new GetPlayersOnOtherTeam(main);
-        //if (e.getItem() == null) return;
-        //if (!(e.getItem().getType() == Material.AIR)) return;
-       // if (!e.getItem().equals(dogs)) return;
-        //if ((!(e.getAction().equals(Action.RIGHT_CLICK_AIR))) && (!(e.getAction().equals(Action.RIGHT_CLICK_BLOCK))) && (!(e.getAction().equals(Action.LEFT_CLICK_AIR))) && (!(e.getAction().equals(Action.LEFT_CLICK_BLOCK))))
-           // return;
 
         if (e.getAction() == Action.RIGHT_CLICK_AIR && e.getPlayer().getInventory().getItemInMainHand().equals(AttackDogs.dogs)) {
             e.getPlayer().sendMessage(main.prefix + "§5You released the hounds");

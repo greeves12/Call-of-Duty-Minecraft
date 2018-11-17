@@ -48,7 +48,7 @@ public class CarePackage {
                 Player pp = e.getEntity().getKiller();
 
                 if((main.PlayingPlayers.contains(p)) && (main.PlayingPlayers.contains(pp))){
-                    if(Main.killStreak.get(pp.getName()) == 3){
+                    if(Main.killStreak.get(pp.getName()) == 5){
                         pp.getInventory().addItem(carePackage);
                         pp.sendMessage(main.prefix + "§6§lYou got a Care-Package. Right click to deploy!");
                     }
@@ -76,13 +76,15 @@ public class CarePackage {
             Random random = new Random();
 
             int id = 0;
-            id = random.nextInt(2);
+            id = random.nextInt(3);
 
             if(id == 0){
                 inv.addItem(Napalm.napalm);
             }else if(id == 1) {
                 inv.addItem(AttackDogs.dogs);
                 // }
+            }else if(id == 2){
+                inv.addItem(UAV.uav);
             }
         }
     }

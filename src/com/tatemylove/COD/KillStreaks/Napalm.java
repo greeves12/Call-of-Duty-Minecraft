@@ -48,7 +48,7 @@ public class Napalm {
                 Player pp = e.getEntity().getKiller();
 
                 if ((main.PlayingPlayers.contains(p)) && (main.PlayingPlayers.contains(pp))) {
-                    if (Main.killStreak.get(pp.getName()) == 5) {
+                    if (Main.killStreak.get(pp.getName()) == 4) {
                         pp.getInventory().addItem(napalm);
                         pp.sendMessage(main.prefix + "§6AirStrike waiting on your go!");
                     }
