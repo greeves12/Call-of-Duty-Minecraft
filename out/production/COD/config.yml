@@ -1,0 +1,102 @@
+#######################################################################
+#COD created by tatemylove                                            #
+#Looking for broken and buggy plugin? You downloaded the wrong one ;) #
+#######################################################################
+#General Section (Optional)
+
+#Minimum amount of players to start the game
+min-players: 2
+
+#Maximum players allowed in a game
+max-players: 10
+
+#Forces the player to join the queue when joining the server
+auto-join: false
+
+#Enable or Disable Friendly Fire
+friendly-fire: false
+
+#Time until the game starts
+countdown-time: 20
+
+#Amount of time for the game until it ends (In seconds)
+game-time: 600
+
+#Lobby ScoreBoard name
+lobbyboard-name: "&b&lCOD Lobby"
+
+#Game Scoreboard name
+gameboard-name: "&6&lCOD IN-GAME"
+
+#Stop players from swapping hands
+swap-hands: true
+###########################
+#MySQL (Optional) (Required for multi server stat syncing)
+MySQL:
+  Enabled: false
+  Username: user
+  Password: password
+  Ip: 0.0.0.0
+  Database: tatemylove_rocks
+############################
+#Economy Section (Optional) (Requires my SwiftEconomy plugin, free download from www.spigotmc.org)
+SwiftEconomy:
+  Enabled: false
+
+  #Amount to give to the winning team/player
+  win-amount: 0
+
+  #Amount to give to the losing team/player
+  loss-amount: 0
+
+  #Amount to give to a player who dies
+  death-amount: 0
+############################
+#Language Section (Optional)
+#Check the 'language.yml' file
+############################
+#NPC's (Optional) (Requires Citizens 2)
+#Test Gun NPC
+GunRange:
+  npc-name: "&e&lGunRange"
+  npc-type: "villager"
+
+#Join COD NPC
+JoinNPC:
+  npc-name: "&8&lQuick Join"
+  npc-type: "zombie"
+
+#Leave COD NPC
+LeaveNPC:
+  npc-name: "&5&lLeave COD"
+  npc-type: "creeper"
+
+  #Will this NPC used for BungeeCord?
+  BungeeCord:
+    Enabled: false
+    #Fall back to where players will be sent to when they right click this NPC
+    fallback-server: "lobby"
+############################
+#Game Settings
+
+#Amount of experience granted per kill
+exp-per-kill: 500
+
+#Cooldown before the player can take damage again (To avoid spawn-killing)
+invincible: 5
+
+#Stops them from breaking things when in-game
+no-break: true
+
+#Stops them from placing things when in-game
+no-place: true
+############################
+#BungeeCord (Optional) (MySQL is required for stat syncing across servers!!)
+BungeeCord:
+  Enabled: false
+
+  #Specify which server you want them to move to when the game is finished
+  fallback-server: "lobby"
+############################
+#Copyright © 2017 tatemylove. All rights reserved
+
