@@ -1,8 +1,10 @@
 package com.tatemylove.COD2.Listeners;
 
+import com.tatemylove.COD2.Files.GunsFile;
 import com.tatemylove.COD2.Files.PlayerData;
 import com.tatemylove.COD2.Guns.BuyGuns;
 import com.tatemylove.COD2.Main;
+import com.tatemylove.COD2.Perks.PerkMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,6 +28,7 @@ public class InventoryInteract implements Listener {
                     e.getWhoClicked().closeInventory();
                     BuyGuns buyGuns = new BuyGuns();
                     buyGuns.loadPrimary((Player) e.getWhoClicked());
+
                 } else if (e.getSlot() == 7) {
                     e.getWhoClicked().closeInventory();
                     BuyGuns buyGuns = new BuyGuns();
@@ -33,6 +36,9 @@ public class InventoryInteract implements Listener {
 
                 } else if (e.getSlot() == 49) {
                     e.getWhoClicked().closeInventory();
+                }else if(e.getSlot() == 4){
+                    e.getWhoClicked().closeInventory();
+                    new PerkMenu().createMenu(p);
                 }
                 e.setCancelled(true);
             }
@@ -43,7 +49,11 @@ public class InventoryInteract implements Listener {
                 if (e.getClickedInventory().getItem(e.getSlot()) != null) {
                     ItemMeta meta = e.getClickedInventory().getItem(e.getSlot()).getItemMeta();
                     if (Main.guns.contains(meta.getDisplayName())) {
-
+                        int level = PlayerData.getData().getInt("Players." + p.getUniqueId().toString() + ".Level");
+                        if(level < GunsFile.getData().getInt("Guns." + meta.getDisplayName() + ".Level")){
+                            p.sendMessage(Main.prefix + "§cYou need to be level §4" + GunsFile.getData().getInt("Guns." + meta.getDisplayName() + ".Level"));
+                            return;
+                        }
                         ArrayList<String> list = Main.ownedGuns.get(p.getUniqueId().toString());
                         if(list.contains(meta.getDisplayName())){
                             p.sendMessage(Main.prefix + "§cYou already own §4" + meta.getDisplayName());
@@ -69,6 +79,11 @@ public class InventoryInteract implements Listener {
 
                     if(Main.guns.contains(meta.getDisplayName())){
                         ArrayList<String> list = Main.ownedGuns.get(p.getUniqueId().toString());
+                        int level = PlayerData.getData().getInt("Players." + p.getUniqueId().toString() + ".Level");
+                        if(level < GunsFile.getData().getInt("Guns." + meta.getDisplayName() + ".Level")){
+                            p.sendMessage(Main.prefix + "§cYou need to be level §4" + GunsFile.getData().getInt("Guns." + meta.getDisplayName() + ".Level"));
+                            return;
+                        }
                         if(list.contains(meta.getDisplayName())){
                             p.sendMessage(Main.prefix + "§cYou already own §4" + meta.getDisplayName());
                             p.closeInventory();
@@ -81,6 +96,42 @@ public class InventoryInteract implements Listener {
                         }
                     }
                 }
+                e.setCancelled(true);
+            }
+
+            if(e.getClickedInventory().equals(PerkMenu.inventory)){
+
+                if(e.getClickedInventory().getItem(e.getSlot()) != null){
+                    ItemMeta meta = e.getClickedInventory().getItem(e.getSlot()).getItemMeta();
+                    ArrayList<String> list = Main.ownedPerks.get(p.getUniqueId().toString());
+                    int level = PlayerData.getData().getInt("Players." + p.getUniqueId().toString() + ".Level");
+
+                    if(meta.getDisplayName().equals("§7§nScavenger")){
+                        if(level < 5){
+                            p.sendMessage(Main.prefix + "§cYou need to be level §45");
+                            e.setCancelled(true);
+                            return;
+                        }
+                    }else if(meta.getDisplayName().equals("§6§nFeatherWeight")){
+                        if(level < 10){
+                            p.sendMessage(Main.prefix + "§cYou need to be level §410");
+                            e.setCancelled(true);
+                            return;
+                        }
+                    }
+
+                    if(list.contains(meta.getDisplayName())){
+                        p.sendMessage(Main.prefix + "§cYou already own §4" + meta.getDisplayName());
+                        p.closeInventory();
+                    }else{
+                        list.add(meta.getDisplayName());
+                        PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Perks", list);
+                        PlayerData.saveData();
+                        p.sendMessage(Main.prefix + "§aPurchase of §b" + meta.getDisplayName() + " §asuccessful");
+                        p.closeInventory();
+                    }
+                }
+
                 e.setCancelled(true);
             }
         }

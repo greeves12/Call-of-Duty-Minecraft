@@ -3,6 +3,7 @@ package com.tatemylove.COD2.Commands;
 import com.tatemylove.COD2.Events.CODJoinEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.ArenasFile;
+import com.tatemylove.COD2.Files.GunsFile;
 import com.tatemylove.COD2.Files.LobbyFile;
 import com.tatemylove.COD2.Guns.BuyGuns;
 import com.tatemylove.COD2.Guns.Guns;
@@ -10,6 +11,7 @@ import com.tatemylove.COD2.Guns.Guns;
 import com.tatemylove.COD2.Listeners.PlayerJoin;
 import com.tatemylove.COD2.Locations.GetLocations;
 import com.tatemylove.COD2.Main;
+import com.tatemylove.COD2.Perks.PerkMenu;
 import com.tatemylove.COD2.ThisPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -104,6 +106,19 @@ public class MainCommand implements CommandExecutor {
                         p.sendMessage(Main.prefix + "§cYou need to create an arena first");
                     }
                 }
+                if(args[0].equalsIgnoreCase("deletegun")){
+                    if(args.length==2){
+                        if(args[1] != null){
+                            if(GunsFile.getData().contains("Guns." + args[1])){
+                                GunsFile.getData().set("Guns." + args[1], null);
+                                GunsFile.saveData();
+                                p.sendMessage(Main.prefix + "§b" + args[1] + " §ddeleted");
+                            }else{
+                                p.sendMessage("§cGun doesn't exist");
+                            }
+                        }
+                    }
+                }
                 if(args[0].equalsIgnoreCase("make")){
                     if(args.length == 9){
                         String name = args[1];
@@ -137,13 +152,30 @@ public class MainCommand implements CommandExecutor {
             //Player Commands
             if(p.hasPermission("cod.player")){
                 if(args[0].equalsIgnoreCase("buy")){
-                    if(Main.WaitingPlayers.contains(p)){
+                    if(!Main.PlayingPlayers.contains(p)){
                         BuyGuns buyGuns = new BuyGuns();
                         buyGuns.loadMenu(p);
+                    }else{
+                        p.sendMessage(Main.prefix + "§cGame in progress");
+                    }
+                }
+                if(args[0].equalsIgnoreCase("perks")){
+                    if(!Main.PlayingPlayers.contains(p)){
+                        new PerkMenu().createMenu(p);
+                    }else{
+                        p.sendMessage(Main.prefix + "§cGame in progress");
                     }
                 }
                 if(args[0].equalsIgnoreCase("join")){
-                    if(!Main.WaitingPlayers.contains(p) && !Main.PlayingPlayers.contains(p)){
+                    if( !Main.PlayingPlayers.contains(p)){
+                        p.teleport(GetLocations.getLobby());
+                        Bukkit.getServer().getPluginManager().callEvent(new CODJoinEvent(p));
+                        p.sendMessage(Main.prefix + "§eYou joined the lobby");
+                        Main.WaitingPlayers.add(p);
+                    }else{
+                        p.sendMessage(Main.prefix + "§cYou can't join the lobby right now");
+                    }
+                    if(!Main.WaitingPlayers.contains(p)){
                         p.teleport(GetLocations.getLobby());
                         Bukkit.getServer().getPluginManager().callEvent(new CODJoinEvent(p));
                         p.sendMessage(Main.prefix + "§eYou joined the lobby");

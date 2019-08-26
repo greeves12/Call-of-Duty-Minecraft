@@ -3,6 +3,7 @@ package com.tatemylove.COD2.Listeners;
 import com.tatemylove.COD2.Events.CODJoinEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.PlayerData;
+import com.tatemylove.COD2.Inventories.GameInventory;
 import com.tatemylove.COD2.Locations.GetLocations;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.ThisPlugin;
@@ -12,6 +13,8 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -46,6 +49,7 @@ public class PlayerJoin implements Listener {
     public void codJoin(CODJoinEvent e){
         inv.put(e.getPlayer().getUniqueId(), e.getPlayer().getInventory().getContents());
         e.getPlayer().getInventory().clear();
+        GameInventory.lobbyInv(e.getPlayer());
         loc.put(e.getPlayer().getUniqueId(), e.getPlayer().getLocation());
     }
 
@@ -54,6 +58,26 @@ public class PlayerJoin implements Listener {
         e.getPlayer().getInventory().clear();
         e.getPlayer().getInventory().setContents(inv.get(e.getPlayer().getUniqueId()));
         e.getPlayer().teleport(loc.get(e.getPlayer().getUniqueId()));
+    }
+
+    @EventHandler
+    public void noBuild(BlockPlaceEvent e){
+        if(Main.PlayingPlayers.contains(e.getPlayer())){
+            e.setCancelled(true);
+        }
+        if(Main.WaitingPlayers.contains(e.getPlayer())){
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void noBreak(BlockBreakEvent e){
+        if(Main.PlayingPlayers.contains(e.getPlayer())){
+            e.setCancelled(true);
+        }
+        if(Main.WaitingPlayers.contains(e.getPlayer())){
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler
@@ -68,6 +92,9 @@ public class PlayerJoin implements Listener {
             PlayerData.reloadData();
 
             Main.ownedGuns.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
+            Main.ownedSecondary.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
+            Main.ownedPerks.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
+            Main.unlockedAchievements.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
         }
 
         if(main.getConfig().getBoolean("BungeeCord.Enabled")){

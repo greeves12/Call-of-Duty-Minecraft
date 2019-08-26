@@ -25,6 +25,14 @@ BungeeCord:
   #Where should players be sent when the game ends?
   fall-back: hub
 
-#Using economy with COD requires swift economy https://www.spigotmc.org/resources/swift-economy-mysql-api.50208/
+#Using economy with COD requires swift economy https://www.spigotmc.org/resources/swift-economy-mysql-api.50208/ (Optional)
 SwiftEconomy:
+  enabled: false
+
+#Use protocolLib (Requires protocolLib https://www.spigotmc.org/resources/protocollib.1997/) for cooler messages (Optional)
+protocolLib:
+  enabled: false
+
+#Use Citizens2 (Requires citizens2 https://ci.citizensnpcs.co/job/Citizens2/) for NPC's (Optional)
+Citizens2:
   enabled: false

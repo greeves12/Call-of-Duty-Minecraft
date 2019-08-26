@@ -1,11 +1,9 @@
 package com.tatemylove.COD2;
 
+import com.tatemylove.COD2.Achievement.AchievementAPI;
 import com.tatemylove.COD2.Arenas.BaseArena;
 import com.tatemylove.COD2.Commands.MainCommand;
-import com.tatemylove.COD2.Files.ArenasFile;
-import com.tatemylove.COD2.Files.GunsFile;
-import com.tatemylove.COD2.Files.LobbyFile;
-import com.tatemylove.COD2.Files.PlayerData;
+import com.tatemylove.COD2.Files.*;
 import com.tatemylove.COD2.Inventories.GameInventory;
 import com.tatemylove.COD2.Listeners.InventoryInteract;
 import com.tatemylove.COD2.Listeners.PlayerDeath;
@@ -36,7 +34,10 @@ public class Main extends JavaPlugin {
     public static ArrayList<Player> BlueTeam = new ArrayList<>();
     public static ArrayList<String> guns = new ArrayList<>();
     public static HashMap<String, ArrayList<String>> ownedGuns = new HashMap<>();
+    public static HashMap<String, ArrayList<String>> ownedSecondary = new HashMap<>();
     public static HashMap<String, ArrayList<String>> ownedPerks = new HashMap<>();
+    public static HashMap<String, ArrayList<String>> unlockedAchievements = new HashMap<>();
+    public static ArrayList<String> achievements = new ArrayList<>();
     public boolean enabled = false;
 
     public void onEnable(){
@@ -49,13 +50,14 @@ public class Main extends JavaPlugin {
         LobbyFile.setup(this);
         GunsFile.setup(this);
         PlayerData.setup(this);
+        AchievementFile.setup(this);
 
+        AchievementAPI.createAchievement("hi");
         GameInventory.settUp();
 
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InventoryInteract(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeath(), this);
-
 
 
         getConfig().options().copyDefaults(true);
@@ -86,7 +88,8 @@ public class Main extends JavaPlugin {
         if(PlayerData.getData().contains("Players.")){
             for(String s: PlayerData.getData().getConfigurationSection("Players.").getKeys(false)){
                 ownedGuns.put(s, new ArrayList<>(PlayerData.getData().getStringList("Players." + s + ".Guns")));
-                ownedPerks.put(s, new ArrayList<>(PlayerData.getData().getStringList("Players." + ".Guns")));
+                ownedSecondary.put(s, new ArrayList<>(PlayerData.getData().getStringList("Players." + s + ".Secondary")));
+                ownedPerks.put(s, new ArrayList<>(PlayerData.getData().getStringList("Players." +s+ ".Perks")));
             }
         }
 
