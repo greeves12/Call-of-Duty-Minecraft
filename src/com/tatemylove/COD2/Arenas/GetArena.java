@@ -13,39 +13,41 @@ import java.util.Collections;
 public class GetArena {
     private static String currentArena;
 
-    private static String chooseNextArena(){
+    private  String chooseNextArena(){
         ArrayList<String> arena = new ArrayList<>();
         arena.addAll(Main.arenas);
         Collections.shuffle(arena);
 
+        if(Main.onGoingArenas.contains(arena.get(0))){
+            chooseNextArena();
+        }
         return arena.get(0);
-
     }
 
-    public static  String getNextArena()
+    public   String getNextArena()
     {
         currentArena = chooseNextArena();
         return currentArena;
     }
 
-    public static String getCurrentArena()
+    public  String getCurrentArena()
     {
         return currentArena;
     }
 
-    public static Location getBlueSpawn(Player p){
+    public  Location getBlueSpawn(Player p, String arena){
         final double x;
         final double y;
         final double z;
         final World world;
         final float yaw;
         final float pitch;
-        world = Bukkit.getServer().getWorld(ArenasFile.getData().getString("Arenas." + getNextArena() + ".Spawns.Blue.World"));
-        x = ArenasFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Blue.X");
-        y = ArenasFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Blue.Y");
-        z = ArenasFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Blue.Z");
-        yaw = (float) ArenasFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Blue.Yaw");
-        pitch = (float) ArenasFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Blue.Pitch");
+        world = Bukkit.getServer().getWorld(ArenasFile.getData().getString("Arenas." + arena + ".Spawns.Blue.World"));
+        x = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Blue.X");
+        y = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Blue.Y");
+        z = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Blue.Z");
+        yaw = (float) ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Blue.Yaw");
+        pitch = (float) ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Blue.Pitch");
 
         Location blueSpawn = new org.bukkit.Location(world, x,y,z);
 
@@ -55,19 +57,19 @@ public class GetArena {
         return blueSpawn;
     }
 
-    public static Location getRedSpawn(Player p){
+    public  Location getRedSpawn(Player p, String arena){
         final double x;
         final double y;
         final double z;
         final World world;
         final float yaw;
         final float pitch;
-        world = Bukkit.getWorld(ArenasFile.getData().getString("Arenas." + getNextArena() + ".Spawns.Red.World"));
-        x = ArenasFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Red.X");
-        y = ArenasFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Red.Y");
-        z = ArenasFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Red.Z");
-        yaw = (float) ArenasFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Blue.Yaw");
-        pitch = (float) ArenasFile.getData().getDouble("Arenas." + getNextArena() + ".Spawns.Blue.Pitch");
+        world = Bukkit.getWorld(ArenasFile.getData().getString("Arenas." + arena + ".Spawns.Red.World"));
+        x = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Red.X");
+        y = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Red.Y");
+        z = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Red.Z");
+        yaw = (float) ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Blue.Yaw");
+        pitch = (float) ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Blue.Pitch");
 
         Location redSpawn = new Location(world, x, y, z);
 

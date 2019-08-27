@@ -25,6 +25,11 @@ public class GameInventory {
         knife.setItemMeta(meta);
     }
 
+    public static void leaderBoard(Player p){
+
+    }
+
+
     public static void lobbyInv(Player p){
         achievements = SkullCreator.itemFromUuid(p.getUniqueId());
         SkullMeta meta = (SkullMeta) achievements.getItemMeta();

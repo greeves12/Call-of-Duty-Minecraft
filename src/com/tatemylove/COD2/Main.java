@@ -9,6 +9,8 @@ import com.tatemylove.COD2.Listeners.InventoryInteract;
 import com.tatemylove.COD2.Listeners.PlayerDeath;
 import com.tatemylove.COD2.Listeners.PlayerJoin;
 import com.tatemylove.COD2.Tasks.CountDown;
+import com.tatemylove.COD2.Tasks.LevelUpdater;
+import com.tatemylove.COD2.Updater.Updater;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,13 +27,11 @@ public class Main extends JavaPlugin {
     public static int time;
     public static int gametime;
     public static int minplayers;
-    public static int redscore = 0;
-    public static int bluescore = 0;
     public static ArrayList<String> arenas = new ArrayList<>();
+    public static ArrayList<String> onGoingArenas = new ArrayList<>();
     public static ArrayList<Player> WaitingPlayers = new ArrayList<>();
-    public static ArrayList<Player> PlayingPlayers = new ArrayList<>();
-    public static ArrayList<Player> RedTeam = new ArrayList<>();
-    public static ArrayList<Player> BlueTeam = new ArrayList<>();
+
+
     public static ArrayList<String> guns = new ArrayList<>();
     public static HashMap<String, ArrayList<String>> ownedGuns = new HashMap<>();
     public static HashMap<String, ArrayList<String>> ownedSecondary = new HashMap<>();
@@ -39,20 +39,20 @@ public class Main extends JavaPlugin {
     public static HashMap<String, ArrayList<String>> unlockedAchievements = new HashMap<>();
     public static ArrayList<String> achievements = new ArrayList<>();
     public boolean enabled = false;
+    public static String version = "2.0.0";
 
     public void onEnable(){
         MainCommand cmd = new MainCommand(this);
         getCommand("cod").setExecutor(cmd);
 
-        BaseArena.states = BaseArena.ArenaStates.Countdown;
 
         ArenasFile.setup(this);
         LobbyFile.setup(this);
         GunsFile.setup(this);
         PlayerData.setup(this);
         AchievementFile.setup(this);
+        StatsFile.setup(this);
 
-        AchievementAPI.createAchievement("hi");
         GameInventory.settUp();
 
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
@@ -62,6 +62,11 @@ public class Main extends JavaPlugin {
 
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
+
+        if(getConfig().getBoolean("auto-update")){
+            new Updater().autoUpdate();
+        }
+        new LevelUpdater().runTaskTimer(this, 0, 20);
 
         time=getConfig().getInt("time-to-start");
         minplayers =getConfig().getInt("min-players");

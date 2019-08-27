@@ -18,6 +18,12 @@ game-time: 600
 #Minimum players to start
 min-players: 2
 
+#Exp per kill
+exp-kill: 100
+
+#Exp per win
+exp-win: 200
+
 #Enabled this if you are using COD for multi-servers
 BungeeCord:
   #Enabling this will also enable auto-join
@@ -27,10 +33,6 @@ BungeeCord:
 
 #Using economy with COD requires swift economy https://www.spigotmc.org/resources/swift-economy-mysql-api.50208/ (Optional)
 SwiftEconomy:
-  enabled: false
-
-#Use protocolLib (Requires protocolLib https://www.spigotmc.org/resources/protocollib.1997/) for cooler messages (Optional)
-protocolLib:
   enabled: false
 
 #Use Citizens2 (Requires citizens2 https://ci.citizensnpcs.co/job/Citizens2/) for NPC's (Optional)

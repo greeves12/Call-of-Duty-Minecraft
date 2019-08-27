@@ -3,18 +3,28 @@ package com.tatemylove.COD2.Listeners;
 import com.tatemylove.COD2.Events.CODJoinEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.PlayerData;
+import com.tatemylove.COD2.Files.StatsFile;
+import com.tatemylove.COD2.Guns.BuyGuns;
 import com.tatemylove.COD2.Inventories.GameInventory;
+import com.tatemylove.COD2.Inventories.SelectKit;
 import com.tatemylove.COD2.Locations.GetLocations;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.ThisPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -81,12 +91,35 @@ public class PlayerJoin implements Listener {
     }
 
     @EventHandler
+    public void noThrow(PlayerDropItemEvent e){
+        if(Main.WaitingPlayers.contains(e.getPlayer())){
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void itemClick(PlayerInteractEvent e){
+        if(e.getAction() == Action.RIGHT_CLICK_AIR){
+            if(e.getItem().equals(GameInventory.achievements)){
+
+            }else if(e.getItem().equals(GameInventory.kits)){
+                new SelectKit().createKit(e.getPlayer());
+            }else if(e.getItem().equals(GameInventory.buygun)){
+                new BuyGuns().loadMenu(e.getPlayer());
+            }
+        }
+    }
+
+    @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         if(!PlayerData.getData().contains("Players." + e.getPlayer().getUniqueId().toString())){
 
             PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Guns", new ArrayList<String>());
             PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Level", 1);
             PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Perks", new ArrayList<String>());
+            PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Perk", "");
+            PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Primary", "");
+            PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Secondary", "");
 
             PlayerData.saveData();
             PlayerData.reloadData();
@@ -95,6 +128,12 @@ public class PlayerJoin implements Listener {
             Main.ownedSecondary.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
             Main.ownedPerks.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
             Main.unlockedAchievements.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
+            StatsFile.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Wins", 0);
+            StatsFile.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Deaths", 0);
+            StatsFile.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Kills", 0);
+            StatsFile.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".EXP", 0);
+
+            StatsFile.saveData();
         }
 
         if(main.getConfig().getBoolean("BungeeCord.Enabled")){

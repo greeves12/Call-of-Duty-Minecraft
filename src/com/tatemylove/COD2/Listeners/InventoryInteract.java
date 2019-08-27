@@ -3,6 +3,7 @@ package com.tatemylove.COD2.Listeners;
 import com.tatemylove.COD2.Files.GunsFile;
 import com.tatemylove.COD2.Files.PlayerData;
 import com.tatemylove.COD2.Guns.BuyGuns;
+import com.tatemylove.COD2.Inventories.SelectKit;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.Perks.PerkMenu;
 import org.bukkit.entity.Player;
@@ -132,6 +133,62 @@ public class InventoryInteract implements Listener {
                     }
                 }
 
+                e.setCancelled(true);
+            }
+            if(e.getClickedInventory().equals(SelectKit.mainKit)){
+                if(e.getSlot() == 1){
+                    p.closeInventory();
+                    new SelectKit().createPrimary(p);
+                }else if(e.getSlot() == 4){
+                    p.closeInventory();
+                    new SelectKit().createPErks(p);
+                }else if(e.getSlot() == 7){
+                    p.closeInventory();
+                    new SelectKit().createSecondary(p);
+                }else if(e.getSlot() == 49){
+                    p.closeInventory();
+                }
+                e.setCancelled(true);
+            }
+            if(e.getClickedInventory().equals(SelectKit.perks)){
+                if(e.getClickedInventory().getItem(e.getSlot()) != null){
+                    ItemMeta meta = e.getClickedInventory().getItem(e.getSlot()).getItemMeta();
+                    if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Perk").equals(meta.getDisplayName())) {
+
+                        PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Perk", meta.getDisplayName());
+                        PlayerData.saveData();
+                        p.closeInventory();
+                        p.sendMessage(Main.prefix + "§aPerk selected");
+                    }else{
+                        p.sendMessage(Main.prefix + "§cYou already have that perk selected");
+                    }
+                }
+                e.setCancelled(true);
+            }
+            if(e.getClickedInventory().equals(SelectKit.primary)){
+                ItemMeta meta = e.getClickedInventory().getItem(e.getSlot()).getItemMeta();
+                if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Primary").equals(meta.getDisplayName())) {
+
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Primary", meta.getDisplayName());
+                    PlayerData.saveData();
+                    p.closeInventory();
+                    p.sendMessage(Main.prefix + "§aPrimary selected");
+                }else{
+                    p.sendMessage(Main.prefix + "§cYou already have that primary selected");
+                }
+                e.setCancelled(true);
+            }
+            if(e.getClickedInventory().equals(SelectKit.secondary)){
+                ItemMeta meta = e.getClickedInventory().getItem(e.getSlot()).getItemMeta();
+                if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Secondary").equals(meta.getDisplayName())) {
+
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Secondary", meta.getDisplayName());
+                    PlayerData.saveData();
+                    p.closeInventory();
+                    p.sendMessage(Main.prefix + "§aSecondary selected");
+                }else{
+                    p.sendMessage(Main.prefix + "§cYou already have that secondary selected");
+                }
                 e.setCancelled(true);
             }
         }

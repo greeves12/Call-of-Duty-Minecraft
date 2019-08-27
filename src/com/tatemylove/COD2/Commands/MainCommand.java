@@ -8,6 +8,7 @@ import com.tatemylove.COD2.Files.LobbyFile;
 import com.tatemylove.COD2.Guns.BuyGuns;
 import com.tatemylove.COD2.Guns.Guns;
 
+import com.tatemylove.COD2.Inventories.SelectKit;
 import com.tatemylove.COD2.Listeners.PlayerJoin;
 import com.tatemylove.COD2.Locations.GetLocations;
 import com.tatemylove.COD2.Main;
@@ -151,6 +152,9 @@ public class MainCommand implements CommandExecutor {
             }
             //Player Commands
             if(p.hasPermission("cod.player")){
+                if(args[0].equalsIgnoreCase("kit")){
+                    new SelectKit().createKit(p);
+                }
                 if(args[0].equalsIgnoreCase("buy")){
                     if(!Main.PlayingPlayers.contains(p)){
                         BuyGuns buyGuns = new BuyGuns();
@@ -167,29 +171,31 @@ public class MainCommand implements CommandExecutor {
                     }
                 }
                 if(args[0].equalsIgnoreCase("join")){
-                    if( !Main.PlayingPlayers.contains(p)){
-                        p.teleport(GetLocations.getLobby());
-                        Bukkit.getServer().getPluginManager().callEvent(new CODJoinEvent(p));
-                        p.sendMessage(Main.prefix + "§eYou joined the lobby");
-                        Main.WaitingPlayers.add(p);
-                    }else{
+                    if( Main.PlayingPlayers.contains(p)){
                         p.sendMessage(Main.prefix + "§cYou can't join the lobby right now");
-                    }
-                    if(!Main.WaitingPlayers.contains(p)){
-                        p.teleport(GetLocations.getLobby());
-                        Bukkit.getServer().getPluginManager().callEvent(new CODJoinEvent(p));
-                        p.sendMessage(Main.prefix + "§eYou joined the lobby");
-                        Main.WaitingPlayers.add(p);
-                    }else{
+                        return true;
+
+                    } if(Main.WaitingPlayers.contains(p)){
                         p.sendMessage(Main.prefix + "§cYou can't join the lobby right now");
+                        return true;
                     }
+                    p.teleport(GetLocations.getLobby());
+                    Bukkit.getServer().getPluginManager().callEvent(new CODJoinEvent(p));
+                    p.sendMessage(Main.prefix + "§eYou joined the lobby");
+                    Main.WaitingPlayers.add(p);
                 }
                 if(args[0].equalsIgnoreCase("leave")){
-                    if(Main.WaitingPlayers.contains(p)){
-                        Main.WaitingPlayers.remove(p);
-                        p.sendMessage(Main.prefix + "§aYou have left the lobby");
-                        Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(p));
+                    if(!Main.WaitingPlayers.contains(p)){
+                        p.sendMessage(Main.prefix + "§cYou are not in the lobby");
+                        return true;
                     }
+                    if(Main.PlayingPlayers.contains(p)){
+                        p.sendMessage(Main.prefix + "§cYou are not in the lobby");
+                        return true;
+                    }
+                    Main.WaitingPlayers.remove(p);
+                    p.sendMessage(Main.prefix + "§aYou have left the lobby");
+                    Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(p));
                 }
                 if(args[0].equalsIgnoreCase("try")){
                     ArrayList<String> list = Main.ownedGuns.get(p.getUniqueId().toString());
