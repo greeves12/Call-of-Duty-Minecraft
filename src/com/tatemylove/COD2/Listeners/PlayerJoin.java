@@ -9,6 +9,7 @@ import com.tatemylove.COD2.Inventories.GameInventory;
 import com.tatemylove.COD2.Inventories.SelectKit;
 import com.tatemylove.COD2.Locations.GetLocations;
 import com.tatemylove.COD2.Main;
+import com.tatemylove.COD2.Managers.LoadoutManager;
 import com.tatemylove.COD2.ThisPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -45,8 +46,8 @@ public class PlayerJoin implements Listener {
 
     @EventHandler
     public void playerLeave(PlayerQuitEvent e){
-        if(Main.PlayingPlayers.contains(e.getPlayer())){
-            Main.PlayingPlayers.remove(e.getPlayer());
+        if(Main.AllPlayingPlayers.contains(e.getPlayer())){
+            Main.AllPlayingPlayers.remove(e.getPlayer());
             Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
 
         }else if(Main.WaitingPlayers.contains(e.getPlayer())){
@@ -72,7 +73,7 @@ public class PlayerJoin implements Listener {
 
     @EventHandler
     public void noBuild(BlockPlaceEvent e){
-        if(Main.PlayingPlayers.contains(e.getPlayer())){
+        if(Main.AllPlayingPlayers.contains(e.getPlayer())){
             e.setCancelled(true);
         }
         if(Main.WaitingPlayers.contains(e.getPlayer())){
@@ -82,7 +83,7 @@ public class PlayerJoin implements Listener {
 
     @EventHandler
     public void noBreak(BlockBreakEvent e){
-        if(Main.PlayingPlayers.contains(e.getPlayer())){
+        if(Main.AllPlayingPlayers.contains(e.getPlayer())){
             e.setCancelled(true);
         }
         if(Main.WaitingPlayers.contains(e.getPlayer())){
@@ -113,28 +114,55 @@ public class PlayerJoin implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         if(!PlayerData.getData().contains("Players." + e.getPlayer().getUniqueId().toString())){
+            ArrayList<String> list = new ArrayList<>();
+            list.add("Class1");
+            list.add("Class2");
+            list.add("Class3");
+            list.add("Class4");
+            list.add("Class5");
+
+
 
             PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Guns", new ArrayList<String>());
             PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Level", 1);
             PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Perks", new ArrayList<String>());
-            PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Perk", "");
-            PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Primary", "");
-            PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Secondary", "");
 
-            PlayerData.saveData();
-            PlayerData.reloadData();
+            for(String s : list) {
 
-            Main.ownedGuns.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
-            Main.ownedSecondary.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
-            Main.ownedPerks.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
-            Main.unlockedAchievements.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
-            StatsFile.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Wins", 0);
-            StatsFile.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Deaths", 0);
-            StatsFile.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Kills", 0);
-            StatsFile.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".EXP", 0);
+                PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString()+".Classes."+s + ".Perk1", "");
+                PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString()+".Classes."+s + ".Perk2", "");
+                PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString()+".Classes."+s + ".Perk3", "");
+                PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString()+".Classes."+s + ".Primary", "");
+                PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString()+".Classes." +s+ ".Secondary", "");
+                PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString()+".Classes."+s + ".Splode1", "");
+                PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString()+".Classes."+s + ".Splode2", "");
+                PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Classes." + s + ".Enabled", false);
 
-            StatsFile.saveData();
+
+
+            }
+
+
+                PlayerData.saveData();
+                PlayerData.reloadData();
+
+                Main.ownedGuns.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
+                Main.ownedSecondary.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
+                Main.ownedPerks.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
+                Main.unlockedAchievements.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
+                StatsFile.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Wins", 0);
+                StatsFile.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Deaths", 0);
+                StatsFile.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Kills", 0);
+                StatsFile.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".EXP", 0);
+
+                StatsFile.saveData();
+
+        }else{
+            Main.ownedGuns.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>(PlayerData.getData().getStringList("Players." + e.getPlayer().getUniqueId().toString() + ".Guns")));
         }
+
+
+
 
         if(main.getConfig().getBoolean("BungeeCord.Enabled")){
             Main.WaitingPlayers.add(e.getPlayer());

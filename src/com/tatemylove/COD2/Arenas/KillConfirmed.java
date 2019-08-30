@@ -13,6 +13,7 @@ import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -25,8 +26,8 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class KillConfirmed {
-    public static void assignTeams(String name){
+public class KillConfirmed implements Listener {
+    /*public static void assignTeams(String name){
         if(BaseArena.states == BaseArena.ArenaStates.Started){
             if(BaseArena.type == BaseArena.ArenaType.TDM){
                 Main.PlayingPlayers.addAll(Main.WaitingPlayers);
@@ -209,5 +210,5 @@ public class KillConfirmed {
                 }
             }
         }
-    }
+    }*/
 }

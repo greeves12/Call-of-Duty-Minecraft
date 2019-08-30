@@ -33,7 +33,7 @@ public class CountDown extends BukkitRunnable {
                 if(type.equalsIgnoreCase("KC")){
                     BaseArena.type= BaseArena.ArenaType.KC;
                     Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nextArena, type));
-                    KillConfirmed.assignTeams(nextArena);
+                    //KillConfirmed.assignTeams(nextArena);
                 }else if(type.equalsIgnoreCase("TDM")){
                     BaseArena.type = BaseArena.ArenaType.TDM;
                     Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nextArena, type));
@@ -42,7 +42,11 @@ public class CountDown extends BukkitRunnable {
                     BaseArena.type = BaseArena.ArenaType.INFECT;
                 }
                 Main.onGoingArenas.add(nextArena);
-                new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
+                if(!ThisPlugin.getPlugin().getConfig().getBoolean("BungeeCord.enabled")) {
+                    if(Main.arenas.size() > Main.onGoingArenas.size()) {
+                        new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
+                    }
+                }
                 cancel();
             }
         }

@@ -1,7 +1,9 @@
 package com.tatemylove.COD2.Arenas;
 
 import com.tatemylove.COD2.Events.CODEndEvent;
+import com.tatemylove.COD2.Events.CODKillEvent;
 import com.tatemylove.COD2.Files.ArenasFile;
+import com.tatemylove.COD2.Files.PlayerData;
 import com.tatemylove.COD2.Inventories.GameInventory;
 import com.tatemylove.COD2.Leveling.LevelRegistryAPI;
 import com.tatemylove.COD2.Locations.GetLocations;
@@ -13,10 +15,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -33,16 +39,19 @@ public class TDM implements Listener {
    private ArrayList<Player> PlayingPlayers = new ArrayList<>();
    private int bluescore = 0;
    private int redscore = 0;
+   private String arena = "";
 
 
     public  void assignTeams(String name){
+        arena = name;
 
                //PlayingPlayers.addAll(Main.WaitingPlayers);
 
                 if(Main.WaitingPlayers.size() < ThisPlugin.getPlugin().getConfig().getInt("max-players")) {
-                    for (int x = Main.WaitingPlayers.size(); x < ThisPlugin.getPlugin().getConfig().getInt("max-players"); x--) {
-                        PlayingPlayers.add(Main.WaitingPlayers.get(x));
-                        Main.WaitingPlayers.remove(x);
+                    for (int x = 0; x < ThisPlugin.getPlugin().getConfig().getInt("max-players"); x++) {
+                        PlayingPlayers.add(Main.WaitingPlayers.get(0));
+                        Main.AllPlayingPlayers.add(Main.WaitingPlayers.get(0));
+                        Main.WaitingPlayers.remove(0);
                     }
                 }
 
@@ -89,7 +98,11 @@ public class TDM implements Listener {
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
-                p.getInventory().setBoots(getColorArmor(Material.LEATHER_BOOTS, c));
+                if(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Perk").equals("§6§nFeatherWeight")) {
+                    p.getInventory().setBoots(getColorArmor2(Material.LEATHER_BOOTS, c));
+                }else{
+                    p.getInventory().setBoots(getColorArmor(Material.LEATHER_BOOTS, c));
+                }
             }else if(BlueTeam.contains(p)){
                 p.teleport(new GetArena().getBlueSpawn(p, name));
                 p.setCustomName("§9" + p.getName());
@@ -99,7 +112,11 @@ public class TDM implements Listener {
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
-                p.getInventory().setBoots(getColorArmor(Material.LEATHER_BOOTS, c));
+                if(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Perk").equals("§6§nFeatherWeight")) {
+                    p.getInventory().setBoots(getColorArmor2(Material.LEATHER_BOOTS, c));
+                }else{
+                    p.getInventory().setBoots(getColorArmor(Material.LEATHER_BOOTS, c));
+                }
             }
         }
     }
@@ -107,7 +124,11 @@ public class TDM implements Listener {
     public  void endTDM(String name){
         Bukkit.getServer().getPluginManager().callEvent(new CODEndEvent(PlayingPlayers, name, ArenasFile.getData().getString("Arenas." + name + ".Type")));
 
-        new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
+        if(ThisPlugin.getPlugin().getConfig().getBoolean("BungeeCord.enabled")) {
+
+
+            new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
+        }
         for(Player p : PlayingPlayers){
             if(redscore > bluescore && RedTeam.contains(p)){
                 RegistryAPI.registerWin(p);
@@ -126,6 +147,7 @@ public class TDM implements Listener {
             p.setCustomNameVisible(true);
             p.setPlayerListName(p.getName());
             p.removePotionEffect(PotionEffectType.SPEED);
+            Main.AllPlayingPlayers.remove(p);
         }
 
         Main.onGoingArenas.remove(name);
@@ -196,5 +218,145 @@ public class TDM implements Listener {
                 time-=1;
             }
         }.runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
+    }
+
+    @EventHandler
+    public void onDeath(EntityDeathEvent e){
+
+        if(e.getEntity() instanceof Player ) {
+            Player p = (Player) e.getEntity();
+            Player pp = p.getKiller();
+
+
+                if (pp != null) {
+                    if (PlayingPlayers.contains(p) && PlayingPlayers.contains(pp)) {
+                        if (RedTeam.contains(p)) {
+                            for (Player players : PlayingPlayers) {
+                                players.sendMessage(Main.prefix + "§b" + p.getName() + "§e killed §c" + pp.getName());
+                            }
+                            Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, pp, "red", "blue"));
+                            RegistryAPI.registerDeath(p);
+                            RegistryAPI.registerKill(pp);
+                            LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
+
+                            bluescore += 1;
+                        } else if (BlueTeam.contains(p)) {
+                            for (Player players : PlayingPlayers) {
+                                players.sendMessage(Main.prefix + "§c" + p.getName() + "§e killed §b" + pp.getName());
+                            }
+                            redscore += 1;
+                            RegistryAPI.registerDeath(p);
+                            RegistryAPI.registerKill(pp);
+                            LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
+
+                            Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, pp, "blue", "red"));
+                        }
+                    }
+                } else {
+                    if (PlayingPlayers.contains(p)) {
+                        if (RedTeam.contains(p)) {
+                            for (Player players : PlayingPlayers) {
+                                players.sendMessage(Main.prefix + "§c" + p.getName() + "§e played themselves");
+                            }
+                            bluescore += 1;
+                            RegistryAPI.registerDeath(p);
+                            RegistryAPI.deaths.put(p.getUniqueId(), RegistryAPI.deaths.get(p.getUniqueId()));
+                            Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, null, "red", null));
+                        } else if (BlueTeam.contains(p)) {
+
+                            for (Player players : PlayingPlayers) {
+                                players.sendMessage(Main.prefix + "§b" + p.getName() + "§e played themselves");
+                            }
+                            Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, null, "blue", null));
+                            RegistryAPI.registerDeath(p);
+
+                            redscore += 1;
+                        }
+                    }
+                }
+
+            }
+        }
+
+    @EventHandler
+    public void onDEath(PlayerDeathEvent e){
+        if(PlayingPlayers.contains(e.getEntity())){
+            e.setDeathMessage(null);
+        }
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageByEntityEvent e){
+        if(e.getEntity() instanceof Player){
+            if(e.getDamager() instanceof Player){
+                Player p = (Player) e.getEntity();
+                Player pp = (Player) e.getDamager();
+
+                if(PlayingPlayers.contains(p) && PlayingPlayers.contains(pp)){
+                    if((RedTeam.contains(p) && RedTeam.contains(pp)) || (BlueTeam.contains(p) && BlueTeam.contains(pp))){
+                        e.setCancelled(true);
+                    }
+                    if(pp.getInventory().getItemInMainHand().equals(GameInventory.knife)){
+                        p.setHealth(0);
+                        for(Player player : PlayingPlayers){
+                            player.sendMessage(Main.prefix + "§e" + p.getName() + " §dgot dookied on");
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent e){
+        if(PlayingPlayers.contains(e.getPlayer())){
+            if(RedTeam.contains(e.getPlayer())){
+                e.getPlayer().teleport(new GetArena().getRedSpawn(e.getPlayer(), arena));
+                getNewLoadout(e.getPlayer());
+            }else if(BlueTeam.contains(e.getPlayer())){
+                e.getPlayer().teleport(new GetArena().getBlueSpawn(e.getPlayer(), arena));
+                getNewLoadout(e.getPlayer());
+            }
+        }
+    }
+
+    private void getNewLoadout(Player p){
+        if(RedTeam.contains(p)){
+            if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Perk").equals("§6§nFeatherWeight")) {
+                Color c = Color.fromBGR(0, 0, 255);
+                p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
+                p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
+                p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
+                p.getInventory().setBoots(getColorArmor(Material.LEATHER_BOOTS, c));
+            }else{
+                Color c = Color.fromBGR(0, 0, 255);
+                p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
+                p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
+                p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
+                p.getInventory().setBoots(getColorArmor2(Material.LEATHER_BOOTS, c));
+            }
+        }else if(BlueTeam.contains(p)){
+            if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Perk").equals("§6§nFeatherWeight")) {
+                Color c = Color.fromBGR(0, 0, 255);
+                p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
+                p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
+                p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
+                p.getInventory().setBoots(getColorArmor(Material.LEATHER_BOOTS, c));
+            }else{
+                Color c = Color.fromBGR(0, 0, 255);
+                p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
+                p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
+                p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
+                p.getInventory().setBoots(getColorArmor2(Material.LEATHER_BOOTS, c));
+            }
+        }
+    }
+
+    private  ItemStack getColorArmor2(Material m, Color c) {
+        ItemStack i = new ItemStack(m, 1);
+        LeatherArmorMeta meta = (LeatherArmorMeta) i.getItemMeta();
+        meta.setColor(c);
+        meta.addEnchant(Enchantment.PROTECTION_FALL, 1, true);
+        i.setItemMeta(meta);
+        return i;
     }
 }

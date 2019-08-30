@@ -18,6 +18,9 @@ game-time: 600
 #Minimum players to start
 min-players: 2
 
+#Max players per arena
+max-players: 20
+
 #Exp per kill
 exp-kill: 100
 

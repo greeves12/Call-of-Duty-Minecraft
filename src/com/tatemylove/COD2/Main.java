@@ -2,6 +2,8 @@ package com.tatemylove.COD2;
 
 import com.tatemylove.COD2.Achievement.AchievementAPI;
 import com.tatemylove.COD2.Arenas.BaseArena;
+import com.tatemylove.COD2.Arenas.KillConfirmed;
+import com.tatemylove.COD2.Arenas.TDM;
 import com.tatemylove.COD2.Commands.MainCommand;
 import com.tatemylove.COD2.Files.*;
 import com.tatemylove.COD2.Inventories.GameInventory;
@@ -11,6 +13,7 @@ import com.tatemylove.COD2.Listeners.PlayerJoin;
 import com.tatemylove.COD2.Tasks.CountDown;
 import com.tatemylove.COD2.Tasks.LevelUpdater;
 import com.tatemylove.COD2.Updater.Updater;
+import me.zombie_striker.qg.api.QualityArmory;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,12 +33,14 @@ public class Main extends JavaPlugin {
     public static ArrayList<String> arenas = new ArrayList<>();
     public static ArrayList<String> onGoingArenas = new ArrayList<>();
     public static ArrayList<Player> WaitingPlayers = new ArrayList<>();
+    public static ArrayList<Player> AllPlayingPlayers = new ArrayList<>();
 
 
     public static ArrayList<String> guns = new ArrayList<>();
     public static HashMap<String, ArrayList<String>> ownedGuns = new HashMap<>();
     public static HashMap<String, ArrayList<String>> ownedSecondary = new HashMap<>();
     public static HashMap<String, ArrayList<String>> ownedPerks = new HashMap<>();
+    public static HashMap<String, ArrayList<String>> ownedSplodes = new HashMap<>();
     public static HashMap<String, ArrayList<String>> unlockedAchievements = new HashMap<>();
     public static ArrayList<String> achievements = new ArrayList<>();
     public boolean enabled = false;
@@ -44,7 +49,6 @@ public class Main extends JavaPlugin {
     public void onEnable(){
         MainCommand cmd = new MainCommand(this);
         getCommand("cod").setExecutor(cmd);
-
 
         ArenasFile.setup(this);
         LobbyFile.setup(this);
@@ -58,6 +62,8 @@ public class Main extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InventoryInteract(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeath(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new TDM(), this);
+        Bukkit.getServer().getPluginManager().registerEvents(new KillConfirmed(), this);
 
 
         getConfig().options().copyDefaults(true);
@@ -93,8 +99,9 @@ public class Main extends JavaPlugin {
         if(PlayerData.getData().contains("Players.")){
             for(String s: PlayerData.getData().getConfigurationSection("Players.").getKeys(false)){
                 ownedGuns.put(s, new ArrayList<>(PlayerData.getData().getStringList("Players." + s + ".Guns")));
-                ownedSecondary.put(s, new ArrayList<>(PlayerData.getData().getStringList("Players." + s + ".Secondary")));
+                /*ownedSecondary.put(s, new ArrayList<>(PlayerData.getData().getStringList("Players." + s + ".Secondary")));
                 ownedPerks.put(s, new ArrayList<>(PlayerData.getData().getStringList("Players." +s+ ".Perks")));
+                ownedSplodes.put(s, new ArrayList<>(PlayerData.getData().getStringList("Players." + s + ".Splode")));*/
             }
         }
 

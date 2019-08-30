@@ -37,10 +37,11 @@ public class SelectKit {
 
     }
 
-    public void createPrimary(Player p){
+   /* public void createPrimary(Player p){
         primary = Bukkit.createInventory(p, 54, "§a§lPrimary");
 
         ArrayList<String> guns = Main.ownedGuns.get(p.getUniqueId().toString());
+        p.sendMessage(String.valueOf(guns));
         for(String s : guns){
             String material = GunsFile.getData().getString("Guns." + s + ".GunMaterial");
             ArrayList<String> a = new ArrayList<>();
@@ -54,7 +55,7 @@ public class SelectKit {
         }
         p.openInventory(primary);
 
-    }
+    }*/
 
     public void createSecondary(Player p){
         secondary = Bukkit.createInventory(null, 54, "§6§lSecondary");

@@ -12,6 +12,8 @@ public class LevelRegistryAPI {
         StatsFile.getData().set("Players."+p.getUniqueId().toString() + ".EXP", exp+amount);
         StatsFile.saveData();
         StatsFile.reloadData();
+
+        p.sendMessage(Main.prefix + "§bYou gained " + amount + " experience");
     }
     public static void resetExp (Player p, int amount){
         StatsFile.getData().set("Players."+p.getUniqueId().toString() + ".EXP", amount);

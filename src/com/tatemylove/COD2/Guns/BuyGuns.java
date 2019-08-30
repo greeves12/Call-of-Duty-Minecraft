@@ -19,6 +19,7 @@ public class BuyGuns {
 
     public static Inventory buyPrimary = Bukkit.createInventory(null, 54, "§a§lPrimary Weapons");
     public static Inventory buySecondary = Bukkit.createInventory(null, 54, "§d§lSecondary Weapons");
+    public static Inventory buySplodes = Bukkit.createInventory(null, 54, "§d§lSExplosives");
     public static Inventory mainStore = Bukkit.createInventory(null, 54, "§3§lPurchase Weapons");
 
     public  void loadMenu(Player p){
@@ -42,18 +43,18 @@ public class BuyGuns {
         for(String s : Main.guns){
             if(GunsFile.getData().getString("Guns." + s + ".Type").equalsIgnoreCase("PRIMARY")){
                String gunMaterial =  GunsFile.getData().getString("Guns." + s + ".GunMaterial");
-               String ammoMaterial=  GunsFile.getData().getString("Guns." + s+".AmmoMaterial");
-               int amount = GunsFile.getData().getInt("Guns." + s + ".AmmoAmount");
-               String ammoName =  GunsFile.getData().getString("Guns." + s + ".AmmoName");
+             //  String ammoMaterial=  GunsFile.getData().getString("Guns." + s+".AmmoMaterial");
+             //  int amount = GunsFile.getData().getInt("Guns." + s + ".AmmoAmount");
+             //  String ammoName =  GunsFile.getData().getString("Guns." + s + ".AmmoName");
                int level = GunsFile.getData().getInt("Guns." + s + ".Level");
                double cost = GunsFile.getData().getDouble("Guns." + s + ".Cost");
-               String type = GunsFile.getData().getString("Guns." + s + ".Type");
+             //  String type = GunsFile.getData().getString("Guns." + s + ".Type");
 
                ArrayList<String> guns = Main.ownedGuns.get(p.getUniqueId().toString());
 
                ArrayList<String> lore = new ArrayList<>();
                lore.add("§3§lLevel: §2" + level);
-               lore.add("§3§lClip Size: §2" + amount);
+               //lore.add("§3§lClip Size: §2" + amount);
 
                if(ThisPlugin.getPlugin().getConfig().getBoolean("SwiftEconomy.Enabled")){
                    lore.add("§3§lCost: §2" + cost);
@@ -75,12 +76,12 @@ public class BuyGuns {
         for(String s : Main.guns){
             if(GunsFile.getData().getString("Guns." + s + ".Type").equalsIgnoreCase("SECONDARY")){
                 String gunMaterial =  GunsFile.getData().getString("Guns." + s + ".GunMaterial");
-                String ammoMaterial=  GunsFile.getData().getString("Guns." + s+".AmmoMaterial");
+             //   String ammoMaterial=  GunsFile.getData().getString("Guns." + s+".AmmoMaterial");
                 int amount = GunsFile.getData().getInt("Guns." + s + ".AmmoAmount");
-                String ammoName =  GunsFile.getData().getString("Guns." + s + ".AmmoName");
+             //   String ammoName =  GunsFile.getData().getString("Guns." + s + ".AmmoName");
                 int level = GunsFile.getData().getInt("Guns." + s + ".Level");
                 double cost = GunsFile.getData().getDouble("Guns." + s + ".Cost");
-                String type = GunsFile.getData().getString("Guns." + s + ".Type");
+             //   String type = GunsFile.getData().getString("Guns." + s + ".Type");
 
                 ArrayList<String> guns = Main.ownedGuns.get(p.getUniqueId().toString());
 
@@ -96,6 +97,38 @@ public class BuyGuns {
                     lore.add("§d§lPurchased: §cFalse");
                 }
                 buySecondary.addItem(getMaterial(Material.getMaterial(gunMaterial.toUpperCase()), s, lore));
+            }
+        }
+        p.openInventory(buySecondary);
+    }
+
+    public void loadSplode(Player p){
+        buySplodes = Bukkit.createInventory(p, 54, "§d§lSecondary Weapons");
+
+        for(String s : Main.guns){
+            if(GunsFile.getData().getString("Guns." + s + ".Type").equalsIgnoreCase("SPLODE")){
+                String gunMaterial =  GunsFile.getData().getString("Guns." + s + ".GunMaterial");
+               // String ammoMaterial=  GunsFile.getData().getString("Guns." + s+".AmmoMaterial");
+                int amount = GunsFile.getData().getInt("Guns." + s + ".AmmoAmount");
+               // String ammoName =  GunsFile.getData().getString("Guns." + s + ".AmmoName");
+                int level = GunsFile.getData().getInt("Guns." + s + ".Level");
+                double cost = GunsFile.getData().getDouble("Guns." + s + ".Cost");
+              //  String type = GunsFile.getData().getString("Guns." + s + ".Type");
+
+                ArrayList<String> guns = Main.ownedGuns.get(p.getUniqueId().toString());
+
+                ArrayList<String> lore = new ArrayList<>();
+                lore.add("§3§lLevel: §2" + level);
+                lore.add("§3§lAmount: §2" + amount);
+                if(ThisPlugin.getPlugin().getConfig().getBoolean("SwiftEconomy.Enabled")){
+                    lore.add("§3§lCost: §2" + cost);
+                }
+                if(guns.contains(s)){
+                    lore.add("§d§lPurchased: §aTrue");
+                }else{
+                    lore.add("§d§lPurchased: §cFalse");
+                }
+                buySplodes.addItem(getMaterial(Material.getMaterial(gunMaterial.toUpperCase()), s, lore));
             }
         }
         p.openInventory(buySecondary);

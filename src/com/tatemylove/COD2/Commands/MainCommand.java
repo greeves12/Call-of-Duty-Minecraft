@@ -8,12 +8,16 @@ import com.tatemylove.COD2.Files.LobbyFile;
 import com.tatemylove.COD2.Guns.BuyGuns;
 import com.tatemylove.COD2.Guns.Guns;
 
+import com.tatemylove.COD2.Inventories.CreateClass;
 import com.tatemylove.COD2.Inventories.SelectKit;
 import com.tatemylove.COD2.Listeners.PlayerJoin;
 import com.tatemylove.COD2.Locations.GetLocations;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.Perks.PerkMenu;
 import com.tatemylove.COD2.ThisPlugin;
+import me.zombie_striker.qg.api.QualityArmory;
+import me.zombie_striker.qg.guns.utils.WeaponSounds;
+import me.zombie_striker.qg.guns.utils.WeaponType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -120,23 +124,36 @@ public class MainCommand implements CommandExecutor {
                         }
                     }
                 }
+                if(args[0].equalsIgnoreCase("build")){
+                    new CreateClass().createKit(p);
+                }
                 if(args[0].equalsIgnoreCase("make")){
-                    if(args.length == 9){
+                    if(args.length == 14){
+
                         String name = args[1];
-                        String gunMaterial = args[2];
-                        String ammoMaterial = args[3];
-                        String ammoAmount = args[4];
-                        String ammoName = args[5];
-                        String level = args[6];
-                        String cost = args[7];
+                        String displaynname = args[2];
+                        String material = args[3];
+                        String id = args[4];
+                        String type2 = args[5];
+                        String sound = args[6];
+                        String ironsight = args[7];
                         String type = args[8];
+                        String ammotype = args[9];
+                        String damage = args[10];
+                        String maxbullets = args[11];
+                        String cost = args[12];
+                        String level = args[13];
 
                         if(!Main.guns.contains(name)){
-                            if(type.equalsIgnoreCase("PRIMARY") || type.equalsIgnoreCase("SECONDARY")) {
-                                Guns.createGuns(name, gunMaterial.toUpperCase(), ammoMaterial.toUpperCase(), Integer.parseInt(ammoAmount), ammoName, Integer.parseInt(level), Double.parseDouble(cost), type);
-                                p.sendMessage(Main.prefix + "§6Type: " + type + " Material: " + gunMaterial + " Name: " + name);
-                                p.sendMessage(Main.prefix + "§2Name: " + ammoName + " Material: " + ammoMaterial + " Amount: " + ammoAmount);
-                                p.sendMessage(Main.prefix + "§dLevel: " + level + " Cost: " + cost);
+                            if(type.equalsIgnoreCase("PRIMARY") || type.equalsIgnoreCase("SECONDARY") || type.equalsIgnoreCase("SPLODE")) {
+                                Guns.createGuns(name, material.toUpperCase(), Integer.parseInt(maxbullets), ammotype, Integer.parseInt(level), Double.parseDouble(cost), type);
+
+
+                                QualityArmory.createNewGunYML(name, displaynname, Material.getMaterial(material.toUpperCase()), Integer.parseInt(id), WeaponType.getByName(type2.toUpperCase()), WeaponSounds.getByName(sound.toUpperCase()),
+                                        Boolean.getBoolean(ironsight), ammotype, Integer.parseInt(damage), Integer.parseInt(maxbullets), Integer.parseInt(cost));
+
+                                p.sendMessage(Main.prefix + "§6Weapon created");
+
                             }else{
                                 p.sendMessage(Main.prefix + "§dMust be secondary or primary");
                             }
@@ -144,7 +161,7 @@ public class MainCommand implements CommandExecutor {
                             p.sendMessage(Main.prefix + "§cA gun with that name already exists");
                         }
                     }else{
-                        p.sendMessage(Main.prefix + "§7/cod make §6<Gun Name> <Gun Material> <Ammo Material> <Ammo Amount> <Ammo Name> <Level Unlock> <Gun Cost> <primary/secondary>");
+                        p.sendMessage(Main.prefix + "§7/cod make §6<Gun Name> <Display name> <Gun Material> <ID> <WeaponType> <Sound> <ironsight true/false> <primary/secondary> <Ammo name> <damage> <Ammo size> <Cost> <Level>");
                     }
                 }
 
@@ -156,7 +173,7 @@ public class MainCommand implements CommandExecutor {
                     new SelectKit().createKit(p);
                 }
                 if(args[0].equalsIgnoreCase("buy")){
-                    if(!Main.PlayingPlayers.contains(p)){
+                    if(!Main.AllPlayingPlayers.contains(p)){
                         BuyGuns buyGuns = new BuyGuns();
                         buyGuns.loadMenu(p);
                     }else{
@@ -164,14 +181,14 @@ public class MainCommand implements CommandExecutor {
                     }
                 }
                 if(args[0].equalsIgnoreCase("perks")){
-                    if(!Main.PlayingPlayers.contains(p)){
+                    if(!Main.AllPlayingPlayers.contains(p)){
                         new PerkMenu().createMenu(p);
                     }else{
                         p.sendMessage(Main.prefix + "§cGame in progress");
                     }
                 }
                 if(args[0].equalsIgnoreCase("join")){
-                    if( Main.PlayingPlayers.contains(p)){
+                    if( Main.AllPlayingPlayers.contains(p)){
                         p.sendMessage(Main.prefix + "§cYou can't join the lobby right now");
                         return true;
 
@@ -189,7 +206,7 @@ public class MainCommand implements CommandExecutor {
                         p.sendMessage(Main.prefix + "§cYou are not in the lobby");
                         return true;
                     }
-                    if(Main.PlayingPlayers.contains(p)){
+                    if(Main.AllPlayingPlayers.contains(p)){
                         p.sendMessage(Main.prefix + "§cYou are not in the lobby");
                         return true;
                     }

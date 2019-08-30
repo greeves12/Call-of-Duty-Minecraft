@@ -3,6 +3,7 @@ package com.tatemylove.COD2.Listeners;
 import com.tatemylove.COD2.Files.GunsFile;
 import com.tatemylove.COD2.Files.PlayerData;
 import com.tatemylove.COD2.Guns.BuyGuns;
+import com.tatemylove.COD2.Inventories.CreateClass;
 import com.tatemylove.COD2.Inventories.SelectKit;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.Perks.PerkMenu;
@@ -17,12 +18,180 @@ import java.util.ArrayList;
 
 public class InventoryInteract implements Listener {
 
+    private Integer getRow(int slot){
+        if(slot >= 0 && slot <= 9){
+            return 1;
+        }else if(slot >= 10 && slot <=17){
+            return 2;
+        }else if(slot >= 18 && slot <= 26){
+            return 3;
+        }else if(slot >= 27 && slot <= 35){
+            return 4;
+        }else if(slot >= 36 && slot <=45){
+            return 5;
+        }else{
+            return 0;
+        }
+    }
+
+
     @EventHandler
     public void onClick(InventoryClickEvent e) {
+
         if (e.getWhoClicked() instanceof Player) {
             Player p = (Player) e.getWhoClicked();
+
+            if(e.getClickedInventory().equals(CreateClass.splode)){
+
+                if(CreateClass.classnumber.get(p.getUniqueId()) == 1){
+
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class1.Splode1",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 2){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class2.Splode1",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 3){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class3.Splode1",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 4){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class4.Splode1",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 5){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class5.Splode1",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }
+
+                e.setCancelled(true);
+            }
+
+            if(e.getClickedInventory().equals(CreateClass.splode2)){
+
+                if(CreateClass.classnumber.get(p.getUniqueId()) == 1){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class1.Splode2",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 2){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class2.Splode2",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 3){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class3.Splode2",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 4){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class4.Splode2",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 5){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class5.Splode2",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }
+
+                e.setCancelled(true);
+            }
+
+            if(e.getClickedInventory().equals(CreateClass.primary)){
+                if(CreateClass.classnumber.get(p.getUniqueId()) == 1){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class1.Primary",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 2){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class2.Primary",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 3){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class3.Primary",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 4){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class4.Primary",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 5){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class5.Primary",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }
+                e.setCancelled(true);
+            }
+
+            if(e.getClickedInventory().equals(CreateClass.secondary)){
+                if(CreateClass.classnumber.get(p.getUniqueId()) == 1){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class1.Secondary",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 2){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class2.Secondary",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 3){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class3.Secondary",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 4){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class4.Secondary",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(CreateClass.classnumber.get(p.getUniqueId()) == 5){
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class5.Secondary",e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());
+                    PlayerData.saveData();
+                    e.getWhoClicked().closeInventory();
+                    new CreateClass().createKit(p);
+                }
+                e.setCancelled(true);
+            }
+
+            if(e.getClickedInventory().equals(CreateClass.mainArea)){
+                if(e.getSlot() % 9 == 1 && e.getSlot() != 0){
+                    CreateClass.classnumber.put(p.getUniqueId(), getRow(e.getSlot()));
+
+                    new CreateClass().createPrimary(p);
+                }else if(e.getSlot() % 9 == 2 && e.getSlot() != 0){
+                    CreateClass.classnumber.put(p.getUniqueId(), getRow(e.getSlot()));
+
+                    new CreateClass().createSecondary(p);
+                }else if(e.getSlot() % 9 == 3 && e.getSlot() != 0){
+                    CreateClass.classnumber.put(p.getUniqueId(), getRow(e.getSlot()));
+
+                    new CreateClass().createSplode(p);
+                }else if(e.getSlot() % 9 == 4){
+                    CreateClass.classnumber.put(p.getUniqueId(), getRow(e.getSlot()));
+
+                    new CreateClass().createSplode2(p);
+                }
+
+                e.setCancelled(true);
+            }
+
+
+
             if (e.getClickedInventory().equals(BuyGuns.mainStore)) {
-                if(Main.PlayingPlayers.contains(p)){
+                if(Main.AllPlayingPlayers.contains(p)){
                     p.closeInventory();
                 }
                 if (e.getSlot() == 1) {
@@ -44,7 +213,7 @@ public class InventoryInteract implements Listener {
                 e.setCancelled(true);
             }
             if (e.getClickedInventory().equals(BuyGuns.buyPrimary)) {
-                if(Main.PlayingPlayers.contains(p)){
+                if(Main.AllPlayingPlayers.contains(p)){
                     p.closeInventory();
                 }
                 if (e.getClickedInventory().getItem(e.getSlot()) != null) {
@@ -72,7 +241,7 @@ public class InventoryInteract implements Listener {
                 e.setCancelled(true);
             }
             if(e.getClickedInventory().equals(BuyGuns.buySecondary)){
-                if(Main.PlayingPlayers.contains(p)){
+                if(Main.AllPlayingPlayers.contains(p)){
                     p.closeInventory();
                 }
                 if(e.getClickedInventory().getItem(e.getSlot()) != null){
@@ -138,7 +307,7 @@ public class InventoryInteract implements Listener {
             if(e.getClickedInventory().equals(SelectKit.mainKit)){
                 if(e.getSlot() == 1){
                     p.closeInventory();
-                    new SelectKit().createPrimary(p);
+                 //   new SelectKit().createPrimary(p);
                 }else if(e.getSlot() == 4){
                     p.closeInventory();
                     new SelectKit().createPErks(p);
