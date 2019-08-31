@@ -18,6 +18,9 @@ game-time: 600
 #Minimum players to start
 min-players: 2
 
+#Set the level required to prestige
+prestige-level: 30
+
 #Max players per arena
 max-players: 20
 

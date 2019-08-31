@@ -67,7 +67,7 @@ public class PlayerJoin implements Listener {
     @EventHandler (priority = EventPriority.LOW)
     public void codLeave(CODLeaveEvent e){
         e.getPlayer().getInventory().clear();
-        e.getPlayer().getInventory().setContents(inv.get(e.getPlayer().getUniqueId()));
+       e.getPlayer().getInventory().setContents(inv.get(e.getPlayer().getUniqueId()));
         e.getPlayer().teleport(loc.get(e.getPlayer().getUniqueId()));
     }
 

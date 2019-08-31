@@ -68,9 +68,9 @@ public class CreateClass {
 
             } else {
                 ArrayList<String> lore = new ArrayList<>();
-                lore.add("§4This class is §cDisabled");
+                lore.add("§eThis class is §cDisabled");
 
-                mainArea.setItem(k + 7, getMaterial(Material.REDSTONE, "§6"+s, lore));
+                mainArea.setItem(k + 7, getMaterial(Material.REDSTONE,"§6"+ s, lore));
 
             }
 

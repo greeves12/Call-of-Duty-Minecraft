@@ -9,6 +9,7 @@ import com.tatemylove.COD2.Guns.BuyGuns;
 import com.tatemylove.COD2.Guns.Guns;
 
 import com.tatemylove.COD2.Inventories.CreateClass;
+import com.tatemylove.COD2.Inventories.GameInventory;
 import com.tatemylove.COD2.Inventories.SelectKit;
 import com.tatemylove.COD2.Listeners.PlayerJoin;
 import com.tatemylove.COD2.Locations.GetLocations;
@@ -125,9 +126,7 @@ public class MainCommand implements CommandExecutor {
                         }
                     }
                 }
-                if(args[0].equalsIgnoreCase("build")){
-                    new CreateClass().createKit(p);
-                }
+
                 if(args[0].equalsIgnoreCase("make")){
                     if(args.length == 14){
 
@@ -212,6 +211,12 @@ public class MainCommand implements CommandExecutor {
                     Main.WaitingPlayers.remove(p);
                     p.sendMessage(Main.prefix + "§aYou have left the lobby");
                     Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(p));
+                }
+                if(args[0].equalsIgnoreCase("class")){
+                    new CreateClass().createKit(p);
+                }
+                if(args[0].equalsIgnoreCase("menu")){
+                    new GameInventory().createMenu(p);
                 }
             }
         }

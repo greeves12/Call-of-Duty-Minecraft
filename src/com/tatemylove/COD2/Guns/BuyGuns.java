@@ -31,7 +31,7 @@ public class BuyGuns {
         lore2.add("§4§lClick to Exit");
         mainStore.setItem(1, getMaterial(Material.WOODEN_HOE, "§c§lPrimary Weapons", lore));
         mainStore.setItem(7, getMaterial(Material.WOODEN_SHOVEL, "§7§lSecondary Weapons", lore));
-        mainStore.setItem(4, getMaterial(Material.ENCHANTED_GOLDEN_APPLE, "§6lPerks", lore));
+        mainStore.setItem(4, getMaterial(Material.ENCHANTED_GOLDEN_APPLE, "§3§lPerks", lore));
         mainStore.setItem(49, getMaterial(Material.EMERALD, "§2§lExit",lore2 ));
 
         p.openInventory(mainStore);

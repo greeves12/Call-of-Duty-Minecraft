@@ -1,16 +1,22 @@
 package com.tatemylove.COD2.Listeners;
 
+import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.GunsFile;
 import com.tatemylove.COD2.Files.PlayerData;
 import com.tatemylove.COD2.Guns.BuyGuns;
 import com.tatemylove.COD2.Inventories.CreateClass;
+import com.tatemylove.COD2.Inventories.GameInventory;
 import com.tatemylove.COD2.Inventories.SelectKit;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.Perks.PerkMenu;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.IOException;
@@ -546,6 +552,22 @@ public class InventoryInteract implements Listener {
                         CreateClass.classnumber.put(p.getUniqueId(), getRow(e.getSlot()));
 
                         new CreateClass().createPerks3(p, getRow(e.getSlot()));
+                    }else if(e.getSlot() % 9 == 8){
+                        if(isEnabled(p)){
+                            if(!(getEnabled(p).equals( e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName()))){
+                                PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes." + getEnabled(p) + ".Enabled", false);
+                                PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes." + e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName().substring(2) + ".Enabled", true);
+                                PlayerData.saveData();
+                                p.closeInventory();
+                                new CreateClass().createKit(p);
+                            }
+                        }else{
+                            PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes." + e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName().substring(2) + ".Enabled", true);
+                            PlayerData.saveData();
+                            p.closeInventory();
+                            new CreateClass().createKit(p);
+                        }
+
                     }
 
                     e.setCancelled(true);
@@ -723,6 +745,41 @@ public class InventoryInteract implements Listener {
                 e.setCancelled(true);
             }*/
         }
+    }
+
+    @EventHandler
+    public void onClick(PlayerInteractEvent e){
+        if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK){
+            if(Main.WaitingPlayers.contains(e.getPlayer())) {
+                if (e.getItem() != null) {
+                    if (e.getItem().getType() == Material.COMPASS) {
+                        new GameInventory().createMenu(e.getPlayer());
+                    } else if (e.getItem().getType() == Material.BARRIER) {
+                        Main.WaitingPlayers.remove(e.getPlayer());
+                        e.getPlayer().sendMessage(Main.prefix + "§aYou have left the lobby");
+                        Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean isEnabled(Player p){
+        for(String s : PlayerData.getData().getConfigurationSection("Players." + p.getUniqueId().toString() + ".Classes." ).getKeys(false)){
+            if(PlayerData.getData().getBoolean("Players." + p.getUniqueId().toString() + ".Classes." + s + ".Enabled")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String getEnabled(Player p){
+        for(String s : PlayerData.getData().getConfigurationSection("Players." + p.getUniqueId().toString() + ".Classes.").getKeys(false)){
+            if(PlayerData.getData().getBoolean("Players." + p.getUniqueId().toString() + ".Classes." + s + ".Enabled")){
+                return s;
+            }
+        }
+        return null;
     }
 }
 
