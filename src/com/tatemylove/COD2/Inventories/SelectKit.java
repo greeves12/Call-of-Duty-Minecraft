@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 
 public class SelectKit {
-    public static Inventory mainKit = Bukkit.createInventory(null, 54, "§b§lSelect Loadout");
+   /* public static Inventory mainKit = Bukkit.createInventory(null, 54, "§b§lSelect Loadout");
     public static Inventory primary = Bukkit.createInventory(null, 54, "§a§lPrimary");
     public static Inventory secondary = Bukkit.createInventory(null, 54, "§6§lSecondary");
     public static Inventory perks = Bukkit.createInventory(null, 54, "§6§lPerks");
@@ -55,7 +55,7 @@ public class SelectKit {
         }
         p.openInventory(primary);
 
-    }*/
+    }
 
     public void createSecondary(Player p){
         secondary = Bukkit.createInventory(null, 54, "§6§lSecondary");
@@ -105,5 +105,5 @@ public class SelectKit {
         me.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         s.setItemMeta(me);
         return s;
-    }
+    }*/
 }

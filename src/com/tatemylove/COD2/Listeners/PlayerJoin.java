@@ -98,7 +98,7 @@ public class PlayerJoin implements Listener {
         }
     }
 
-    @EventHandler
+  /*  @EventHandler
     public void itemClick(PlayerInteractEvent e){
         if(e.getAction() == Action.RIGHT_CLICK_AIR){
             if(e.getItem().equals(GameInventory.achievements)){
@@ -109,7 +109,7 @@ public class PlayerJoin implements Listener {
                 new BuyGuns().loadMenu(e.getPlayer());
             }
         }
-    }
+    }*/
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
@@ -147,7 +147,7 @@ public class PlayerJoin implements Listener {
                 PlayerData.reloadData();
 
                 Main.ownedGuns.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
-                Main.ownedSecondary.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
+
                 Main.ownedPerks.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
                 Main.unlockedAchievements.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
                 StatsFile.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Wins", 0);

@@ -1,5 +1,7 @@
 package com.tatemylove.COD2.Perks;
 
+import com.mysql.fabric.xmlrpc.base.Array;
+import com.tatemylove.COD2.Files.GunsFile;
 import com.tatemylove.COD2.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,42 +13,32 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PerkMenu {
-    public static Inventory inventory = Bukkit.createInventory(null, 27, "§3§lPerk Menu");
+    public static Inventory inventory = Bukkit.createInventory(null, 27, "§3§lBuy Perks");
 
     public void createMenu(Player p){
-        inventory = Bukkit.createInventory(p, 27, "§b§lPerk Menu");
+        inventory = Bukkit.createInventory(p, 27, "§b§lBuy Perks");
 
-        ArrayList<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add("§3§lDesc: §4Get ammo back on kills");
-        lore.add("");
-        lore.add("§3§lLevel: §25");
-        lore.add("");
-        ArrayList<String> owned = Main.ownedPerks.get(p.getUniqueId().toString());
-        if(owned.contains("§7§nScavenger")){
-            lore.add("§d§lPurchased: §aTrue");
-        }else{
-            lore.add("§d§lPurchased: §cFalse");
+        for(String s : Main.perks){
+            String mat = GunsFile.getData().getString("Perks." + s + ".Material");
+            ArrayList<String> arrayList = new ArrayList<>();
+            for(String ss : new ArrayList<>(GunsFile.getData().getStringList("Perks." + s + ".Desc"))){
+                arrayList.add(ChatColor.translateAlternateColorCodes('&', ss));
+            }
+            String name = GunsFile.getData().getString("Perks." + s + ".Name");
+            if(Main.ownedPerks.get(p.getUniqueId().toString()).contains(GunsFile.getData().getString("Perks." + s + ".Name"))){
+                arrayList.add("");
+                arrayList.add("§a§lPurchased: §2True");
+            }else{
+                arrayList.add("");
+                arrayList.add("§a§lPurchased: §cFalse");
+            }
+
+            inventory.addItem(getMaterial(Material.getMaterial(mat.toUpperCase()), name, arrayList));
+
         }
-        inventory.setItem(0, getMaterial(Material.ENDER_EYE, "§7§nScavenger",lore));
-
-        ArrayList<String> lore2 = new ArrayList<>();
-        lore2.add("");
-        lore2.add("§3§lDesc: §4Reduced fall damage and faster running speed");
-        lore2.add("");
-        lore2.add("§3§lLevel: §210");
-        lore2.add("");
-        if(owned.contains("§6§nFeatherWeight")) {
-            lore2.add("§d§lPurchased: §aTrue");
-
-        }else{
-            lore2.add("§d§lPurchased: §cFalse");
-        }
-
-
-        inventory.setItem(1, getMaterial(Material.ELYTRA, "§6§nFeatherWeight", lore2));
 
         p.openInventory(inventory);
     }

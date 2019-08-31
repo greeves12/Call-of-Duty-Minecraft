@@ -19,6 +19,7 @@ import me.zombie_striker.qg.api.QualityArmory;
 import me.zombie_striker.qg.guns.utils.WeaponSounds;
 import me.zombie_striker.qg.guns.utils.WeaponType;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -169,9 +170,7 @@ public class MainCommand implements CommandExecutor {
             }
             //Player Commands
             if(p.hasPermission("cod.player")){
-                if(args[0].equalsIgnoreCase("kit")){
-                    new SelectKit().createKit(p);
-                }
+
                 if(args[0].equalsIgnoreCase("buy")){
                     if(!Main.AllPlayingPlayers.contains(p)){
                         BuyGuns buyGuns = new BuyGuns();
@@ -214,13 +213,11 @@ public class MainCommand implements CommandExecutor {
                     p.sendMessage(Main.prefix + "§aYou have left the lobby");
                     Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(p));
                 }
-                if(args[0].equalsIgnoreCase("try")){
-                    ArrayList<String> list = Main.ownedGuns.get(p.getUniqueId().toString());
-
-                }
             }
         }
 
         return true;
     }
+
+
 }
