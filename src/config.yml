@@ -4,7 +4,7 @@ auto-update: true
 #Change the prefix of the plugin
 prefix: "§8§l[COD] "
 
-#Use COD chat format ([Prestige {0} [Level {0} tatemylove:) this is optional of course but recommended to encourage players to level and prestige
+#Use COD chat format ([Prestige {0}] [Level {0}] tatemylove: <chat>) this is optional of course but recommended to encourage players to level and prestige
 cod-chat: true
 
 #Filter in-game chat and server chat (Each game instance will get their own chat, each team will get their own chat, and server chat will be filtered out from game chat and vice versa (Recommended if you're not on bungeecord)

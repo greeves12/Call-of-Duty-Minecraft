@@ -11,6 +11,7 @@ import java.util.UUID;
 public class RegistryAPI {
     public static HashMap<UUID, Integer> kills = new HashMap<>();
     public static HashMap<UUID, Integer> deaths = new HashMap<>();
+    public static HashMap<UUID, Integer> killstreak = new HashMap<>();
 
     public static void registerWin(Player p){
         if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){

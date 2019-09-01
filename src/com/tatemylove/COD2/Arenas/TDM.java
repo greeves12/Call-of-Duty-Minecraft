@@ -1,6 +1,7 @@
 package com.tatemylove.COD2.Arenas;
 
 import com.mysql.fabric.xmlrpc.base.Array;
+import com.tatemylove.COD2.Boards.GameBoard;
 import com.tatemylove.COD2.Events.CODEndEvent;
 import com.tatemylove.COD2.Events.CODKillEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
@@ -16,18 +17,23 @@ import com.tatemylove.COD2.Tasks.CountDown;
 import com.tatemylove.COD2.ThisPlugin;
 import me.zombie_striker.qg.api.QualityArmory;
 import me.zombie_striker.qg.guns.Gun;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import net.minecraft.server.v1_14_R1.WorldServer;
+import org.bukkit.*;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
+import org.bukkit.conversations.PlayerNamePrompt;
 import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
+import org.bukkit.craftbukkit.v1_14_R1.CraftWorld;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Boss;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -42,6 +48,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class TDM implements Listener {
@@ -49,11 +56,16 @@ public class TDM implements Listener {
    private  ArrayList<Player> BlueTeam = new ArrayList<>();
    private  ArrayList<Player> RedTeam = new ArrayList<>();
    private   ArrayList<Player> PlayingPlayers = new ArrayList<>();
+    private  int bluescore = 0;
+    private  int redscore = 0;
+
+  private BossBar bossBar = Bukkit.getServer().createBossBar("§cRED: "+redscore + "§7<PENDING> §9BLUE: "+bluescore, BarColor.PINK, BarStyle.SOLID);
+
+
 
    private HashMap<UUID, ArrayList<String>> loadedPerks = new HashMap<>();
 
-   private  int bluescore = 0;
-   private  int redscore = 0;
+
    private  String arena = "";
 
 
@@ -113,7 +125,7 @@ public class TDM implements Listener {
             p.setHealth(20);
             p.sendMessage(Main.prefix + "§aGame starting. Arena: §e" + name);
 
-
+            new GameBoard().setBoard(p);
 
             if(RedTeam.contains(p)){
                 p.teleport( GetArena.getRedSpawn(p, name));
@@ -137,6 +149,7 @@ public class TDM implements Listener {
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
 
                 getNewLoadout(p);
+
             }
         }
     }
@@ -163,6 +176,8 @@ public class TDM implements Listener {
             p.setPlayerListName(p.getName());
             p.removePotionEffect(PotionEffectType.SPEED);
             Main.AllPlayingPlayers.remove(p);
+            bossBar.removePlayer(p);
+            p.setScoreboard(null);
         }
 
         Main.onGoingArenas.remove(name);
@@ -205,12 +220,25 @@ public class TDM implements Listener {
         return i;
     }
 
+
     private  void startCountdown(String name){
 
+        for(Player p : PlayingPlayers){
+            bossBar.addPlayer(p);
+            bossBar.setVisible(true);
+
+        }
+
         new BukkitRunnable(){
-            int time = ThisPlugin.getPlugin().getConfig().getInt("game-time")*20;
+            int time = ThisPlugin.getPlugin().getConfig().getInt("game-time");
+
             @Override
             public void run() {
+
+
+                bossBar.setTitle("§cRED: "+redscore + "§7 «§f"+formatThis(time)+"§7» §9BLUE: "+bluescore);
+
+
                 if(PlayingPlayers.size() < Main.minplayers){
                     endTDM(name);
 
@@ -234,6 +262,35 @@ public class TDM implements Listener {
                 time-=1;
             }
         }.runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
+    }
+
+    private String formatThis(int time){
+        long minutes = time /60;
+        int secs = time %60;
+
+        return (minutes+":"+secs);
+
+
+    }
+
+    @EventHandler
+    public void filterChat(AsyncPlayerChatEvent e){
+        Player p = e.getPlayer();
+
+        if(ThisPlugin.getPlugin().getConfig().getBoolean("cod-chat")) {
+            if (PlayingPlayers.contains(p)) {
+                for (Player pp : PlayingPlayers) {
+
+                    if (PlayerData.getData().getInt("Players." + p.getUniqueId().toString() + ".Prestige") == 0) {
+                        pp.sendMessage("§8[§bLevel " + PlayerData.getData().getInt("Players." + p.getUniqueId().toString() + ".Level") + "§8] §a" + p.getName() + ": §7" + e.getMessage());
+
+                    } else {
+                        pp.sendMessage("§8[§3Prestige " + PlayerData.getData().getInt("Players." + p.getUniqueId().toString() + ".Prestige") + "§8] [§bLevel " + PlayerData.getData().getInt("Players." + p.getUniqueId().toString() + ".Level") + "§8] §a" + p.getName() + ": §7" + e.getMessage());
+                    }
+                }
+                e.setCancelled(true);
+            }
+        }
     }
 
     @EventHandler
@@ -370,21 +427,23 @@ public class TDM implements Listener {
 
         loadedPerks.put(p.getUniqueId(), ss);
 
-        if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary").equalsIgnoreCase("")) {
-            // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+        if(!PlayerJoin.clazz.get(p.getUniqueId()).equals("")) {
+            if (!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary").equalsIgnoreCase("")) {
+                // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
 
-            Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary"));
-
-
-            p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
-        }
-        if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Secondary").equalsIgnoreCase("")) {
-            // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
-
-            Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Secondary"));
+                Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary"));
 
 
-            p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+                p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+            }
+            if (!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Secondary").equalsIgnoreCase("")) {
+                // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Secondary"));
+
+
+                p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+            }
         }
         if(RedTeam.contains(p)){
             if(!loadedPerks.get(p.getUniqueId()).contains("§6§nFeatherWeight")) {

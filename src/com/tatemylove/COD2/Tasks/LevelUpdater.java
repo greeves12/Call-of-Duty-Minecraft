@@ -25,6 +25,11 @@ public class LevelUpdater extends BukkitRunnable {
                         LevelRegistryAPI.addLevel(p, 1);
                     }
                 }
+                if(Main.WaitingPlayers.contains(p) || Main.AllPlayingPlayers.contains(p)){
+                    int exp =  LevelRegistryAPI.getEXP(p);
+
+                    p.setLevel(exp);
+                }
         }
     }
 }

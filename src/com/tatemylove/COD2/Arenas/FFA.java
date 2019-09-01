@@ -27,14 +27,11 @@ import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
 import org.bukkit.craftbukkit.v1_14_R1.CraftWorld;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Boss;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -42,7 +39,6 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -55,7 +51,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-public class KillConfirmed implements Listener {
+public class FFA implements Listener {
 
     private  ArrayList<Player> BlueTeam = new ArrayList<>();
     private  ArrayList<Player> RedTeam = new ArrayList<>();
@@ -79,6 +75,8 @@ public class KillConfirmed implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(this, ThisPlugin.getPlugin());
         arena = name;
 
+
+
         if(Main.WaitingPlayers.size() >ThisPlugin.getPlugin().getConfig().getInt("max-players")) {
             for (int x = 0; x < ThisPlugin.getPlugin().getConfig().getInt("max-players"); x++) {
                 PlayingPlayers.add(Main.WaitingPlayers.get(0));
@@ -95,20 +93,8 @@ public class KillConfirmed implements Listener {
 
         for(int x = 0; x < PlayingPlayers.size(); x++){
             Player p = PlayingPlayers.get(x);
-            if(RedTeam.size() < BlueTeam.size()){
-                RedTeam.add(p);
-            }else if(BlueTeam.size() < RedTeam.size()){
-                BlueTeam.add(p);
-            }else{
-                Random RandomTeam = new Random();
-                int TeamID = 0;
-                TeamID = RandomTeam.nextInt(2);
-                if (TeamID == 0) {
-                    RedTeam.add(p);
-                } else {
-                    BlueTeam.add(p);
-                }
-            }
+
+
         }
         startTDM(name);
         startCountdown(name);
@@ -129,30 +115,18 @@ public class KillConfirmed implements Listener {
 
             new GameBoard().setBoard(p);
 
-            if(RedTeam.contains(p)){
-                p.teleport( GetArena.getRedSpawn(p, name));
-                p.setCustomName("§c" + p.getName());
+
+               // p.teleport( GetArena.getRedSpawn(p, name));
+                p.setCustomName("§6" + p.getName());
                 p.setCustomNameVisible(true);
-                p.setPlayerListName("§c" + p.getName());
+                p.setPlayerListName("§6" + p.getName());
                 Color c = Color.fromBGR(0,0,255);
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
                 getNewLoadout(p);
 
-            }else if(BlueTeam.contains(p)){
-                p.teleport( GetArena.getBlueSpawn(p, name));
-                p.setCustomName("§9" + p.getName());
-                p.setCustomNameVisible(true);
-                p.setPlayerListName("§9" + p.getName());
-                Color c = Color.fromBGR(255,0,0);
-                p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
-                p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
-                p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
 
-                getNewLoadout(p);
-
-            }
         }
     }
 
@@ -160,17 +134,14 @@ public class KillConfirmed implements Listener {
         Bukkit.getServer().getPluginManager().callEvent(new CODEndEvent(PlayingPlayers, name, ArenasFile.getData().getString("Arenas." + name + ".Type")));
 
         for(Player p : PlayingPlayers){
-            if(redscore > bluescore && RedTeam.contains(p)){
+
                 RegistryAPI.registerWin(p);
                 LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
-            }else if(redscore < bluescore && BlueTeam.contains(p)){
-                RegistryAPI.registerWin(p);
-                LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
-            }
+
             p.teleport(GetLocations.getLobby());
             p.getInventory().clear();
             GameInventory.lobbyInv(p);
-            p.sendMessage(Main.prefix + " " + getBetterTeam());
+            p.sendMessage(Main.prefix + " " );
             p.setHealth(20);
             p.setFoodLevel(20);
             p.setPlayerListName(p.getName());
@@ -193,18 +164,7 @@ public class KillConfirmed implements Listener {
 
     }
 
-    public  String getBetterTeam() {
-        if (redscore > bluescore) {
-            String team = "§c§lRed: §4§l" + redscore + " " + "§9§lBlue: §1§l" +bluescore;
-            return team;
-        } else if (bluescore > redscore) {
-            String team = "§9§lBlue: §1§l" + bluescore + " " + "§c§lRed: §4§l" + redscore;
-            return team;
-        } else {
-            String team = "§e§lTie: §6§l" +redscore + " §e§l- §6§l" +bluescore;
-            return team;
-        }
-    }
+
 
     private  ItemStack getMaterial(Material m, String name, ArrayList<String> lore){
         ItemStack s = new ItemStack(m);
@@ -238,7 +198,7 @@ public class KillConfirmed implements Listener {
             public void run() {
 
 
-                bossBar.setTitle("§cRED: "+redscore + "§7 «§f"+formatThis(time)+"§7» §9BLUE: "+bluescore);
+                bossBar.setTitle("§cLeader: <leader>" + "§7 «§f"+formatThis(time)+"§7»");
 
 
                 if(PlayingPlayers.size() < Main.minplayers){
@@ -300,64 +260,12 @@ public class KillConfirmed implements Listener {
 
         if(e.getEntity() instanceof Player ) {
             Player p = (Player) e.getEntity();
+            Player pp = p.getKiller();
 
-            ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
-            ItemStack redTag = new ItemStack(Material.RED_WOOL, 1);
-            if(RedTeam.contains(p)){
-                Location loc = p.getLocation();
-                Item redWool = p.getWorld().dropItem(loc, redTag);
-                redWool.setMetadata("codRedTag", new FixedMetadataValue(ThisPlugin.getPlugin(), redWool));
-            }else if(BlueTeam.contains(p)){
-                Location loc = p.getLocation();
-                Item blueWool = p.getWorld().dropItem(loc, blueTag);
-                blueWool.setMetadata("codBlueTag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
+            if (pp != null) {
+                //Increase killer score, reset killed kills, reset killed killstreak, add death to killed
             }
 
-        }
-    }
-
-    @EventHandler
-    public void onPickUp(EntityPickupItemEvent e) {
-        Entity entity = e.getEntity();
-        if (entity instanceof Player) {
-            Player p = (Player) e.getEntity();
-            if (PlayingPlayers.contains(p)) {
-                e.setCancelled(true);
-
-                if (e.getItem().hasMetadata("codRedTag")) {
-                    if (RedTeam.contains(p)) {
-                        e.getItem().remove();
-                        for(Player pp : PlayingPlayers){
-                            pp.sendMessage(Main.prefix + "§cRed team denied a kill");
-                        }
-                    } else if (BlueTeam.contains(p)) {
-                        e.getItem().remove();
-                        for(Player pp : PlayingPlayers){
-                            pp.sendMessage(Main.prefix + "§9Blue team confirmed a kill");
-                        }
-                        bluescore++;
-                        if (bluescore >= 30) {
-                            endTDM(arena);
-                        }
-                    }
-                } else if (e.getItem().hasMetadata("codBlueTag")) {
-                    if (BlueTeam.contains(p)) {
-                        for(Player pp : PlayingPlayers){
-                            pp.sendMessage(Main.prefix + "§9Blue team denied a kill");
-                        }
-                        e.getItem().remove();
-                    } else if (RedTeam.contains(p)) {
-                        e.getItem().remove();
-                        for(Player pp : PlayingPlayers){
-                            pp.sendMessage(Main.prefix + "§cRed team confirmed a kill");
-                        }
-                        redscore++;
-                        if (redscore >= 30) {
-                            endTDM(arena);
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -366,8 +274,6 @@ public class KillConfirmed implements Listener {
         if(PlayingPlayers.contains(e.getEntity())){
             e.setDeathMessage(null);
             e.getDrops().clear();
-
-
         }
     }
 
@@ -395,17 +301,7 @@ public class KillConfirmed implements Listener {
     @EventHandler
     public void onRespawn(PlayerRespawnEvent e){
         if(PlayingPlayers.contains(e.getPlayer())){
-            if(RedTeam.contains(e.getPlayer())){
-                e.getPlayer().getInventory().clear();
-
-                e.setRespawnLocation(GetArena.getRedSpawn(e.getPlayer(), arena));
-                getNewLoadout(e.getPlayer());
-            }else if(BlueTeam.contains(e.getPlayer())){
-                e.getPlayer().getInventory().clear();
-                e.setRespawnLocation(GetArena.getRedSpawn(e.getPlayer(), arena));
-                getNewLoadout(e.getPlayer());
-
-            }
+            //Set random spawn
         }
     }
 
@@ -425,9 +321,7 @@ public class KillConfirmed implements Listener {
         if(PlayingPlayers.size() <= 1) {
             endTDM(arena);
         }
-        if(RedTeam.size() == 0 || BlueTeam.size() == 0){
-            endTDM(arena);
-        }
+
     }
 
     private  void getNewLoadout(Player p){
@@ -456,7 +350,7 @@ public class KillConfirmed implements Listener {
                 p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
             }
         }
-        if(RedTeam.contains(p)){
+
             if(!loadedPerks.get(p.getUniqueId()).contains("§6§nFeatherWeight")) {
                 Color c = Color.fromBGR(0, 0, 255);
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
@@ -471,24 +365,7 @@ public class KillConfirmed implements Listener {
                 p.getInventory().setBoots(getColorArmor2(Material.LEATHER_BOOTS, c));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, true));
             }
-        }else if(BlueTeam.contains(p)){
-            if(!loadedPerks.get(p.getUniqueId()).contains("§6§nFeatherWeight")) {
-                Color c = Color.fromBGR(0, 0, 255);
-                p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
-                p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
-                p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
-                p.getInventory().setBoots(getColorArmor(Material.LEATHER_BOOTS, c));
 
-
-            }else{
-                Color c = Color.fromBGR(0, 0, 255);
-                p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
-                p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
-                p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
-                p.getInventory().setBoots(getColorArmor2(Material.LEATHER_BOOTS, c));
-                p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, true));
-            }
-        }
     }
 
     private   ItemStack getColorArmor2(Material m, Color c) {

@@ -40,7 +40,10 @@ public class MainCommand implements CommandExecutor {
         if(commandSender instanceof Player){
             Player p = (Player) commandSender;
             if(args.length == 0){
-                p.sendMessage(Main.prefix + "§b/cod help");
+                p.sendMessage("§4§m |   »* |   >»  §r  §6[ §cCOD Information §6]  §4§m  «<   | *«   | §r");
+                p.sendMessage("§8Author: §etatemylove");
+                p.sendMessage("§8Version: §e" + Main.version);
+                p.sendMessage("§8Need Help? §e/cod help");
                 return true;
             }if(args[0].equalsIgnoreCase("create")){
                 if(args.length == 3){
@@ -52,10 +55,10 @@ public class MainCommand implements CommandExecutor {
                             p.sendMessage(Main.prefix + "§cArena already exists with that name");
                         }
                     }else{
-                        p.sendMessage(Main.prefix + "§cThat is not a valid arena. §bKC, TDM, INF");
+                        p.sendMessage(Main.prefix + "§cThat is not a valid arena. §bKC, TDM, INF, CTF, DOM, S&D, S&R, FFA");
                     }
                 }else{
-                    p.sendMessage(Main.prefix + "§9Available GameModes are §6TDM §a, §6KC §e(Kill Confirmed) §a, §6INF §e(Infected)");
+                    p.sendMessage(Main.prefix + "§9Available GameModes are §6TDM §a, §6KC §e(Kill Confirmed) §a, §6INF §e(Infected), §6CTF, §6DOM §e(Domination), §6FFA §e(Free for all) ");
                     p.sendMessage(Main.prefix + "§7/cod create <name> <type>");
                 }
             }
@@ -81,6 +84,10 @@ public class MainCommand implements CommandExecutor {
                 if(args[0].equalsIgnoreCase("setspawn")){
                     if(args.length == 3){
                         if(Main.arenas.contains(args[1])){
+                            if(ArenasFile.getData().getString("Arenas." + args[1] + ".Type").equalsIgnoreCase("FFA")){
+                                p.sendMessage(Main.prefix + "§7/cod setspawn <name>");
+                                return true;
+                            }
                             CreateArenaCommand.setSpawns(p, args, args[1]);
                         }else{
                             p.sendMessage(Main.prefix + "§cArena does not exist");
@@ -156,6 +163,10 @@ public class MainCommand implements CommandExecutor {
             }
             //Player Commands
             if(p.hasPermission("cod.player")){
+
+                if(args[0].equalsIgnoreCase("help")){
+                    new HelpCommand().helpMe(p, args);
+                }
 
                 if(args[0].equalsIgnoreCase("buy")){
                     if(Main.AllPlayingPlayers.contains(p)){

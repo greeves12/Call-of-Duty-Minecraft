@@ -17,6 +17,7 @@ import com.tatemylove.COD2.Tasks.LevelUpdater;
 import com.tatemylove.COD2.Updater.Updater;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -104,7 +105,7 @@ public class Main extends JavaPlugin {
         time=getConfig().getInt("time-to-start");
         minplayers =getConfig().getInt("min-players");
         gametime=getConfig().getInt("game-time");
-        prefix=getConfig().getString("prefix");
+        prefix= ChatColor.translateAlternateColorCodes('&',getConfig().getString("prefix"));
 
         if(ArenasFile.getData().contains("Arenas.")) {
             for (String s : ArenasFile.getData().getConfigurationSection("Arenas.").getKeys(false)) {

@@ -26,10 +26,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -40,24 +37,21 @@ public class PlayerJoin implements Listener {
     private HashMap<UUID, ItemStack[]> inv = new HashMap<>();
     private HashMap<UUID, Location> loc = new HashMap<>();
     public static HashMap<UUID, String> clazz = new HashMap<>();
+    private HashMap<UUID, Integer> exp = new HashMap<>();
 
     Main main;
     public PlayerJoin(Main main){
         this.main=main;
     }
 
-/*
+
     @EventHandler
     public void playerLeave(PlayerQuitEvent e){
-        if(Main.AllPlayingPlayers.contains(e.getPlayer())){
-            Main.AllPlayingPlayers.remove(e.getPlayer());
-            Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
-
-        }else if(Main.WaitingPlayers.contains(e.getPlayer())){
+        if(Main.WaitingPlayers.contains(e.getPlayer())){
             Main.WaitingPlayers.remove(e.getPlayer());
             Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
         }
-    }*/
+    }
 
     @EventHandler
     public void noDamage(EntityDamageEvent e){
@@ -86,6 +80,8 @@ public class PlayerJoin implements Listener {
         e.getPlayer().getInventory().clear();
         GameInventory.lobbyInv(e.getPlayer());
         loc.put(e.getPlayer().getUniqueId(), e.getPlayer().getLocation());
+        exp.put(e.getPlayer().getUniqueId(), e.getPlayer().getLevel());
+
         for(Player p : Main.WaitingPlayers){
             p.sendMessage(Main.prefix + "§aPlayer: §e" + e.getPlayer() + " §ajoined the lobby");
         }
@@ -96,6 +92,7 @@ public class PlayerJoin implements Listener {
         e.getPlayer().getInventory().clear();
         e.getPlayer().getInventory().setContents(inv.get(e.getPlayer().getUniqueId()));
         e.getPlayer().teleport(loc.get(e.getPlayer().getUniqueId()));
+        e.getPlayer().setLevel(exp.get(e.getPlayer().getUniqueId()));
 
         for(Player p : Main.AllPlayingPlayers){
             p.sendMessage(Main.prefix + "§aPlayer: §e" + e.getPlayer() + " §aleft COD");
@@ -141,6 +138,26 @@ public class PlayerJoin implements Listener {
             }
         }
     }*/
+
+  @EventHandler
+  public void chatHandler(AsyncPlayerChatEvent e){
+      Player p = e.getPlayer();
+
+      if(ThisPlugin.getPlugin().getConfig().getBoolean("cod-chat")) {
+          if (Main.WaitingPlayers.contains(p)) {
+              for (Player pp : Main.WaitingPlayers) {
+
+                  if (PlayerData.getData().getInt("Players." + p.getUniqueId().toString() + ".Prestige") == 0) {
+                      pp.sendMessage("§8[§bLevel " + PlayerData.getData().getInt("Players." + p.getUniqueId().toString() + ".Level") + "§8] §a" + p.getName() + ": §7" + e.getMessage());
+
+                  } else {
+                      pp.sendMessage("§8[§3Prestige " + PlayerData.getData().getInt("Players." + p.getUniqueId().toString() + ".Prestige") + "§8] [§bLevel " + PlayerData.getData().getInt("Players." + p.getUniqueId().toString() + ".Level") + "§8] §a" + p.getName() + ": §7" + e.getMessage());
+                  }
+              }
+              e.setCancelled(true);
+          }
+      }
+  }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {

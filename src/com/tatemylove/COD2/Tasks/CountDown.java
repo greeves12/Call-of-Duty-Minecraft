@@ -1,9 +1,6 @@
 package com.tatemylove.COD2.Tasks;
 
-import com.tatemylove.COD2.Arenas.BaseArena;
-import com.tatemylove.COD2.Arenas.GetArena;
-import com.tatemylove.COD2.Arenas.KillConfirmed;
-import com.tatemylove.COD2.Arenas.TDM;
+import com.tatemylove.COD2.Arenas.*;
 import com.tatemylove.COD2.Events.CODStartEvent;
 import com.tatemylove.COD2.Files.ArenasFile;
 import com.tatemylove.COD2.Listeners.PlayerJoin;
@@ -17,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import static com.tatemylove.COD2.Listeners.PlayerJoin.isEnabled;
 
 public class CountDown extends BukkitRunnable {
-    int time = Main.time*20;
+    int time = Main.time;
     int minPlayers = Main.minplayers;
     private String nextArena = new GetArena().getNextArena();
     private String type = ArenasFile.getData().getString("Arenas." + new GetArena().getNextArena() + ".Type");
@@ -33,6 +30,7 @@ public class CountDown extends BukkitRunnable {
                 for(Player p : Main.WaitingPlayers){
                     RegistryAPI.kills.put(p.getUniqueId(), 0);
                     RegistryAPI.deaths.put(p.getUniqueId(), 0);
+                    RegistryAPI.killstreak.put(p.getUniqueId(), 0);
 
                     if(isEnabled(p)){
                         PlayerJoin.clazz.put(p.getUniqueId(), PlayerJoin.getEnabled(p));
@@ -45,13 +43,16 @@ public class CountDown extends BukkitRunnable {
                 if(type.equalsIgnoreCase("KC")){
 
                     Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nArena, type2));
-                    //KillConfirmed.assignTeams(nextArena);
+                    new KillConfirmed().assignTeams(nextArena);
                 }else if(type.equalsIgnoreCase("TDM")){
 
                     Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nArena, type2));
                      new TDM().assignTeams(nextArena);
                 }else if(type.equalsIgnoreCase("INF")){
 
+                }else if(type.equalsIgnoreCase("FFA")){
+                    Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nArena, type2));
+                    new FFA().assignTeams(nextArena);
                 }
                 cancel();
                 Main.onGoingArenas.add(nextArena);
