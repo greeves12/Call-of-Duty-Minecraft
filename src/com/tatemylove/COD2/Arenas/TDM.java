@@ -2,19 +2,24 @@ package com.tatemylove.COD2.Arenas;
 
 import com.tatemylove.COD2.Events.CODEndEvent;
 import com.tatemylove.COD2.Events.CODKillEvent;
+import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.ArenasFile;
 import com.tatemylove.COD2.Files.PlayerData;
 import com.tatemylove.COD2.Inventories.GameInventory;
 import com.tatemylove.COD2.Leveling.LevelRegistryAPI;
+import com.tatemylove.COD2.Listeners.PlayerJoin;
 import com.tatemylove.COD2.Locations.GetLocations;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.MySQL.RegistryAPI;
 import com.tatemylove.COD2.Tasks.CountDown;
 import com.tatemylove.COD2.ThisPlugin;
+import me.zombie_striker.qg.api.QualityArmory;
+import me.zombie_striker.qg.guns.Gun;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,6 +27,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -30,7 +36,9 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
+import java.util.UUID;
 
 public class TDM implements Listener {
 
@@ -42,17 +50,21 @@ public class TDM implements Listener {
    private String arena = "";
 
 
+
     public  void assignTeams(String name){
         arena = name;
 
-               //PlayingPlayers.addAll(Main.WaitingPlayers);
 
-                if(Main.WaitingPlayers.size() < ThisPlugin.getPlugin().getConfig().getInt("max-players")) {
+
+                if(Main.WaitingPlayers.size() >ThisPlugin.getPlugin().getConfig().getInt("max-players")) {
                     for (int x = 0; x < ThisPlugin.getPlugin().getConfig().getInt("max-players"); x++) {
                         PlayingPlayers.add(Main.WaitingPlayers.get(0));
                         Main.AllPlayingPlayers.add(Main.WaitingPlayers.get(0));
                         Main.WaitingPlayers.remove(0);
                     }
+                }else{
+                    PlayingPlayers.addAll(Main.WaitingPlayers);
+                    Main.WaitingPlayers.clear();
                 }
 
 
@@ -81,6 +93,7 @@ public class TDM implements Listener {
     public  void startTDM(String name){
         for(int ID =0; ID < PlayingPlayers.size(); ID++){
             final Player p = PlayingPlayers.get(ID);
+            p.getInventory().clear();
 
             p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§bKnife", null));
 
@@ -88,6 +101,24 @@ public class TDM implements Listener {
             p.setFoodLevel(20);
             p.setHealth(20);
             p.sendMessage(Main.prefix + "§aGame starting. Arena: §e" + name);
+
+
+            if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary").equalsIgnoreCase("")) {
+               // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary"));
+
+
+                p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+            }
+            if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Secondary").equalsIgnoreCase("")) {
+                // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Secondary"));
+
+
+                p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+            }
 
             if(RedTeam.contains(p)){
                 p.teleport(new GetArena().getRedSpawn(p, name));
@@ -98,11 +129,7 @@ public class TDM implements Listener {
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
-                if(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Perk").equals("§6§nFeatherWeight")) {
-                    p.getInventory().setBoots(getColorArmor2(Material.LEATHER_BOOTS, c));
-                }else{
-                    p.getInventory().setBoots(getColorArmor(Material.LEATHER_BOOTS, c));
-                }
+
             }else if(BlueTeam.contains(p)){
                 p.teleport(new GetArena().getBlueSpawn(p, name));
                 p.setCustomName("§9" + p.getName());
@@ -112,11 +139,7 @@ public class TDM implements Listener {
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
-                if(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Perk").equals("§6§nFeatherWeight")) {
-                    p.getInventory().setBoots(getColorArmor2(Material.LEATHER_BOOTS, c));
-                }else{
-                    p.getInventory().setBoots(getColorArmor(Material.LEATHER_BOOTS, c));
-                }
+
             }
         }
     }
@@ -282,6 +305,8 @@ public class TDM implements Listener {
     public void onDEath(PlayerDeathEvent e){
         if(PlayingPlayers.contains(e.getEntity())){
             e.setDeathMessage(null);
+            e.setKeepInventory(true);
+            e.getEntity().getInventory().clear();
         }
     }
 
@@ -316,6 +341,23 @@ public class TDM implements Listener {
                 e.getPlayer().teleport(new GetArena().getBlueSpawn(e.getPlayer(), arena));
                 getNewLoadout(e.getPlayer());
             }
+        }
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e){
+        Player p = e.getPlayer();
+        PlayingPlayers.remove(e.getPlayer());
+
+        Main.AllPlayingPlayers.remove(p);
+
+        Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
+
+        if(PlayingPlayers.size() <= 1) {
+            endTDM(arena);
+        }
+        if(RedTeam.size() == 0 || BlueTeam.size() == 0){
+            endTDM(arena);
         }
     }
 

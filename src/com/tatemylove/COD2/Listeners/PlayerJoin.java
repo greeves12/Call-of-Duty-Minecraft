@@ -37,6 +37,7 @@ import java.util.*;
 public class PlayerJoin implements Listener {
     private HashMap<UUID, ItemStack[]> inv = new HashMap<>();
     private HashMap<UUID, Location> loc = new HashMap<>();
+    public static HashMap<UUID, String> clazz = new HashMap<>();
 
     Main main;
     public PlayerJoin(Main main){
@@ -125,6 +126,7 @@ public class PlayerJoin implements Listener {
 
             PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Guns", new ArrayList<String>());
             PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Level", 1);
+            PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Prestige", 0);
             PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Perks", new ArrayList<String>());
 
             for(String s : list) {
@@ -148,6 +150,8 @@ public class PlayerJoin implements Listener {
 
                 Main.ownedGuns.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
 
+
+
                 Main.ownedPerks.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
                 Main.unlockedAchievements.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>());
                 StatsFile.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Wins", 0);
@@ -157,12 +161,24 @@ public class PlayerJoin implements Listener {
 
                 StatsFile.saveData();
 
+                if(isEnabled(e.getPlayer())){
+                    clazz.put(e.getPlayer().getUniqueId(), getEnabled(e.getPlayer()));
+                }else{
+                    clazz.put(e.getPlayer().getUniqueId(), getEnabled(e.getPlayer()));
+                }
+
+
         }else{
             Main.ownedGuns.put(e.getPlayer().getUniqueId().toString(), new ArrayList<>(PlayerData.getData().getStringList("Players." + e.getPlayer().getUniqueId().toString() + ".Guns")));
+
+            if(isEnabled(e.getPlayer())){
+                clazz.put(e.getPlayer().getUniqueId(), getEnabled(e.getPlayer()));
+            }else{
+                clazz.put(e.getPlayer().getUniqueId(), "");
+            }
+
+            e.getPlayer().sendMessage(clazz.get(e.getPlayer().getUniqueId()));
         }
-
-
-
 
         if(main.getConfig().getBoolean("BungeeCord.Enabled")){
             Main.WaitingPlayers.add(e.getPlayer());
@@ -172,6 +188,22 @@ public class PlayerJoin implements Listener {
         }
     }
 
+    public static boolean isEnabled(Player p){
+        for(String s : PlayerData.getData().getConfigurationSection("Players." + p.getUniqueId().toString() + ".Classes." ).getKeys(false)){
+            if(PlayerData.getData().getBoolean("Players." + p.getUniqueId().toString() + ".Classes." + s + ".Enabled")){
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public static String getEnabled(Player p){
+        for(String s : PlayerData.getData().getConfigurationSection("Players." + p.getUniqueId().toString() + ".Classes.").getKeys(false)){
+            if(PlayerData.getData().getBoolean("Players." + p.getUniqueId().toString() + ".Classes." + s + ".Enabled")){
+                return s;
+            }
+        }
+        return null;
+    }
 
 }

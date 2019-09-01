@@ -1,5 +1,6 @@
 package com.tatemylove.COD2.Commands;
 
+import com.shampaggon.crackshot.CSUtility;
 import com.tatemylove.COD2.Events.CODJoinEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.ArenasFile;
@@ -15,10 +16,9 @@ import com.tatemylove.COD2.Listeners.PlayerJoin;
 import com.tatemylove.COD2.Locations.GetLocations;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.Perks.PerkMenu;
-import com.tatemylove.COD2.ThisPlugin;
+
 import me.zombie_striker.qg.api.QualityArmory;
-import me.zombie_striker.qg.guns.utils.WeaponSounds;
-import me.zombie_striker.qg.guns.utils.WeaponType;
+import me.zombie_striker.qg.guns.Gun;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -27,11 +27,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Properties;
 
 public class MainCommand implements CommandExecutor {
     Main main;
@@ -105,6 +100,7 @@ public class MainCommand implements CommandExecutor {
                         p.sendMessage(Main.prefix + "§7/cod delete <name>");
                     }
                 }
+
                 if(args[0].equalsIgnoreCase("enable")){
                     if(ArenasFile.getData().contains("Arenas.")){
                         main.enabled = true;
@@ -128,29 +124,20 @@ public class MainCommand implements CommandExecutor {
                 }
 
                 if(args[0].equalsIgnoreCase("make")){
-                    if(args.length == 14){
+                    if(args.length == 6){
 
                         String name = args[1];
-                        String displaynname = args[2];
-                        String material = args[3];
-                        String id = args[4];
-                        String type2 = args[5];
-                        String sound = args[6];
-                        String ironsight = args[7];
-                        String type = args[8];
-                        String ammotype = args[9];
-                        String damage = args[10];
-                        String maxbullets = args[11];
-                        String cost = args[12];
-                        String level = args[13];
+                        String type = args[2];
+
+                        String cost = args[3];
+                        String level = args[4];
+                        String material = args[5];
+
 
                         if(!Main.guns.contains(name)){
                             if(type.equalsIgnoreCase("PRIMARY") || type.equalsIgnoreCase("SECONDARY") || type.equalsIgnoreCase("SPLODE")) {
-                                Guns.createGuns(name, material.toUpperCase(), Integer.parseInt(maxbullets), ammotype, Integer.parseInt(level), Double.parseDouble(cost), type);
+                                Guns.createGuns(name, Integer.parseInt(level), Double.parseDouble(cost), type, material.toUpperCase());
 
-
-                                QualityArmory.createNewGunYML(name, displaynname, Material.getMaterial(material.toUpperCase()), Integer.parseInt(id), WeaponType.getByName(type2.toUpperCase()), WeaponSounds.getByName(sound.toUpperCase()),
-                                        Boolean.getBoolean(ironsight), ammotype, Integer.parseInt(damage), Integer.parseInt(maxbullets), Integer.parseInt(cost));
 
                                 p.sendMessage(Main.prefix + "§6Weapon created");
 
@@ -161,7 +148,7 @@ public class MainCommand implements CommandExecutor {
                             p.sendMessage(Main.prefix + "§cA gun with that name already exists");
                         }
                     }else{
-                        p.sendMessage(Main.prefix + "§7/cod make §6<Gun Name> <Display name> <Gun Material> <ID> <WeaponType> <Sound> <ironsight true/false> <primary/secondary> <Ammo name> <damage> <Ammo size> <Cost> <Level>");
+                        p.sendMessage(Main.prefix + "§7/cod make §6<Gun Name> <primary/secondary> <Cost> <Level> <Gun Material>");
                     }
                 }
 

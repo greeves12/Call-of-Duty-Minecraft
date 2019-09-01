@@ -3,9 +3,7 @@ package com.tatemylove.COD2.Inventories;
 import com.tatemylove.COD2.Files.GunsFile;
 import com.tatemylove.COD2.Files.PlayerData;
 import com.tatemylove.COD2.Main;
-import me.zombie_striker.qg.api.QualityArmory;
-import me.zombie_striker.qg.guns.utils.WeaponSounds;
-import me.zombie_striker.qg.guns.utils.WeaponType;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

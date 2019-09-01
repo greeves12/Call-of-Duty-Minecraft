@@ -9,19 +9,18 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 public class GetArena {
-    private static String currentArena;
+    private String currentArena;
 
     private  String chooseNextArena(){
+
+        Random rand = new Random();
         ArrayList<String> arena = new ArrayList<>();
         arena.addAll(Main.arenas);
-        Collections.shuffle(arena);
 
-        if(Main.onGoingArenas.contains(arena.get(0))){
-            chooseNextArena();
-        }
-        return arena.get(0);
+        return arena.get(rand.nextInt(arena.size()));
     }
 
     public   String getNextArena()

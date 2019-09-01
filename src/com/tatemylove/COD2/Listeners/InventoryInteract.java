@@ -560,12 +560,14 @@ public class InventoryInteract implements Listener {
                                 PlayerData.saveData();
                                 p.closeInventory();
                                 new CreateClass().createKit(p);
+                                PlayerJoin.clazz.put(p.getUniqueId(), getEnabled(p));
                             }
                         }else{
                             PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes." + e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName().substring(2) + ".Enabled", true);
                             PlayerData.saveData();
                             p.closeInventory();
                             new CreateClass().createKit(p);
+                            PlayerJoin.clazz.put(p.getUniqueId(), getEnabled(p));
                         }
 
                     }

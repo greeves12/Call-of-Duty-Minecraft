@@ -15,7 +15,7 @@ import com.tatemylove.COD2.Listeners.PlayerJoin;
 import com.tatemylove.COD2.Tasks.CountDown;
 import com.tatemylove.COD2.Tasks.LevelUpdater;
 import com.tatemylove.COD2.Updater.Updater;
-import me.zombie_striker.qg.api.QualityArmory;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
