@@ -1,5 +1,6 @@
 package com.tatemylove.COD2.Arenas;
 
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.tatemylove.COD2.Events.CODEndEvent;
 import com.tatemylove.COD2.Events.CODKillEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
@@ -32,26 +33,34 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 public class TDM implements Listener {
 
-   private ArrayList<Player> BlueTeam = new ArrayList<>();
-   private ArrayList<Player> RedTeam = new ArrayList<>();
-   private ArrayList<Player> PlayingPlayers = new ArrayList<>();
-   private int bluescore = 0;
-   private int redscore = 0;
-   private String arena = "";
+   private  ArrayList<Player> BlueTeam = new ArrayList<>();
+   private  ArrayList<Player> RedTeam = new ArrayList<>();
+   private   ArrayList<Player> PlayingPlayers = new ArrayList<>();
+
+   private HashMap<UUID, ArrayList<String>> loadedPerks = new HashMap<>();
+
+   private  int bluescore = 0;
+   private  int redscore = 0;
+   private  String arena = "";
 
 
 
     public  void assignTeams(String name){
+
+        Bukkit.getServer().getPluginManager().registerEvents(this, ThisPlugin.getPlugin());
         arena = name;
 
 
@@ -64,7 +73,9 @@ public class TDM implements Listener {
                     }
                 }else{
                     PlayingPlayers.addAll(Main.WaitingPlayers);
+                    Main.AllPlayingPlayers.addAll(Main.WaitingPlayers);
                     Main.WaitingPlayers.clear();
+
                 }
 
 
@@ -103,25 +114,9 @@ public class TDM implements Listener {
             p.sendMessage(Main.prefix + "§aGame starting. Arena: §e" + name);
 
 
-            if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary").equalsIgnoreCase("")) {
-               // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
-
-                Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary"));
-
-
-                p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
-            }
-            if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Secondary").equalsIgnoreCase("")) {
-                // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
-
-                Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Secondary"));
-
-
-                p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
-            }
 
             if(RedTeam.contains(p)){
-                p.teleport(new GetArena().getRedSpawn(p, name));
+                p.teleport( GetArena.getRedSpawn(p, name));
                 p.setCustomName("§c" + p.getName());
                 p.setCustomNameVisible(true);
                 p.setPlayerListName("§c" + p.getName());
@@ -129,9 +124,10 @@ public class TDM implements Listener {
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
+                getNewLoadout(p);
 
             }else if(BlueTeam.contains(p)){
-                p.teleport(new GetArena().getBlueSpawn(p, name));
+                p.teleport( GetArena.getBlueSpawn(p, name));
                 p.setCustomName("§9" + p.getName());
                 p.setCustomNameVisible(true);
                 p.setPlayerListName("§9" + p.getName());
@@ -140,18 +136,14 @@ public class TDM implements Listener {
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
 
+                getNewLoadout(p);
             }
         }
     }
 
-    public  void endTDM(String name){
+    public void endTDM(String name){
         Bukkit.getServer().getPluginManager().callEvent(new CODEndEvent(PlayingPlayers, name, ArenasFile.getData().getString("Arenas." + name + ".Type")));
 
-        if(ThisPlugin.getPlugin().getConfig().getBoolean("BungeeCord.enabled")) {
-
-
-            new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
-        }
         for(Player p : PlayingPlayers){
             if(redscore > bluescore && RedTeam.contains(p)){
                 RegistryAPI.registerWin(p);
@@ -213,10 +205,10 @@ public class TDM implements Listener {
         return i;
     }
 
-    private void startCountdown(String name){
+    private  void startCountdown(String name){
 
         new BukkitRunnable(){
-            int time = ThisPlugin.getPlugin().getConfig().getInt("game-time");
+            int time = ThisPlugin.getPlugin().getConfig().getInt("game-time")*20;
             @Override
             public void run() {
                 if(PlayingPlayers.size() < Main.minplayers){
@@ -224,6 +216,7 @@ public class TDM implements Listener {
 
                     cancel();
                 }
+
                 if(redscore == 20 || bluescore == 20){
 
                     endTDM(name);
@@ -249,7 +242,6 @@ public class TDM implements Listener {
         if(e.getEntity() instanceof Player ) {
             Player p = (Player) e.getEntity();
             Player pp = p.getKiller();
-
 
                 if (pp != null) {
                     if (PlayingPlayers.contains(p) && PlayingPlayers.contains(pp)) {
@@ -305,8 +297,9 @@ public class TDM implements Listener {
     public void onDEath(PlayerDeathEvent e){
         if(PlayingPlayers.contains(e.getEntity())){
             e.setDeathMessage(null);
-            e.setKeepInventory(true);
-            e.getEntity().getInventory().clear();
+            e.getDrops().clear();
+
+
         }
     }
 
@@ -335,11 +328,15 @@ public class TDM implements Listener {
     public void onRespawn(PlayerRespawnEvent e){
         if(PlayingPlayers.contains(e.getPlayer())){
             if(RedTeam.contains(e.getPlayer())){
-                e.getPlayer().teleport(new GetArena().getRedSpawn(e.getPlayer(), arena));
+                e.getPlayer().getInventory().clear();
+
+                e.setRespawnLocation(GetArena.getRedSpawn(e.getPlayer(), arena));
                 getNewLoadout(e.getPlayer());
             }else if(BlueTeam.contains(e.getPlayer())){
-                e.getPlayer().teleport(new GetArena().getBlueSpawn(e.getPlayer(), arena));
+                e.getPlayer().getInventory().clear();
+                e.setRespawnLocation(GetArena.getRedSpawn(e.getPlayer(), arena));
                 getNewLoadout(e.getPlayer());
+
             }
         }
     }
@@ -347,9 +344,13 @@ public class TDM implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent e){
         Player p = e.getPlayer();
+        p.getInventory().clear();
+        p.getInventory().setArmorContents(null);
         PlayingPlayers.remove(e.getPlayer());
 
         Main.AllPlayingPlayers.remove(p);
+
+        p.removePotionEffect(PotionEffectType.SPEED);
 
         Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
 
@@ -361,9 +362,32 @@ public class TDM implements Listener {
         }
     }
 
-    private void getNewLoadout(Player p){
+    private  void getNewLoadout(Player p){
+        ArrayList<String> ss = new ArrayList<>();
+        ss.add(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Perk1"));
+        ss.add(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Perk2"));
+        ss.add(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Perk3"));
+
+        loadedPerks.put(p.getUniqueId(), ss);
+
+        if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary").equalsIgnoreCase("")) {
+            // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+            Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary"));
+
+
+            p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+        }
+        if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Secondary").equalsIgnoreCase("")) {
+            // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+            Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Secondary"));
+
+
+            p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+        }
         if(RedTeam.contains(p)){
-            if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Perk").equals("§6§nFeatherWeight")) {
+            if(!loadedPerks.get(p.getUniqueId()).contains("§6§nFeatherWeight")) {
                 Color c = Color.fromBGR(0, 0, 255);
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
@@ -375,25 +399,29 @@ public class TDM implements Listener {
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
                 p.getInventory().setBoots(getColorArmor2(Material.LEATHER_BOOTS, c));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, true));
             }
         }else if(BlueTeam.contains(p)){
-            if(!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Perk").equals("§6§nFeatherWeight")) {
+            if(!loadedPerks.get(p.getUniqueId()).contains("§6§nFeatherWeight")) {
                 Color c = Color.fromBGR(0, 0, 255);
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
                 p.getInventory().setBoots(getColorArmor(Material.LEATHER_BOOTS, c));
+
+
             }else{
                 Color c = Color.fromBGR(0, 0, 255);
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
                 p.getInventory().setBoots(getColorArmor2(Material.LEATHER_BOOTS, c));
+                p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, true));
             }
         }
     }
 
-    private  ItemStack getColorArmor2(Material m, Color c) {
+    private   ItemStack getColorArmor2(Material m, Color c) {
         ItemStack i = new ItemStack(m, 1);
         LeatherArmorMeta meta = (LeatherArmorMeta) i.getItemMeta();
         meta.setColor(c);

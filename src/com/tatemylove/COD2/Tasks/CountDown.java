@@ -17,7 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import static com.tatemylove.COD2.Listeners.PlayerJoin.isEnabled;
 
 public class CountDown extends BukkitRunnable {
-    int time = Main.time;
+    int time = Main.time*20;
     int minPlayers = Main.minplayers;
     private String nextArena = new GetArena().getNextArena();
     private String type = ArenasFile.getData().getString("Arenas." + new GetArena().getNextArena() + ".Type");
@@ -39,7 +39,7 @@ public class CountDown extends BukkitRunnable {
                     }else{
                         PlayerJoin.clazz.put(p.getUniqueId(), "");
                     }
-                    p.sendMessage(PlayerJoin.clazz.get(p.getUniqueId()));
+
                 }
 
                 if(type.equalsIgnoreCase("KC")){
@@ -49,7 +49,7 @@ public class CountDown extends BukkitRunnable {
                 }else if(type.equalsIgnoreCase("TDM")){
 
                     Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nArena, type2));
-                    new TDM().assignTeams(nextArena);
+                     new TDM().assignTeams(nextArena);
                 }else if(type.equalsIgnoreCase("INF")){
 
                 }

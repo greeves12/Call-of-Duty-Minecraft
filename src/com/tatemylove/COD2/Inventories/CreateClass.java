@@ -321,7 +321,8 @@ public class CreateClass {
 
 
 
-        for(String s : Main.perks){
+
+        for(String s : Main.ownedPerks.get(p.getUniqueId().toString())){
             ArrayList<String> a = new ArrayList<>();
             if(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes.Class" + k + ".Perk1").equals(GunsFile.getData().getString("Perks." +s+".Name")) || PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes.Class" + k + ".Perk2").equals(GunsFile.getData().getString("Perks." +s+".Name")) || PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes.Class" + k + ".Perk3").equals(GunsFile.getData().getString("Perks." +s+".Name"))){
                 a.add("§a§lCurrently Selected");
@@ -339,7 +340,7 @@ public class CreateClass {
         perks2 = Bukkit.createInventory(null, 54, "§6§lPerks");
 
 
-        for(String s : Main.perks){
+        for(String s : Main.ownedPerks.get(p.getUniqueId().toString())){
             ArrayList<String> a = new ArrayList<>();
             if(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes.Class" + k + ".Perk1").equals(GunsFile.getData().getString("Perks." +s+".Name")) || PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes.Class" + k + ".Perk2").equals(GunsFile.getData().getString("Perks." +s+".Name")) || PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes.Class" + k + ".Perk3").equals(GunsFile.getData().getString("Perks." +s+".Name"))){
                 a.add("§a§lCurrently Selected");
@@ -357,7 +358,7 @@ public class CreateClass {
         perks3 = Bukkit.createInventory(null, 54, "§6§lPerks");
 
 
-        for(String s : Main.perks){
+        for(String s : Main.ownedPerks.get(p.getUniqueId().toString())){
             ArrayList<String> a = new ArrayList<>();
             if(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes.Class" + k + ".Perk1").equals(GunsFile.getData().getString("Perks." +s+".Name")) || PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes.Class" + k + ".Perk2").equals(GunsFile.getData().getString("Perks." +s+".Name")) || PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes.Class" + k + ".Perk3").equals(GunsFile.getData().getString("Perks." +s+".Name"))){
                 a.add("§a§lCurrently Selected");

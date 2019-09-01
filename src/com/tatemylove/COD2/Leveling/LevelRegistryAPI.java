@@ -28,7 +28,7 @@ public class LevelRegistryAPI {
         PlayerData.saveData();
         PlayerData.reloadData();
 
-        p.sendMessage(Main.prefix + "§b§lYou've been promoted to level §e§l" + flevel);
+        p.sendMessage(Main.prefix + "§b§lYou are now level §e§l" + flevel);
     }
     public static int getLevel(Player p){
         return PlayerData.getData().getInt("Players."+p.getUniqueId().toString() + ".Level");
@@ -36,4 +36,16 @@ public class LevelRegistryAPI {
     public static int getEXP(Player p ){
         return StatsFile.getData().getInt("Players."+p.getUniqueId().toString() + ".EXP");
     }
+    public static int getPrestige(Player p){
+        return PlayerData.getData().getInt("Players." + p.getUniqueId().toString() + ".Prestige");
+    }
+    public static void setPrestiege(Player p, int prestige){
+        PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Prestige", prestige);
+        PlayerData.saveData();
+    }
+    public static void setLevel(Player p, int level){
+        PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Level", level);
+        PlayerData.saveData();
+    }
+
 }

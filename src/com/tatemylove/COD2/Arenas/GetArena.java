@@ -34,7 +34,7 @@ public class GetArena {
         return currentArena;
     }
 
-    public  Location getBlueSpawn(Player p, String arena){
+    public static  Location getBlueSpawn(Player p, String arena){
         final double x;
         final double y;
         final double z;
@@ -56,7 +56,7 @@ public class GetArena {
         return blueSpawn;
     }
 
-    public  Location getRedSpawn(Player p, String arena){
+    public static Location getRedSpawn(Player p, String arena){
         final double x;
         final double y;
         final double z;

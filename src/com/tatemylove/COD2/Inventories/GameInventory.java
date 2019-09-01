@@ -47,7 +47,7 @@ public class GameInventory {
         mainInv.setItem(4, getMaterial(Material.WRITTEN_BOOK, "§3§lYour Stats", null));
 
         mainInv.setItem(14, getMaterial(Material.WITHER_SKELETON_SKULL, "§7§lGlobal Stats", null));
-        mainInv.setItem(6, getMaterial(Material.EMERALD, "§4§lStore", null));
+        mainInv.setItem(6, getMaterial(Material.EMERALD, "§4§lArmory", new ArrayList<>(Arrays.asList("§dGet your weapons here"))));
         mainInv.setItem(26, getMaterial(Material.BARRIER, "§c§lClose Menu", null));
 
         p.openInventory(mainInv);

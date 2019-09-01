@@ -1,6 +1,9 @@
 #Do you want to receive automatic updates?
 auto-update: true
 
+#Change the prefix of the plugin
+prefix: "§8§l[COD] "
+
 #MySQL (Optional but required if you're using this badboy for multi-server setups ie. BungeeCord)
 MySQL:
   Enabled: false
@@ -20,6 +23,9 @@ min-players: 2
 
 #Set the level required to prestige
 prestige-level: 30
+
+#Set the maximum prestige
+max-prestige: 15
 
 #Max players per arena
 max-players: 20

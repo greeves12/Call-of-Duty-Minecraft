@@ -7,8 +7,11 @@ import com.tatemylove.COD2.Guns.BuyGuns;
 import com.tatemylove.COD2.Inventories.CreateClass;
 import com.tatemylove.COD2.Inventories.GameInventory;
 import com.tatemylove.COD2.Inventories.SelectKit;
+import com.tatemylove.COD2.Leveling.LevelRegistryAPI;
 import com.tatemylove.COD2.Main;
+import com.tatemylove.COD2.MySQL.RegistryAPI;
 import com.tatemylove.COD2.Perks.PerkMenu;
+import com.tatemylove.COD2.ThisPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,6 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -65,7 +69,37 @@ public class InventoryInteract implements Listener {
             if(e.getClickedInventory() == null){
                 return;
             }
-            if(e.getClickedInventory().equals(CreateClass.perks)){
+
+            if(Main.AllPlayingPlayers.contains(p)) {
+                if (e.getSlotType() == InventoryType.SlotType.ARMOR) {
+                    e.setCancelled(true);
+                }
+            }
+
+            if(e.getClickedInventory().equals(GameInventory.mainInv)){
+                if(e.getSlot() == 18){
+                    int level = LevelRegistryAPI.getLevel(p);
+                    if(level < ThisPlugin.getPlugin().getConfig().getInt("prestige-level")){
+                        p.sendMessage(Main.prefix + "§4§nPrestige failed:§c You need to be level §a" + ThisPlugin.getPlugin().getConfig().getInt("prestige-level"));
+                        p.closeInventory();
+                        return;
+                    }
+                    if(LevelRegistryAPI.getPrestige(p) >= ThisPlugin.getPlugin().getConfig().getInt("max-prestige")){
+                        p.sendMessage(Main.prefix + "§cYou are max prestige");
+                        p.closeInventory();
+                        return;
+                    }
+                    LevelRegistryAPI.resetExp(p, 0);
+                    LevelRegistryAPI.setLevel(p, 0);
+                    LevelRegistryAPI.setPrestiege(p, LevelRegistryAPI.getPrestige(p)+1);
+                    p.sendMessage(Main.prefix + "§aYou are now prestige " + LevelRegistryAPI.getPrestige(p));
+                    p.closeInventory();
+                }
+
+                e.setCancelled(true);
+            }
+
+            if(e.getClickedInventory().equals(CreateClass.perks3)){
                 if(CreateClass.classnumber.get(p.getUniqueId()) == 1){
                     if(e.getClickedInventory().getItem(e.getSlot()) != null){
                         PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes.Class1.Perk3", e.getClickedInventory().getItem(e.getSlot()).getItemMeta().getDisplayName());

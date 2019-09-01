@@ -27,7 +27,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 public class Main extends JavaPlugin {
-    public static String prefix = "§8§l[COD] ";
+    public static String prefix;
     public static int time;
     public static int gametime;
     public static int minplayers;
@@ -60,7 +60,7 @@ public class Main extends JavaPlugin {
         StatsFile.setup(this);
 
         if(!GunsFile.getData().contains("Perks.")){
-            GunsFile.getData().set("DISCLAIMER", "Don't change/add/remove any Perk values here (except Level, Desc, Name, Material) until I give confirmation that they can be changed. Seriously, you'll break the plugin");
+            GunsFile.getData().set("DISCLAIMER", "Don't change/add/remove any Perk values here (except Level, Desc, Material) until I give confirmation that they can be changed. Seriously, you'll break the plugin");
             GunsFile.getData().set("Perks.§6§nFeatherWeight.Name", "§6§nFeatherWeight");
             GunsFile.getData().set("Perks.§6§nFeatherWeight.Desc", Arrays.asList("&bTake less fall damage and faster moving speed ", "&2&lLevel: &b15"));
             GunsFile.getData().set("Perks.§6§nFeatherWeight.Commands", Arrays.asList("/cod give potion swiftness", "/cod give legs enchant falling"));
@@ -91,8 +91,6 @@ public class Main extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
         Bukkit.getServer().getPluginManager().registerEvents(new InventoryInteract(), this);
         Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeath(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new TDM(), this);
-        Bukkit.getServer().getPluginManager().registerEvents(new KillConfirmed(), this);
 
 
         getConfig().options().copyDefaults(true);
@@ -106,6 +104,7 @@ public class Main extends JavaPlugin {
         time=getConfig().getInt("time-to-start");
         minplayers =getConfig().getInt("min-players");
         gametime=getConfig().getInt("game-time");
+        prefix=getConfig().getString("prefix");
 
         if(ArenasFile.getData().contains("Arenas.")) {
             for (String s : ArenasFile.getData().getConfigurationSection("Arenas.").getKeys(false)) {

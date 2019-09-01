@@ -158,12 +158,13 @@ public class MainCommand implements CommandExecutor {
             if(p.hasPermission("cod.player")){
 
                 if(args[0].equalsIgnoreCase("buy")){
-                    if(!Main.AllPlayingPlayers.contains(p)){
-                        BuyGuns buyGuns = new BuyGuns();
-                        buyGuns.loadMenu(p);
-                    }else{
-                        p.sendMessage(Main.prefix + "§cGame in progress");
+                    if(Main.AllPlayingPlayers.contains(p)){
+                        p.sendMessage(Main.prefix + "§cCan't buy guns while in game");
+                        return true;
                     }
+                    BuyGuns buyGuns = new BuyGuns();
+                    buyGuns.loadMenu(p);
+
                 }
                 if(args[0].equalsIgnoreCase("perks")){
                     if(!Main.AllPlayingPlayers.contains(p)){
@@ -192,7 +193,7 @@ public class MainCommand implements CommandExecutor {
                         return true;
                     }
                     if(Main.AllPlayingPlayers.contains(p)){
-                        p.sendMessage(Main.prefix + "§cYou are not in the lobby");
+                        p.sendMessage(Main.prefix + "§cCan't leave while in-game");
                         return true;
                     }
                     Main.WaitingPlayers.remove(p);
@@ -200,9 +201,14 @@ public class MainCommand implements CommandExecutor {
                     Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(p));
                 }
                 if(args[0].equalsIgnoreCase("class")){
+
                     new CreateClass().createKit(p);
                 }
                 if(args[0].equalsIgnoreCase("menu")){
+                    if(Main.AllPlayingPlayers.contains(p)){
+                        p.sendMessage(Main.prefix + "§cCan't access the main menu while in game");
+                        return true;
+                    }
                     new GameInventory().createMenu(p);
                 }
             }

@@ -21,6 +21,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
@@ -44,7 +46,7 @@ public class PlayerJoin implements Listener {
         this.main=main;
     }
 
-
+/*
     @EventHandler
     public void playerLeave(PlayerQuitEvent e){
         if(Main.AllPlayingPlayers.contains(e.getPlayer())){
@@ -55,6 +57,27 @@ public class PlayerJoin implements Listener {
             Main.WaitingPlayers.remove(e.getPlayer());
             Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
         }
+    }*/
+
+    @EventHandler
+    public void noDamage(EntityDamageEvent e){
+        if(e.getEntity() instanceof Player){
+            Player p = (Player) e.getEntity();
+            if(Main.WaitingPlayers.contains(p)){
+                e.setCancelled(true);
+            }
+        }
+    }
+    @EventHandler
+    public void noHunger(FoodLevelChangeEvent e){
+        if(e.getEntity() instanceof Player) {
+            Player p = (Player) e.getEntity();
+            if (Main.WaitingPlayers.contains(p)) {
+                e.setCancelled(true);
+            }else if(Main.AllPlayingPlayers.contains(p)){
+                e.setCancelled(true);
+            }
+        }
     }
 
     @EventHandler (priority = EventPriority.LOW)
@@ -63,13 +86,20 @@ public class PlayerJoin implements Listener {
         e.getPlayer().getInventory().clear();
         GameInventory.lobbyInv(e.getPlayer());
         loc.put(e.getPlayer().getUniqueId(), e.getPlayer().getLocation());
+        for(Player p : Main.WaitingPlayers){
+            p.sendMessage(Main.prefix + "§aPlayer: §e" + e.getPlayer() + " §ajoined the lobby");
+        }
     }
 
     @EventHandler (priority = EventPriority.LOW)
     public void codLeave(CODLeaveEvent e){
         e.getPlayer().getInventory().clear();
-       e.getPlayer().getInventory().setContents(inv.get(e.getPlayer().getUniqueId()));
+        e.getPlayer().getInventory().setContents(inv.get(e.getPlayer().getUniqueId()));
         e.getPlayer().teleport(loc.get(e.getPlayer().getUniqueId()));
+
+        for(Player p : Main.AllPlayingPlayers){
+            p.sendMessage(Main.prefix + "§aPlayer: §e" + e.getPlayer() + " §aleft COD");
+        }
     }
 
     @EventHandler
@@ -126,6 +156,7 @@ public class PlayerJoin implements Listener {
 
             PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Guns", new ArrayList<String>());
             PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Level", 1);
+            PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".EXP", 0);
             PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Prestige", 0);
             PlayerData.getData().set("Players." + e.getPlayer().getUniqueId().toString() + ".Perks", new ArrayList<String>());
 
@@ -176,8 +207,6 @@ public class PlayerJoin implements Listener {
             }else{
                 clazz.put(e.getPlayer().getUniqueId(), "");
             }
-
-            e.getPlayer().sendMessage(clazz.get(e.getPlayer().getUniqueId()));
         }
 
         if(main.getConfig().getBoolean("BungeeCord.Enabled")){
