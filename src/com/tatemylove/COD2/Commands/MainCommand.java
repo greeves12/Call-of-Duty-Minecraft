@@ -27,6 +27,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
+
 
 public class MainCommand implements CommandExecutor {
     Main main;
@@ -48,7 +50,7 @@ public class MainCommand implements CommandExecutor {
             }if(args[0].equalsIgnoreCase("create")){
                 if(args.length == 3){
                     String name = args[1];
-                    if((args[2].equalsIgnoreCase("tdm")) || (args[2].equalsIgnoreCase("kc")) || (args[2].equalsIgnoreCase("inf"))){
+                    if((args[2].equalsIgnoreCase("tdm")) || (args[2].equalsIgnoreCase("kc")) || (args[2].equalsIgnoreCase("inf")) || (args[2].equalsIgnoreCase("CTF")) || (args[2].equalsIgnoreCase("ffa"))){
                         if(!Main.arenas.contains(name)){
                             CreateArenaCommand.createArena(p, name, args[2].toUpperCase());
                         }else{
@@ -92,8 +94,31 @@ public class MainCommand implements CommandExecutor {
                         }else{
                             p.sendMessage(Main.prefix + "§cArena does not exist");
                         }
-                    }else{
+                    }else if(args.length == 2){
+                        if(Main.arenas.contains(args[1])){
+                            if(!ArenasFile.getData().getString("Arenas." + args[1] + ".Type").equalsIgnoreCase("FFA")){
+                                p.sendMessage(Main.prefix + "§7Arena must be free for all");
+                                return true;
+                            }
+                                CreateArenaCommand.setFFASpawn(p, args[1]);
+                        }
+                    } else{
                         p.sendMessage(Main.prefix + "§7/cod setspawn <name> <blue/red>");
+                    }
+                }
+                if(args[0].equalsIgnoreCase("setflag")){
+                    if(args.length == 3){
+                        if(Main.arenas.contains(args[1])){
+                            if(ArenasFile.getData().getString("Arenas." + args[1] + ".Type").equalsIgnoreCase("CTF")){
+                                CreateArenaCommand.setFlags(p, args[1], args);
+                            }else{
+                                p.sendMessage(Main.prefix + "§cThis is not a §4CTF §cArena");
+                            }
+                        }else{
+                            p.sendMessage(Main.prefix +"§cArena does not exist");
+                        }
+                    }else{
+                        p.sendMessage(Main.prefix + "§7/cod setflag <name> <blue/red>");
                     }
                 }
                 if(args[0].equalsIgnoreCase("delete")){

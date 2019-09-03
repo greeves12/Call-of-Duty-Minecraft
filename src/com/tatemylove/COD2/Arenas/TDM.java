@@ -1,7 +1,5 @@
 package com.tatemylove.COD2.Arenas;
 
-import com.mysql.fabric.xmlrpc.base.Array;
-import com.tatemylove.COD2.Boards.GameBoard;
 import com.tatemylove.COD2.Events.CODEndEvent;
 import com.tatemylove.COD2.Events.CODKillEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
@@ -17,16 +15,11 @@ import com.tatemylove.COD2.Tasks.CountDown;
 import com.tatemylove.COD2.ThisPlugin;
 import me.zombie_striker.qg.api.QualityArmory;
 import me.zombie_striker.qg.guns.Gun;
-import net.minecraft.server.v1_14_R1.WorldServer;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.conversations.PlayerNamePrompt;
-import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
-import org.bukkit.craftbukkit.v1_14_R1.CraftWorld;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Boss;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -42,20 +35,23 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.*;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 public class TDM implements Listener {
 
    private  ArrayList<Player> BlueTeam = new ArrayList<>();
    private  ArrayList<Player> RedTeam = new ArrayList<>();
    private   ArrayList<Player> PlayingPlayers = new ArrayList<>();
+
+    public  HashMap<UUID, Integer> Kills = new HashMap<>();
+    public  HashMap<UUID, Integer> Deaths = new HashMap<>();
+    public  HashMap<UUID, Integer> Killstreak = new HashMap<>();
+
     private  int bluescore = 0;
     private  int redscore = 0;
 
@@ -120,12 +116,18 @@ public class TDM implements Listener {
 
             p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§bKnife", null));
 
+
+            Kills.put(p.getUniqueId(), 0);
+            Deaths.put(p.getUniqueId(), 0);
+            Killstreak.put(p.getUniqueId(), 0);
+
             p.setGameMode(GameMode.SURVIVAL);
             p.setFoodLevel(20);
             p.setHealth(20);
             p.sendMessage(Main.prefix + "§aGame starting. Arena: §e" + name);
+            setBoard(p);
 
-            new GameBoard().setBoard(p);
+
 
             if(RedTeam.contains(p)){
                 p.teleport( GetArena.getRedSpawn(p, name));
@@ -177,9 +179,9 @@ public class TDM implements Listener {
             p.removePotionEffect(PotionEffectType.SPEED);
             Main.AllPlayingPlayers.remove(p);
             bossBar.removePlayer(p);
-            p.setScoreboard(null);
+            p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
         }
-
+        Main.arenas.add(name);
         Main.onGoingArenas.remove(name);
 
         Main.WaitingPlayers.addAll(PlayingPlayers);
@@ -188,6 +190,10 @@ public class TDM implements Listener {
         RedTeam.clear();
         redscore=0;
         bluescore=0;
+
+        if(Main.arenas.size() >= Main.onGoingArenas.size()) {
+            new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
+        }
 
     }
 
@@ -310,6 +316,8 @@ public class TDM implements Listener {
                             RegistryAPI.registerDeath(p);
                             RegistryAPI.registerKill(pp);
                             LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
+                            Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()));
+                            Kills.put(pp.getUniqueId(), Kills.get(pp.getUniqueId()));
 
                             bluescore += 1;
                         } else if (BlueTeam.contains(p)) {
@@ -320,6 +328,8 @@ public class TDM implements Listener {
                             RegistryAPI.registerDeath(p);
                             RegistryAPI.registerKill(pp);
                             LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
+                            Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()));
+                            Kills.put(pp.getUniqueId(), Kills.get(pp.getUniqueId()));
 
                             Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, pp, "blue", "red"));
                         }
@@ -332,7 +342,7 @@ public class TDM implements Listener {
                             }
                             bluescore += 1;
                             RegistryAPI.registerDeath(p);
-                            RegistryAPI.deaths.put(p.getUniqueId(), RegistryAPI.deaths.get(p.getUniqueId()));
+                            Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()));
                             Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, null, "red", null));
                         } else if (BlueTeam.contains(p)) {
 
@@ -488,4 +498,74 @@ public class TDM implements Listener {
         i.setItemMeta(meta);
         return i;
     }
+    private HashMap<String, Scoreboard> gameboard = new HashMap<>();
+
+    private void setBoard(Player p){
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        Scoreboard board = manager.getNewScoreboard();
+
+        Objective objective = board.registerNewObjective("Gameboard", "dummy");
+
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        objective.setDisplayName("§b§lYour Scores");
+
+      /*  Score kills = objective.getScore("");
+        kills.setScore(12);*/
+
+        Score blank2 = objective.getScore("  ");
+        blank2.setScore(10);
+
+       /* Score deaths = objective.getScore("");
+        deaths.setScore(9);*/
+
+        Score blank3 = objective.getScore("   ");
+        blank3.setScore(7);
+        Score blank4 = objective.getScore("    ");
+        blank4.setScore(13);
+
+       /* Score killstreak = objective.getScore("");
+        killstreak.setScore(6);*/
+
+
+        Team kill = board.registerNewTeam("kill");
+        kill.addEntry(ChatColor.AQUA.toString());
+        kill.setPrefix(ChatColor.GREEN.toString() + "§a");
+        kill.setSuffix(ChatColor.GREEN.toString() + "0");
+        objective.getScore(ChatColor.AQUA.toString()).setScore(12);
+
+        Team death = board.registerNewTeam("death");
+        death.addEntry(ChatColor.RED.toString());
+        death.setPrefix(ChatColor.GREEN.toString() + "§a");
+        death.setSuffix(ChatColor.GREEN.toString() + "0");
+        objective.getScore(ChatColor.RED.toString()).setScore(9);
+
+        Team killstreaks = board.registerNewTeam("killstreak");
+        killstreaks.addEntry(ChatColor.DARK_GREEN.toString());
+        killstreaks.setPrefix(ChatColor.GREEN.toString() + "§a");
+        killstreaks.setSuffix(ChatColor.GREEN.toString() + "0");
+        objective.getScore(ChatColor.DARK_GREEN.toString()).setScore(6);
+
+        gameboard.put(p.getName(), board);
+        createBoard(p);
+
+        new BukkitRunnable(){
+
+            @Override
+            public void run() {
+
+                int kill = Kills.get(p.getUniqueId());
+                int deathh = Deaths.get(p.getUniqueId());
+                int killstreakz = Killstreak.get(p.getUniqueId());
+
+                board.getTeam("kill").setSuffix("§aKills: §6" + kill);
+                board.getTeam("death").setSuffix("§aDeaths: §6" + deathh);
+                board.getTeam("killstreak").setSuffix("§aKill Streak: §6"  + killstreakz);
+            }
+        }.runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
+    }
+
+    private void createBoard(Player p){
+        p.setScoreboard(gameboard.get(p.getName()));
+    }
+
 }

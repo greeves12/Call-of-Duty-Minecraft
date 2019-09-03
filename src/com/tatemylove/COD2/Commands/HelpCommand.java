@@ -29,11 +29,11 @@ public class HelpCommand {
                 p.sendMessage(" §8- §3/cod npc §7- §bCreates an NPC (Citizens 2)");
             }else if(args[1].equalsIgnoreCase("3")){
                 p.sendMessage("§4§m |   »* |   >»  §r  §6[ §cCOD-Warfare Help §d· §e3/6§d· §6]  §4§m  «<   | *«   | §r");
-               /* p.sendMessage(" §8- §3/cod tryguns §7- §bTest out the guns");
-                p.sendMessage(" §8- §3/cod buy §7- §bBuy a gun");
-                p.sendMessage(" §8- §3/cod class §7- §bSelect a kit");
-                p.sendMessage(" §8- §3/cod deletegun §7- §bDelete a gun");
-                p.sendMessage(" §8- §3/cod npc §7- §bCreates an NPC (Citizens 2)");*/
+                p.sendMessage(" §8- §3/cod setflag §7- §bSet Flags for CTF arenas");
+                //p.sendMessage(" §8- §3/cod buy §7- §bBuy a gun");
+                //p.sendMessage(" §8- §3/cod class §7- §bSelect a kit");
+               // p.sendMessage(" §8- §3/cod deletegun §7- §bDelete a gun");
+               // p.sendMessage(" §8- §3/cod npc §7- §bCreates an NPC (Citizens 2)");*/
             }
         }
     }

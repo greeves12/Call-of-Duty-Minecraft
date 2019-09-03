@@ -1,9 +1,6 @@
 package com.tatemylove.COD2.Arenas;
 
-import com.mysql.fabric.xmlrpc.base.Array;
-import com.tatemylove.COD2.Boards.GameBoard;
 import com.tatemylove.COD2.Events.CODEndEvent;
-import com.tatemylove.COD2.Events.CODKillEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.ArenasFile;
 import com.tatemylove.COD2.Files.PlayerData;
@@ -17,16 +14,11 @@ import com.tatemylove.COD2.Tasks.CountDown;
 import com.tatemylove.COD2.ThisPlugin;
 import me.zombie_striker.qg.api.QualityArmory;
 import me.zombie_striker.qg.guns.Gun;
-import net.minecraft.server.v1_14_R1.WorldServer;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.conversations.PlayerNamePrompt;
-import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
-import org.bukkit.craftbukkit.v1_14_R1.CraftWorld;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Boss;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -46,14 +38,12 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.*;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 public class KillConfirmed implements Listener {
 
@@ -62,6 +52,10 @@ public class KillConfirmed implements Listener {
     private   ArrayList<Player> PlayingPlayers = new ArrayList<>();
     private  int bluescore = 0;
     private  int redscore = 0;
+
+    public  HashMap<UUID, Integer> Kills = new HashMap<>();
+    public  HashMap<UUID, Integer> Deaths = new HashMap<>();
+    public  HashMap<UUID, Integer> Killstreak = new HashMap<>();
 
     private BossBar bossBar = Bukkit.getServer().createBossBar("§cRED: "+redscore + "§7<PENDING> §9BLUE: "+bluescore, BarColor.PINK, BarStyle.SOLID);
 
@@ -127,7 +121,12 @@ public class KillConfirmed implements Listener {
             p.setHealth(20);
             p.sendMessage(Main.prefix + "§aGame starting. Arena: §e" + name);
 
-            new GameBoard().setBoard(p);
+            Kills.put(p.getUniqueId(), 0);
+            Deaths.put(p.getUniqueId(), 0);
+            Killstreak.put(p.getUniqueId(), 0);
+
+
+            setBoard(p);
 
             if(RedTeam.contains(p)){
                 p.teleport( GetArena.getRedSpawn(p, name));
@@ -179,9 +178,9 @@ public class KillConfirmed implements Listener {
             p.removePotionEffect(PotionEffectType.SPEED);
             Main.AllPlayingPlayers.remove(p);
             bossBar.removePlayer(p);
-            p.setScoreboard(null);
+            p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
         }
-
+        Main.arenas.add(name);
         Main.onGoingArenas.remove(name);
 
         Main.WaitingPlayers.addAll(PlayingPlayers);
@@ -190,6 +189,16 @@ public class KillConfirmed implements Listener {
         RedTeam.clear();
         redscore=0;
         bluescore=0;
+
+        for(Entity e : Bukkit.getWorld(ArenasFile.getData().getString("Arenas." + name + ".Spawns.Red.World")).getEntities()){
+            if(e.hasMetadata("codRedTag") || e.hasMetadata("codBlueTag")){
+                e.remove();
+            }
+        }
+
+        if(Main.arenas.size() >= Main.onGoingArenas.size()) {
+            new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
+        }
 
     }
 
@@ -498,5 +507,75 @@ public class KillConfirmed implements Listener {
         meta.addEnchant(Enchantment.PROTECTION_FALL, 1, true);
         i.setItemMeta(meta);
         return i;
+    }
+
+    private HashMap<String, Scoreboard> gameboard = new HashMap<>();
+
+    private void setBoard(Player p){
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        Scoreboard board = manager.getNewScoreboard();
+
+        Objective objective = board.registerNewObjective("Gameboard", "dummy");
+
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        objective.setDisplayName("§b§lYour Scores");
+
+      /*  Score kills = objective.getScore("");
+        kills.setScore(12);*/
+
+        Score blank2 = objective.getScore("  ");
+        blank2.setScore(10);
+
+       /* Score deaths = objective.getScore("");
+        deaths.setScore(9);*/
+
+        Score blank3 = objective.getScore("   ");
+        blank3.setScore(7);
+        Score blank4 = objective.getScore("    ");
+        blank4.setScore(13);
+
+       /* Score killstreak = objective.getScore("");
+        killstreak.setScore(6);*/
+
+
+        Team kill = board.registerNewTeam("kill");
+        kill.addEntry(ChatColor.AQUA.toString());
+        kill.setPrefix(ChatColor.GREEN.toString() + "§a");
+        kill.setSuffix(ChatColor.GREEN.toString() + "0");
+        objective.getScore(ChatColor.AQUA.toString()).setScore(12);
+
+        Team death = board.registerNewTeam("death");
+        death.addEntry(ChatColor.RED.toString());
+        death.setPrefix(ChatColor.GREEN.toString() + "§a");
+        death.setSuffix(ChatColor.GREEN.toString() + "0");
+        objective.getScore(ChatColor.RED.toString()).setScore(9);
+
+        Team killstreaks = board.registerNewTeam("killstreak");
+        killstreaks.addEntry(ChatColor.DARK_GREEN.toString());
+        killstreaks.setPrefix(ChatColor.GREEN.toString() + "§a");
+        killstreaks.setSuffix(ChatColor.GREEN.toString() + "0");
+        objective.getScore(ChatColor.DARK_GREEN.toString()).setScore(6);
+
+        gameboard.put(p.getName(), board);
+        createBoard(p);
+
+        new BukkitRunnable(){
+
+            @Override
+            public void run() {
+
+                int kill = Kills.get(p.getUniqueId());
+                int deathh = Deaths.get(p.getUniqueId());
+                int killstreakz = Killstreak.get(p.getUniqueId());
+
+                board.getTeam("kill").setSuffix("§aKills: §6" + kill);
+                board.getTeam("death").setSuffix("§aDeaths: §6" + deathh);
+                board.getTeam("killstreak").setSuffix("§aKill Streak: §6"  + killstreakz);
+            }
+        }.runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
+    }
+
+    private void createBoard(Player p){
+        p.setScoreboard(gameboard.get(p.getName()));
     }
 }

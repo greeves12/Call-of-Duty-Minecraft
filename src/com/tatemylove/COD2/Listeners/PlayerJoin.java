@@ -11,9 +11,11 @@ import com.tatemylove.COD2.Locations.GetLocations;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.Managers.LoadoutManager;
 import com.tatemylove.COD2.ThisPlugin;
+import net.minecraft.server.v1_14_R1.PacketPlayInClientCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -22,6 +24,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
@@ -29,6 +32,7 @@ import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.*;
 import java.util.*;
@@ -73,6 +77,28 @@ public class PlayerJoin implements Listener {
             }
         }
     }
+
+    @EventHandler
+    public void entityDeath(EntityDeathEvent e){
+        if( e.getEntity() instanceof Player){
+            Player p = (Player) e.getEntity();
+            if(Main.AllPlayingPlayers.contains(p)) {
+                final CraftPlayer craftPlayer = (CraftPlayer) p;
+
+                new BukkitRunnable() {
+
+                    @Override
+                    public void run() {
+                        if (p.isDead()) {
+                            craftPlayer.getHandle().playerConnection.a(new PacketPlayInClientCommand(PacketPlayInClientCommand.EnumClientCommand.PERFORM_RESPAWN));
+                        }
+                    }
+                }.runTaskLater(ThisPlugin.getPlugin(), 1);
+            }
+        }
+    }
+
+
 
     @EventHandler (priority = EventPriority.LOW)
     public void codJoin(CODJoinEvent e){

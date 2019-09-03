@@ -1,5 +1,6 @@
 package com.tatemylove.COD2.Listeners;
 
+import com.tatemylove.COD2.Achievement.AchievementMenu;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.GunsFile;
 import com.tatemylove.COD2.Files.PlayerData;
@@ -76,6 +77,9 @@ public class InventoryInteract implements Listener {
                 }
             }
 
+            if(e.getClickedInventory().equals(AchievementMenu.inv)){
+                e.setCancelled(true);
+            }
             if(e.getClickedInventory().equals(GameInventory.mainInv)){
                 if(e.getSlot() == 18){
                     int level = LevelRegistryAPI.getLevel(p);
@@ -94,6 +98,9 @@ public class InventoryInteract implements Listener {
                     LevelRegistryAPI.setPrestiege(p, LevelRegistryAPI.getPrestige(p)+1);
                     p.sendMessage(Main.prefix + "§aYou are now prestige " + LevelRegistryAPI.getPrestige(p));
                     p.closeInventory();
+                }else if(e.getSlot() == 12){
+                    p.closeInventory();
+                    new AchievementMenu().createInventory(p);
                 }
 
                 e.setCancelled(true);

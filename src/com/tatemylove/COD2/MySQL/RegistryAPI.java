@@ -9,9 +9,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class RegistryAPI {
-    public static HashMap<UUID, Integer> kills = new HashMap<>();
-    public static HashMap<UUID, Integer> deaths = new HashMap<>();
-    public static HashMap<UUID, Integer> killstreak = new HashMap<>();
+
 
     public static void registerWin(Player p){
         if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){
@@ -31,7 +29,6 @@ public class RegistryAPI {
             int wins = StatsFile.getData().getInt("Players." + p.getUniqueId().toString() + ".Kills");
             StatsFile.getData().set("Players." + p.getUniqueId().toString() + ".Kills", wins+1);
             StatsFile.saveData();
-            RegistryAPI.kills.put(p.getUniqueId(), RegistryAPI.kills.get(p.getUniqueId()));
         }
     }
 
@@ -42,7 +39,6 @@ public class RegistryAPI {
             int wins = StatsFile.getData().getInt("Players." + p.getUniqueId().toString() + ".Deaths");
             StatsFile.getData().set("Players." + p.getUniqueId().toString() + ".Deaths", wins+1);
             StatsFile.saveData();
-            RegistryAPI.deaths.put(p.getUniqueId(), RegistryAPI.deaths.get(p.getUniqueId()));
         }
     }
     public static int getKills(Player p){

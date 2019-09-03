@@ -1,8 +1,10 @@
 package com.tatemylove.COD2.Achievement;
 
+import com.sun.istack.internal.NotNull;
 import com.tatemylove.COD2.Files.AchievementFile;
 import com.tatemylove.COD2.Files.PlayerData;
 import com.tatemylove.COD2.Main;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -13,9 +15,12 @@ public class AchievementAPI {
 
     public static String prefix ="§8[§eAchievement§8] ";
 
-    public static void createAchievement(String AchievementName){
+    public static void createAchievementToYML(@NotNull String AchievementName,@NotNull String DisplayName,@NotNull Material material,@NotNull String description){
         if(!AchievementFile.getData().contains("Achievements." + AchievementName)){
-            AchievementFile.getData().set("Achievements." + AchievementName, AchievementName);
+            AchievementFile.getData().set("Achievements." + AchievementName + ".Name", DisplayName);
+            AchievementFile.getData().set("Achievements." + AchievementName + ".Material", material.toString());
+            AchievementFile.getData().set("Achievements." + AchievementName + ".Desc", description);
+
             AchievementFile.saveData();
         }
     }
@@ -24,23 +29,23 @@ public class AchievementAPI {
         if(!Main.achievements.contains(AchievementName)){
             return false;
         }else{
-            ArrayList<String> achievements = Main.unlockedAchievements.get(player.getUniqueId().toString());
-            return achievements.contains(AchievementName);
+            return AchievementFile.getData().contains("Players." + player.getUniqueId().toString() + "."+ AchievementName + ".Unlocked");
         }
     }
 
     public static void grantAchievement(Player player, String AchievementName){
         if(Main.achievements.contains(AchievementName)){
-            ArrayList<String> achi = Main.unlockedAchievements.get(player.getUniqueId().toString());
-            if(!achi.contains(AchievementName)){
-                achi.add(AchievementName);
-                PlayerData.getData().set("Players." + player.getUniqueId().toString() + ".Achievements." + AchievementName + ".Unlocked", true);
-                Calendar cal = Calendar.getInstance();
+            if(AchievementFile.getData().contains("Players." + player.getUniqueId().toString() + "." + AchievementName)) {
+                if(!AchievementFile.getData().getBoolean("Players."+ player.getUniqueId().toString() + "." + AchievementName + ".Unlocked")) {
+                    player.sendMessage(prefix + "§aCongratulations! Achievement §c" + AchievementName + " §aunlocked!");
 
-                PlayerData.getData().set("Players." + player.getUniqueId().toString() + ".Achievements." + AchievementName + ".Date", cal.getTime());
-                PlayerData.saveData();
+                    Calendar date = Calendar.getInstance();
 
-                player.sendMessage(prefix + "§aCongratulations! Achievement §c" + AchievementName + " §aunlocked!");
+
+                    AchievementFile.getData().set("Players." + player.getUniqueId().toString() + "."  + AchievementName + ".Unlocked", true);
+                    AchievementFile.getData().set("Players." + player.getUniqueId().toString() + "."  + AchievementName + ".Date", date);
+                    AchievementFile.saveData();
+                }
             }
         }
 

@@ -28,9 +28,6 @@ public class CountDown extends BukkitRunnable {
                 time=Main.time;
             }else{
                 for(Player p : Main.WaitingPlayers){
-                    RegistryAPI.kills.put(p.getUniqueId(), 0);
-                    RegistryAPI.deaths.put(p.getUniqueId(), 0);
-                    RegistryAPI.killstreak.put(p.getUniqueId(), 0);
 
                     if(isEnabled(p)){
                         PlayerJoin.clazz.put(p.getUniqueId(), PlayerJoin.getEnabled(p));
@@ -53,17 +50,18 @@ public class CountDown extends BukkitRunnable {
                 }else if(type.equalsIgnoreCase("FFA")){
                     Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nArena, type2));
                     new FFA().assignTeams(nextArena);
+                }else if(type.equalsIgnoreCase("CTF")){
+                    Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nArena, type2));
+                    new CTF().assignTeams(nextArena);
                 }
                 cancel();
                 Main.onGoingArenas.add(nextArena);
                 Main.arenas.remove(nextArena);
 
-
-                if(!ThisPlugin.getPlugin().getConfig().getBoolean("BungeeCord.enabled")) {
                     if(Main.arenas.size() >= Main.onGoingArenas.size()) {
                         new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
                     }
-                }
+
 
             }
         }
@@ -81,6 +79,8 @@ public class CountDown extends BukkitRunnable {
                         p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nArena + " §4§l§nGameMode:§a Kill Confirmed");
                     }else if(type2.equalsIgnoreCase("INF")){
                         p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nArena + " §4§l§nGameMode:§a Infected");
+                    }else if(type2.equalsIgnoreCase("FFA")){
+                        p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nArena + " §4§l§nGameMode:§a Free for all");
                     }
                 }
             }

@@ -67,8 +67,30 @@ public class GetArena {
         x = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Red.X");
         y = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Red.Y");
         z = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Red.Z");
-        yaw = (float) ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Blue.Yaw");
-        pitch = (float) ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Blue.Pitch");
+        yaw = (float) ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Red.Yaw");
+        pitch = (float) ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Red.Pitch");
+
+        Location redSpawn = new Location(world, x, y, z);
+
+        p.getLocation().setYaw(yaw);
+        p.getLocation().setPitch(pitch);
+
+        return redSpawn;
+    }
+
+    public static Location getNumericSpawn(Player p, String arena, int id){
+        final double x;
+        final double y;
+        final double z;
+        final World world;
+        final float yaw;
+        final float pitch;
+        world = Bukkit.getWorld(ArenasFile.getData().getString("Arenas." + arena + ".Spawns." + id + ".World"));
+        x = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns."+ id +".X");
+        y = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns."+id+".Y");
+        z = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns."+id+".Z");
+        yaw = (float) ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns."+id+".Yaw");
+        pitch = (float) ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns."+id+".Pitch");
 
         Location redSpawn = new Location(world, x, y, z);
 
