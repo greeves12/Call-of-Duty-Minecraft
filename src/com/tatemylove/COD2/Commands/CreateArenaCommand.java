@@ -72,9 +72,9 @@ public class CreateArenaCommand {
     public static void setFlags(Player p, String name, String[] args){
         if(args[2].equalsIgnoreCase("blue")){
             String world = p.getLocation().getWorld().getName();
-            double x = p.getLocation().getX();
-            double y = p.getLocation().getY();
-            double z = p.getLocation().getZ();
+            double x = p.getLocation().getBlockX();
+            double y = p.getLocation().getBlockY();
+            double z = p.getLocation().getBlockZ();
 
 
 
@@ -90,9 +90,9 @@ public class CreateArenaCommand {
             p.sendMessage(Main.prefix + "§9Blue flag set for §3Arena: " + name);
         }else if(args[2].equalsIgnoreCase("red")){
             String world = p.getLocation().getWorld().getName();
-            double x = p.getLocation().getX();
-            double y = p.getLocation().getY();
-            double z = p.getLocation().getZ();
+            double x = p.getLocation().getBlockX();
+            double y = p.getLocation().getBlockY();
+            double z = p.getLocation().getBlockZ();
 
 
             ArenasFile.getData().set("Arenas." + name + ".Flag.Red.World", world);

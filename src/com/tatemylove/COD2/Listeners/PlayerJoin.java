@@ -109,7 +109,7 @@ public class PlayerJoin implements Listener {
         exp.put(e.getPlayer().getUniqueId(), e.getPlayer().getLevel());
 
         for(Player p : Main.WaitingPlayers){
-            p.sendMessage(Main.prefix + "§aPlayer: §e" + e.getPlayer() + " §ajoined the lobby");
+            p.sendMessage(Main.prefix + "§aPlayer: §e" + e.getPlayer().getName() + " §ajoined the lobby");
         }
     }
 
@@ -121,36 +121,42 @@ public class PlayerJoin implements Listener {
         e.getPlayer().setLevel(exp.get(e.getPlayer().getUniqueId()));
 
         for(Player p : Main.AllPlayingPlayers){
-            p.sendMessage(Main.prefix + "§aPlayer: §e" + e.getPlayer() + " §aleft COD");
+            p.sendMessage(Main.prefix + "§aPlayer: §e" + e.getPlayer().getName() + " §aleft COD");
         }
     }
 
     @EventHandler
     public void noBuild(BlockPlaceEvent e){
-        if(Main.AllPlayingPlayers.contains(e.getPlayer())){
-            e.setCancelled(true);
-        }
-        if(Main.WaitingPlayers.contains(e.getPlayer())){
+        if(Main.AllPlayingPlayers.contains(e.getPlayer()) || Main.WaitingPlayers.contains(e.getPlayer())){
             e.setCancelled(true);
         }
     }
 
-    @EventHandler
+   /* @EventHandler
     public void noBreak(BlockBreakEvent e){
-        if(Main.AllPlayingPlayers.contains(e.getPlayer())){
+        if(Main.AllPlayingPlayers.contains(e.getPlayer()) || Main.WaitingPlayers.contains(e.getPlayer())){
             e.setCancelled(true);
         }
-        if(Main.WaitingPlayers.contains(e.getPlayer())){
-            e.setCancelled(true);
-        }
-    }
+    }*/
 
     @EventHandler
     public void noThrow(PlayerDropItemEvent e){
-        if(Main.WaitingPlayers.contains(e.getPlayer())){
+        if(Main.WaitingPlayers.contains(e.getPlayer()) || Main.AllPlayingPlayers.contains(e.getPlayer())){
             e.setCancelled(true);
         }
     }
+
+   /* @EventHandler
+    public void filterChat(AsyncPlayerChatEvent e){
+        for(Player p : Bukkit.getOnlinePlayers()){
+            if(!Main.AllPlayingPlayers.contains(e.getPlayer()) || !Main.WaitingPlayers.contains(e.getPlayer())){
+                if(!Main.WaitingPlayers.contains(p) || !Main.AllPlayingPlayers.contains(p)){
+
+                    p.sendMessage(e.getFormat());
+                }
+            }
+        }
+    }*/
 
   /*  @EventHandler
     public void itemClick(PlayerInteractEvent e){

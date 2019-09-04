@@ -40,6 +40,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -179,6 +181,18 @@ public class KillConfirmed implements Listener {
             Main.AllPlayingPlayers.remove(p);
             bossBar.removePlayer(p);
             p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+
+            if(ThisPlugin.getPlugin().getConfig().getBoolean("BungeeCord.enabled")){
+                ByteArrayOutputStream bout = new ByteArrayOutputStream();
+                DataOutputStream out = new DataOutputStream(bout);
+
+                try{
+                    out.writeUTF("Connect");
+                    out.writeUTF(ThisPlugin.getPlugin().getConfig().getString("BungeeCord.fall-back"));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
         Main.arenas.add(name);
         Main.onGoingArenas.remove(name);
@@ -309,6 +323,7 @@ public class KillConfirmed implements Listener {
 
         if(e.getEntity() instanceof Player ) {
             Player p = (Player) e.getEntity();
+            Player pp = e.getEntity().getKiller();
 
             ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
             ItemStack redTag = new ItemStack(Material.RED_WOOL, 1);
@@ -322,6 +337,12 @@ public class KillConfirmed implements Listener {
                 blueWool.setMetadata("codBlueTag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
             }
 
+            if(pp != null){
+                Kills.put(pp.getUniqueId(), Kills.get(pp.getUniqueId()) + 1);
+                Killstreak.put(pp.getUniqueId(), Killstreak.get(pp.getUniqueId()) +1);
+                LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
+            }
+            Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) + 1);
         }
     }
 
@@ -376,6 +397,7 @@ public class KillConfirmed implements Listener {
             e.setDeathMessage(null);
             e.getDrops().clear();
 
+            Killstreak.put(e.getEntity().getUniqueId(), 0);
 
         }
     }
@@ -393,9 +415,7 @@ public class KillConfirmed implements Listener {
                     }
                     if(pp.getInventory().getItemInMainHand().equals(GameInventory.knife)){
                         p.setHealth(0);
-                        for(Player player : PlayingPlayers){
-                            player.sendMessage(Main.prefix + "§e" + p.getName() + " §dgot dookied on");
-                        }
+
                     }
                 }
             }
@@ -498,6 +518,7 @@ public class KillConfirmed implements Listener {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, true));
             }
         }
+        p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§bKnife", null));
     }
 
     private   ItemStack getColorArmor2(Material m, Color c) {

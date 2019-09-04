@@ -21,6 +21,7 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,6 +35,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -42,6 +44,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -116,11 +120,19 @@ public class CTF implements Listener {
     }
 
     public  void startTDM(String name){
+
+        ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
+        ItemStack redTag = new ItemStack(Material.RED_WOOL, 1);
+
+        Item redWool = GetLocations.getRedFlag(name).getWorld().dropItem(GetLocations.getRedFlag(name), redTag);
+        Item blueWool = GetLocations.getBlueFlag(name).getWorld().dropItem(GetLocations.getBlueFlag(name), blueTag);
+
+        redWool.setMetadata("codRedFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), redTag));
+        blueWool.setMetadata("codBlueFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
+
         for(int ID =0; ID < PlayingPlayers.size(); ID++){
             final Player p = PlayingPlayers.get(ID);
             p.getInventory().clear();
-
-            p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§bKnife", null));
 
 
             Kills.put(p.getUniqueId(), 0);
@@ -133,14 +145,6 @@ public class CTF implements Listener {
             p.sendMessage(Main.prefix + "§aGame starting. Arena: §e" + name);
             setBoard(p);
 
-            ItemStack blueTag = new ItemStack(Material.BLUE_WOOL);
-            ItemStack redTag = new ItemStack(Material.RED_WOOL);
-
-            Item redWool = GetLocations.getRedFlag(name).getWorld().dropItem(GetLocations.getRedFlag(name), redTag);
-            Item blueWool = GetLocations.getBlueFlag(name).getWorld().dropItem(GetLocations.getBlueFlag(name), blueTag);
-
-            redWool.setMetadata("codRedTag", new FixedMetadataValue(ThisPlugin.getPlugin(), redTag));
-            blueWool.setMetadata("codBlueTag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
 
             if(RedTeam.contains(p)){
                 p.teleport( GetArena.getRedSpawn(p, name));
@@ -173,17 +177,33 @@ public class CTF implements Listener {
         Bukkit.getServer().getPluginManager().callEvent(new CODEndEvent(PlayingPlayers, name, ArenasFile.getData().getString("Arenas." + name + ".Type")));
 
         for(Player p : PlayingPlayers){
-            if(redscore > bluescore && RedTeam.contains(p)){
-                RegistryAPI.registerWin(p);
-                LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
-            }else if(redscore < bluescore && BlueTeam.contains(p)){
-                RegistryAPI.registerWin(p);
-                LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
+            if(redscore > bluescore ){
+                if(RedTeam.contains(p)) {
+                    RegistryAPI.registerWin(p);
+                    LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
+                }else if(BlueTeam.contains(p)){
+                    LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-loss"));
+                }
+            }else if(redscore < bluescore ){
+                if(BlueTeam.contains(p)) {
+                    RegistryAPI.registerWin(p);
+                    LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
+                }else if(RedTeam.contains(p)){
+                    LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-loss"));
+                }
             }
             p.teleport(GetLocations.getLobby());
             p.getInventory().clear();
             GameInventory.lobbyInv(p);
             p.sendMessage(Main.prefix + " " + getBetterTeam());
+
+            if(Kills.get(p.getUniqueId()) != 0){
+                double kd = (double) Kills.get(p.getUniqueId()) / Deaths.get(p.getUniqueId());
+                p.sendMessage(Main.prefix + "§eYour KD is §a" +kd);
+            }else{
+                p.sendMessage(Main.prefix + "§eYour KD is §a0.0");
+            }
+
             p.setHealth(20);
             p.setFoodLevel(20);
             p.setPlayerListName(p.getName());
@@ -193,6 +213,18 @@ public class CTF implements Listener {
             Main.AllPlayingPlayers.remove(p);
             bossBar.removePlayer(p);
             p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+
+            if(ThisPlugin.getPlugin().getConfig().getBoolean("BungeeCord.enabled")){
+                ByteArrayOutputStream bout = new ByteArrayOutputStream();
+                DataOutputStream out = new DataOutputStream(bout);
+
+                try{
+                    out.writeUTF("Connect");
+                    out.writeUTF(ThisPlugin.getPlugin().getConfig().getString("BungeeCord.fall-back"));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
         Main.arenas.add(name);
         Main.onGoingArenas.remove(name);
@@ -329,33 +361,29 @@ public class CTF implements Listener {
                 if (PlayingPlayers.contains(p) && PlayingPlayers.contains(pp)) {
                     if (RedTeam.contains(p)) {
                         for (Player players : PlayingPlayers) {
-                            players.sendMessage(Main.prefix + "§b" + p.getName() + "§e killed §c" + pp.getName());
+                            players.sendMessage(Main.prefix + "§b" + pp.getName() + "§e killed §c" + p.getName());
                         }
                         Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, pp, "red", "blue"));
                         RegistryAPI.registerDeath(p);
                         RegistryAPI.registerKill(pp);
                         LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
-                        Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()));
-                        Kills.put(pp.getUniqueId(), Kills.get(pp.getUniqueId()));
-
-                        if(p.getInventory().contains(Material.BLUE_WOOL)){
-                            ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
-                            Item blueWool = p.getWorld().dropItem(p.getLocation(), blueTag);
-                            blueWool.setMetadata("codBlueFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
-
-                        }
+                        Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) +1);
+                        Kills.put(pp.getUniqueId(), Kills.get(pp.getUniqueId()) + 1);
+                        Killstreak.put(pp.getUniqueId(), Killstreak.get(pp.getUniqueId()) + 1);
 
 
                     } else if (BlueTeam.contains(p)) {
                         for (Player players : PlayingPlayers) {
-                            players.sendMessage(Main.prefix + "§c" + p.getName() + "§e killed §b" + pp.getName());
+                            players.sendMessage(Main.prefix + "§c" + pp.getName() + "§e killed §b" + p.getName());
                         }
 
                         RegistryAPI.registerDeath(p);
                         RegistryAPI.registerKill(pp);
                         LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
-                        Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()));
-                        Kills.put(pp.getUniqueId(), Kills.get(pp.getUniqueId()));
+
+                        Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) +1);
+                        Kills.put(pp.getUniqueId(), Kills.get(pp.getUniqueId()) + 1);
+                        Killstreak.put(pp.getUniqueId(), Killstreak.get(pp.getUniqueId()) + 1);
 
                         Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, pp, "blue", "red"));
 
@@ -370,22 +398,17 @@ public class CTF implements Listener {
             } else {
                 if (PlayingPlayers.contains(p)) {
                     if (RedTeam.contains(p)) {
-                        for (Player players : PlayingPlayers) {
-                            players.sendMessage(Main.prefix + "§c" + p.getName() + "§e played themselves");
-                        }
-                        bluescore += 1;
+
+
                         RegistryAPI.registerDeath(p);
-                        Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()));
+                        Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) + 1);
                         Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, null, "red", null));
                     } else if (BlueTeam.contains(p)) {
-
-                        for (Player players : PlayingPlayers) {
-                            players.sendMessage(Main.prefix + "§b" + p.getName() + "§e played themselves");
-                        }
+                        Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) + 1);
                         Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, null, "blue", null));
                         RegistryAPI.registerDeath(p);
 
-                        redscore += 1;
+
                     }
                 }
             }
@@ -400,16 +423,38 @@ public class CTF implements Listener {
         if(PlayingPlayers.contains(p)){
             if(BlueTeam.contains(p)){
                 if(p.getInventory().contains(Material.RED_WOOL)){
-                    if(p.getLocation() == GetArena.getBlueSpawn(p, arena)){
+                    if((p.getLocation().getBlockX() == GetArena.getBlueSpawn(p, arena).getBlockX()) && (p.getLocation().getBlockY() == GetArena.getBlueSpawn(p, arena).getBlockY()) && (p.getLocation().getBlockZ() == GetArena.getBlueSpawn(p, arena).getBlockZ())){
                         p.getInventory().remove(Material.RED_WOOL);
                         bluescore++;
+
+                        ItemStack redTag = new ItemStack(Material.RED_WOOL, 1);
+
+                        Item redWool = GetLocations.getRedFlag(arena).getWorld().dropItem(GetLocations.getRedFlag(arena), redTag);
+
+                        redWool.setMetadata("codRedFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), redTag));
+
+                        for(Player pp : PlayingPlayers){
+                            pp.sendMessage(Main.prefix + "§9Blue team captured the red teams flag");
+                        }
+
                     }
                 }
             }else if(RedTeam.contains(p)){
                 if(p.getInventory().contains(Material.BLUE_WOOL)){
-                    if(p.getLocation() == GetArena.getRedSpawn(p, arena)){
+                    if((p.getLocation().getBlockX() == GetArena.getRedSpawn(p, arena).getBlockX()) && (p.getLocation().getBlockY() == GetArena.getRedSpawn(p, arena).getBlockY()) && (p.getLocation().getBlockZ() == GetArena.getRedSpawn(p, arena).getBlockZ())){
                         p.getInventory().remove(Material.BLUE_WOOL);
                         redscore++;
+
+                        ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
+
+                        Item blueWool = GetLocations.getBlueFlag(arena).getWorld().dropItem(GetLocations.getBlueFlag(arena), blueTag);
+
+                        blueWool.setMetadata("codBlueFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
+
+
+                        for(Player pp : PlayingPlayers){
+                            pp.sendMessage(Main.prefix + "§cRed team captured the blue teams flag");
+                        }
                     }
                 }
             }
@@ -428,37 +473,81 @@ public class CTF implements Listener {
                     if (RedTeam.contains(p)) {
 
 
-                        if(e.getItem().getLocation() != GetLocations.getRedFlag(arena)) {
-                            e.setCancelled(true);
+                        if(e.getItem().getLocation().getBlockX() != GetLocations.getRedFlag(arena).getBlockX() && (e.getItem().getLocation().getBlockZ() != GetLocations.getRedFlag(arena).getBlockZ())) {
+
+                            e.getItem().remove();
+                            ItemStack blueTag = new ItemStack(Material.RED_WOOL, 1);
+                            Item blueWool = p.getWorld().dropItem(GetLocations.getRedFlag(arena), blueTag);
+                            blueWool.setMetadata("codRedFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
                             for (Player pp : PlayingPlayers) {
-                                e.getItem().remove();
                                 pp.sendMessage(Main.prefix + "§cRed flag has been reset");
                             }
+                            e.setCancelled(true);
+                        }else{
+                            e.setCancelled(true);
                         }
                     } else if (BlueTeam.contains(p)) {
-                        e.getItem().remove();
+                        //e.getItem().remove();
 
                         for(Player pp : PlayingPlayers){
                             pp.sendMessage(Main.prefix + "§9Blue team has taken the flag");
                         }
+                        new BukkitRunnable(){
+                            @Override
+                            public void run() {
+                                Firework f = p.getWorld().spawn(p.getLocation(), Firework.class);
+                                FireworkMeta meta = f.getFireworkMeta();
+                                FireworkEffect effect = FireworkEffect.builder().flicker(true).withColor(Color.BLUE).with(FireworkEffect.Type.BALL_LARGE).trail(true).build();
+                                meta.addEffect(effect);
+                                meta.setPower(2);
+                                f.setFireworkMeta(meta);
+
+                                if(p.isDead() || (Bukkit.getPlayer(p.getUniqueId()) == null) || !Main.AllPlayingPlayers.contains(p) || !p.getInventory().contains(Material.RED_WOOL)){
+                                    cancel();
+                                }
+
+                            }
+                        }.runTaskTimer(ThisPlugin.getPlugin(), 0, 60);
 
                     }
                 } else if (e.getItem().hasMetadata("codBlueFlag")) {
                     if (BlueTeam.contains(p)) {
-                        if(e.getItem().getLocation() != GetLocations.getBlueFlag(arena)) {
-                            e.setCancelled(true);
+                        if(e.getItem().getLocation().getBlockX() != GetLocations.getBlueFlag(arena).getBlockX() && (e.getItem().getLocation().getBlockZ() != GetLocations.getBlueFlag(arena).getBlockZ())) {
+
                             for (Player pp : PlayingPlayers) {
                                 pp.sendMessage(Main.prefix + "§9Blue flag has been reset");
                             }
                             e.getItem().remove();
 
+                            ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
+                            Item blueWool = p.getWorld().dropItem(GetLocations.getBlueFlag(arena), blueTag);
+                            blueWool.setMetadata("codBlueFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
+                            e.setCancelled(true);
+                        }else{
+                            e.setCancelled(true);
                         }
                     } else if (RedTeam.contains(p)) {
                         e.getItem().remove();
                         for(Player pp : PlayingPlayers){
                             pp.sendMessage(Main.prefix + "§cRed team has taken the flag");
                         }
+                        new BukkitRunnable(){
 
+                            @Override
+                            public void run() {
+                                Firework f = p.getWorld().spawn(p.getLocation(), Firework.class);
+                                FireworkMeta meta = f.getFireworkMeta();
+                                FireworkEffect effect = FireworkEffect.builder().flicker(true).withColor(Color.RED).with(FireworkEffect.Type.BALL_LARGE).trail(true).build();
+                                meta.addEffect(effect);
+                                meta.setPower(2);
+                                f.setFireworkMeta(meta);
+
+                                if(p.isDead() || (Bukkit.getPlayer(p.getUniqueId()) == null) || !Main.AllPlayingPlayers.contains(p) || !p.getInventory().contains(Material.BLUE_WOOL)){
+                                    cancel();
+                                }
+
+                            }
+                        }.runTaskTimer(ThisPlugin.getPlugin(), 0, 60);
 
                     }
                 }
@@ -469,9 +558,26 @@ public class CTF implements Listener {
     @EventHandler
     public void onDEath(PlayerDeathEvent e){
         if(PlayingPlayers.contains(e.getEntity())){
+            Player p = e.getEntity();
             e.setDeathMessage(null);
             e.getDrops().clear();
+            Killstreak.put(p.getUniqueId(), 0);
 
+            if(p.getInventory().contains(Material.BLUE_WOOL)){
+
+                ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
+                Item blueWool = p.getWorld().dropItem(p.getLocation(), blueTag);
+                blueWool.setMetadata("codBlueFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
+
+
+
+            }else if(p.getInventory().contains(Material.RED_WOOL)){
+
+                ItemStack blueTag = new ItemStack(Material.RED_WOOL, 1);
+                Item blueWool = p.getWorld().dropItem(p.getLocation(), blueTag);
+                blueWool.setMetadata("codRedFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
+
+            }
 
         }
     }
@@ -488,11 +594,8 @@ public class CTF implements Listener {
                         e.setCancelled(true);
                         return;
                     }
-                    if(pp.getInventory().getItemInMainHand().equals(GameInventory.knife)){
+                    if(pp.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD){
                         p.setHealth(0);
-                        for(Player player : PlayingPlayers){
-                            player.sendMessage(Main.prefix + "§e" + p.getName() + " §dgot dookied on");
-                        }
                     }
                 }
             }
@@ -533,6 +636,40 @@ public class CTF implements Listener {
         }
         if(RedTeam.size() == 0 || BlueTeam.size() == 0){
             endTDM(arena);
+        }
+
+        if(p.getInventory().contains(Material.BLUE_WOOL)){
+            ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
+            Item blueWool = p.getWorld().dropItem(p.getLocation(), blueTag);
+            blueWool.setMetadata("codBlueFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
+
+            Firework f = p.getWorld().spawn(p.getLocation(), Firework.class);
+            FireworkMeta meta = f.getFireworkMeta();
+            FireworkEffect effect = FireworkEffect.builder().flicker(true).withColor(Color.BLUE).with(FireworkEffect.Type.BALL_LARGE).trail(true).build();
+            meta.addEffect(effect);
+            meta.setPower(3);
+            f.setFireworkMeta(meta);
+
+            for(Player pp : PlayingPlayers){
+                pp.sendMessage(Main.prefix + "§aPlayer: §e" + p.getName() + " §adropped the §cRed Flag");
+            }
+
+        }else if(p.getInventory().contains(Material.RED_WOOL)){
+            ItemStack blueTag = new ItemStack(Material.RED_WOOL, 1);
+            Item blueWool = p.getWorld().dropItem(p.getLocation(), blueTag);
+            blueWool.setMetadata("codRedFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
+
+            Firework f = p.getWorld().spawn(p.getLocation(), Firework.class);
+            FireworkMeta meta = f.getFireworkMeta();
+            FireworkEffect effect = FireworkEffect.builder().flicker(true).withColor(Color.RED).with(FireworkEffect.Type.BALL_LARGE).trail(true).build();
+            meta.addEffect(effect);
+            meta.setPower(3);
+            f.setFireworkMeta(meta);
+
+            for(Player pp : PlayingPlayers){
+                pp.sendMessage(Main.prefix + "§aPlayer: §e" + p.getName() + " §adropped the §9Blue Flag");
+            }
+
         }
     }
 
@@ -579,7 +716,7 @@ public class CTF implements Listener {
             }
         }else if(BlueTeam.contains(p)){
             if(!loadedPerks.get(p.getUniqueId()).contains("§6§nFeatherWeight")) {
-                Color c = Color.fromBGR(0, 0, 255);
+                Color c = Color.fromBGR(255, 0, 0);
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
@@ -587,7 +724,7 @@ public class CTF implements Listener {
 
 
             }else{
-                Color c = Color.fromBGR(0, 0, 255);
+                Color c = Color.fromBGR(255, 0, 0);
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
@@ -595,6 +732,7 @@ public class CTF implements Listener {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, true));
             }
         }
+        p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§bKnife", null));
     }
 
     private   ItemStack getColorArmor2(Material m, Color c) {

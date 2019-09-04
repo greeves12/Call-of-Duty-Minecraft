@@ -57,16 +57,16 @@ public class GetArena {
     }
 
     public static Location getRedSpawn(Player p, String arena){
-        final double x;
-        final double y;
-        final double z;
+        final int x;
+        final int y;
+        final int z;
         final World world;
         final float yaw;
         final float pitch;
         world = Bukkit.getWorld(ArenasFile.getData().getString("Arenas." + arena + ".Spawns.Red.World"));
-        x = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Red.X");
-        y = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Red.Y");
-        z = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Red.Z");
+        x = ArenasFile.getData().getInt("Arenas." + arena + ".Spawns.Red.X");
+        y = ArenasFile.getData().getInt("Arenas." + arena + ".Spawns.Red.Y");
+        z = ArenasFile.getData().getInt("Arenas." + arena + ".Spawns.Red.Z");
         yaw = (float) ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Red.Yaw");
         pitch = (float) ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns.Red.Pitch");
 
@@ -79,16 +79,16 @@ public class GetArena {
     }
 
     public static Location getNumericSpawn(Player p, String arena, int id){
-        final double x;
-        final double y;
-        final double z;
+        final int x;
+        final int y;
+        final int z;
         final World world;
         final float yaw;
         final float pitch;
         world = Bukkit.getWorld(ArenasFile.getData().getString("Arenas." + arena + ".Spawns." + id + ".World"));
-        x = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns."+ id +".X");
-        y = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns."+id+".Y");
-        z = ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns."+id+".Z");
+        x = ArenasFile.getData().getInt("Arenas." + arena + ".Spawns."+ id +".X");
+        y = ArenasFile.getData().getInt("Arenas." + arena + ".Spawns."+id+".Y");
+        z = ArenasFile.getData().getInt("Arenas." + arena + ".Spawns."+id+".Z");
         yaw = (float) ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns."+id+".Yaw");
         pitch = (float) ArenasFile.getData().getDouble("Arenas." + arena + ".Spawns."+id+".Pitch");
 

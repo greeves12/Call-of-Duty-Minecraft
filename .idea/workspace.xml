@@ -8,34 +8,25 @@
   <component name="ChangeListManager">
     <list default="true" id="dd9ced99-0c08-43ba-acbd-74dec6905c0a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/FFA.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/FFA.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/CTF$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/CTF$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/CTF$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/CTF$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/CTF.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/CTF.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/GetArena.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/GetArena.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/KillConfirmed$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/KillConfirmed$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/KillConfirmed.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/KillConfirmed.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/TDM$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/TDM$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/TDM.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Arenas/TDM.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Boards/GameBoard$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Boards/GameBoard.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Commands/CreateArenaCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Commands/CreateArenaCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Commands/MainCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Commands/MainCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/MySQL/RegistryAPI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/MySQL/RegistryAPI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Tasks/CountDown.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Tasks/CountDown.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/COD2/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Achievement/AchievementAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Achievement/AchievementAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Leveling/LevelRegistryAPI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Leveling/LevelRegistryAPI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Listeners/PlayerJoin.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Listeners/PlayerJoin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/CTF.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/CTF.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/FFA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/FFA.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/GetArena.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/GetArena.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/KillConfirmed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/KillConfirmed.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/TDM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/TDM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Boards/GameBoard.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/CreateArenaCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/CreateArenaCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/HelpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/HelpCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/MainCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/MainCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/InventoryInteract.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/InventoryInteract.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/AttackDogs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/AttackDogs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/UAV.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/UAV.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Leveling/LevelRegistryAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Leveling/LevelRegistryAPI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/PlayerJoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/PlayerJoin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Locations/GetLocations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Locations/GetLocations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/MySQL/RegistryAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/MySQL/RegistryAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Tasks/CountDown.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Tasks/CountDown.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.yml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -50,41 +41,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/FFA.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="146">
-              <caret line="160" column="24" selection-start-line="160" selection-start-column="24" selection-end-line="160" selection-end-column="24" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/Infected.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Locations/GetLocations.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="367">
-              <caret line="34" column="79" selection-start-line="34" selection-start-column="79" selection-end-line="34" selection-end-column="79" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/TDM.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="561" column="51" selection-start-line="561" selection-start-column="51" selection-end-line="561" selection-end-column="51" />
+            <state relative-caret-position="3805">
+              <caret line="334" column="28" selection-start-line="334" selection-start-column="28" selection-end-line="334" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -93,26 +51,63 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/CTF.java">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/AttackDogs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
-              <caret line="431" column="49" selection-start-line="431" selection-start-column="49" selection-end-line="431" selection-end-column="49" />
+            <state relative-caret-position="979">
+              <caret line="76" column="155" selection-start-line="76" selection-start-column="155" selection-end-line="76" selection-end-column="155" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#26913#27432#0" expanded="true" />
-                <element signature="e#27431#27432#0" expanded="true" />
-                <element signature="e#26973#26974#0" expanded="true" />
-                <element signature="e#27032#27033#0" expanded="true" />
+                <element signature="e#2809#2979#0" expanded="true" />
+                <element signature="e#2978#2979#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/Domination.java">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/TDM.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
+            <state relative-caret-position="292">
+              <caret line="407" column="38" lean-forward="true" selection-start-line="407" selection-start-column="38" selection-end-line="407" selection-end-column="38" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/CTF.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="211">
+              <caret line="505" column="45" lean-forward="true" selection-start-line="505" selection-start-column="45" selection-end-line="505" selection-end-column="45" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/UAV.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="95">
+              <caret line="74" column="39" lean-forward="true" selection-start-line="74" selection-start-column="39" selection-end-line="74" selection-end-column="39" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="356">
+              <caret line="66" column="28" selection-start-line="66" selection-start-column="28" selection-end-line="66" selection-end-column="28" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -127,19 +122,25 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/Mortar.java">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Tasks/CountDown.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+            <state relative-caret-position="339">
+              <caret line="51" column="53" selection-start-line="51" selection-start-column="53" selection-end-line="51" selection-end-column="53" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/UAV.java">
+        <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/GetPlayersOnOtherTeam.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
+            <state relative-caret-position="170">
+              <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -147,10 +148,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/KillConfirmed.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="321" column="29" lean-forward="true" selection-start-line="321" selection-start-column="29" selection-end-line="321" selection-end-column="29" />
+            <state relative-caret-position="350">
+              <caret line="183" lean-forward="true" selection-start-line="183" selection-end-line="183" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#23114#23115#0" expanded="true" />
+                <element signature="e#23173#23174#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -166,14 +169,18 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>PlayerMoveEvent</find>
+      <find>Knife</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/CODJoinEvent.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Events/CODJoinEvent.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/ThisPlugin.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Files/GunsFile.java" />
         <option value="$PROJECT_DIR$/src/plugin.yml" />
@@ -203,26 +210,28 @@
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Guns/Guns.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Inventories/CreateClass.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Inventories/GameInventory.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Leveling/LevelRegistryAPI.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Main.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Tasks/LevelUpdater.java" />
-        <option value="$PROJECT_DIR$/src/config.yml" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/MySQL/RegistryAPI.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Boards/GameBoard.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/GetArena.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Achievement/AchievementAPI.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Achievement/AchievementMenu.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/PlayerJoin.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/TDM.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/HelpCommand.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/MainCommand.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Tasks/CountDown.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/InventoryInteract.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/CreateArenaCommand.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Locations/GetLocations.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/PlayerJoin.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/GetArena.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/CreateArenaCommand.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Leveling/LevelRegistryAPI.java" />
+        <option value="$PROJECT_DIR$/src/config.yml" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/KillConfirmed.java" />
-        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/FFA.java" />
         <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/CTF.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/MySQL/RegistryAPI.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/FFA.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/UAV.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/AttackDogs.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Main.java" />
+        <option value="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/TDM.java" />
       </list>
     </option>
   </component>
@@ -237,6 +246,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -281,7 +292,21 @@
               <item name="COD2" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="COD2" type="462c0819:PsiDirectoryNode" />
+              <item name="KillStreaks" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="COD2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="COD2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="COD2" type="462c0819:PsiDirectoryNode" />
               <item name="Locations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="COD2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="COD2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="COD2" type="462c0819:PsiDirectoryNode" />
+              <item name="MySQL" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="COD2" type="b2602c69:ProjectViewProjectNode" />
@@ -301,8 +326,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -362,17 +385,19 @@
       <workItem from="1567318140593" duration="7865000" />
       <workItem from="1567364517097" duration="946000" />
       <workItem from="1567490834101" duration="8243000" />
+      <workItem from="1567499442116" duration="26000" />
+      <workItem from="1567543388526" duration="12096000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="114143000" />
+    <option name="totallyTimeSpent" value="126265000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18017058" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18336888" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -391,7 +416,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Messages" order="12" visible="true" weight="0.32936078" />
+      <window_info anchor="bottom" id="Messages" order="12" visible="true" weight="0.32936078" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -429,13 +454,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Tasks/GameTime.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/BaseArena.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Events/CODAchievementUnlockEvent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -456,13 +474,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/AttackDogs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Inventories/SelectKit.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="782">
@@ -480,30 +491,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/GetPlayersOnOtherTeam.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Files/GunsFile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="560">
           <caret line="47" column="9" lean-forward="true" selection-start-line="47" selection-start-column="9" selection-end-line="47" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Inventories/SkullCreator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="864">
-          <caret line="229" column="68" selection-start-line="229" selection-start-column="68" selection-end-line="229" selection-end-column="76" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -531,16 +522,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="246">
           <caret line="24" column="82" lean-forward="true" selection-start-line="24" selection-start-column="82" selection-end-line="24" selection-end-column="82" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Guns/BuyGuns.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="51" selection-start-line="51" selection-end-line="51" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -591,50 +572,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Tasks/LevelUpdater.java">
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Boards/GameBoard.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/Infected.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="30" column="31" selection-start-line="30" selection-start-column="31" selection-end-line="30" selection-end-column="31" />
+        <state relative-caret-position="34">
+          <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/Domination.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/Mortar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Inventories/GameInventory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="560">
+          <caret line="48" column="99" selection-start-line="48" selection-start-column="99" selection-end-line="48" selection-end-column="99" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Leveling/LevelRegistryAPI.java">
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Inventories/SkullCreator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="37" column="5" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/MySQL/RegistryAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="943">
-          <caret line="107" column="91" selection-start-line="107" selection-start-column="91" selection-end-line="107" selection-end-column="91" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Boards/GameBoard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="74" column="57" lean-forward="true" selection-start-line="74" selection-start-column="57" selection-end-line="74" selection-end-column="57" />
+        <state relative-caret-position="560">
+          <caret line="229" column="68" selection-start-line="229" selection-start-column="68" selection-end-line="229" selection-end-column="76" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -665,67 +638,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Inventories/GameInventory.java">
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/BaseArena.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="48" column="99" selection-start-line="48" selection-start-column="99" selection-end-line="48" selection-end-column="99" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/HelpCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="31" column="81" selection-start-line="31" selection-start-column="81" selection-end-line="31" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Tasks/CountDown.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="51" column="53" lean-forward="true" selection-start-line="51" selection-start-column="53" selection-end-line="51" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/config.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="14" selection-start-line="8" selection-start-column="14" selection-end-line="8" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/PlayerDeath.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="7" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/InventoryInteract.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-489">
-          <caret line="660" column="30" selection-start-line="660" selection-start-column="30" selection-end-line="660" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/PlayerJoin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="105" column="45" lean-forward="true" selection-start-line="105" selection-start-column="45" selection-end-line="105" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="255">
+          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -741,8 +657,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/GetArena.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="518">
-          <caret line="87" column="102" selection-start-line="87" selection-start-column="102" selection-end-line="87" selection-end-column="102" />
+        <state relative-caret-position="503">
+          <caret line="77" column="24" lean-forward="true" selection-start-line="77" selection-start-column="24" selection-end-line="77" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#756#757#0" expanded="true" />
@@ -751,10 +667,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/MainCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Tasks/LevelUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="114" column="93" lean-forward="true" selection-start-line="114" selection-start-column="93" selection-end-line="114" selection-end-column="93" />
+        <state relative-caret-position="408">
+          <caret line="30" column="31" selection-start-line="30" selection-start-column="31" selection-end-line="30" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/InventoryInteract.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="660" column="30" selection-start-line="660" selection-start-column="30" selection-end-line="660" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/PlayerJoin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="120" column="57" selection-start-line="120" selection-start-column="57" selection-end-line="120" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/PlayerDeath.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="28" column="7" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/HelpCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="31" column="81" selection-start-line="31" selection-start-column="81" selection-end-line="31" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Leveling/LevelRegistryAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="19" column="29" lean-forward="true" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="48" column="3" selection-start-line="48" selection-start-column="3" selection-end-line="48" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Locations/GetLocations.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="34" column="79" selection-start-line="34" selection-start-column="79" selection-end-line="34" selection-end-column="79" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -763,18 +743,123 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/CreateArenaCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="95" selection-start-line="95" selection-end-line="95" />
+        <state relative-caret-position="560">
+          <caret line="109" column="58" lean-forward="true" selection-start-line="109" selection-start-column="58" selection-end-line="109" selection-end-column="58" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/Infected.java">
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Commands/MainCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
+        <state relative-caret-position="350">
+          <caret line="114" column="51" lean-forward="true" selection-start-line="114" selection-start-column="51" selection-end-line="114" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/MySQL/RegistryAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="35" column="77" lean-forward="true" selection-start-line="35" selection-start-column="77" selection-end-line="35" selection-end-column="77" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Guns/BuyGuns.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="51" selection-start-line="51" selection-end-line="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/KillConfirmed.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="183" lean-forward="true" selection-start-line="183" selection-end-line="183" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#23114#23115#0" expanded="true" />
+            <element signature="e#23173#23174#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/FFA.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3805">
+          <caret line="334" column="28" selection-start-line="334" selection-start-column="28" selection-end-line="334" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/GetPlayersOnOtherTeam.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Tasks/CountDown.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="51" column="53" selection-start-line="51" selection-start-column="53" selection-end-line="51" selection-end-column="53" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/CTF.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="505" column="45" lean-forward="true" selection-start-line="505" selection-start-column="45" selection-end-line="505" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/UAV.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="74" column="39" lean-forward="true" selection-start-line="74" selection-start-column="39" selection-end-line="74" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="66" column="28" selection-start-line="66" selection-start-column="28" selection-end-line="66" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/TDM.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="407" column="38" lean-forward="true" selection-start-line="407" selection-start-column="38" selection-end-line="407" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -785,77 +870,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/Mortar.java">
+    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/AttackDogs.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/KillStreaks/UAV.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Locations/GetLocations.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="34" column="79" selection-start-line="34" selection-start-column="79" selection-end-line="34" selection-end-column="79" />
+        <state relative-caret-position="979">
+          <caret line="76" column="155" selection-start-line="76" selection-start-column="155" selection-end-line="76" selection-end-column="155" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/Domination.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="23" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/KillConfirmed.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="321" column="29" lean-forward="true" selection-start-line="321" selection-start-column="29" selection-end-line="321" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/TDM.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="561" column="51" selection-start-line="561" selection-start-column="51" selection-end-line="561" selection-end-column="51" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/FFA.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="160" column="24" selection-start-line="160" selection-start-column="24" selection-end-line="160" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/CTF.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="431" column="49" selection-start-line="431" selection-start-column="49" selection-end-line="431" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#26913#27432#0" expanded="true" />
-            <element signature="e#27431#27432#0" expanded="true" />
-            <element signature="e#26973#26974#0" expanded="true" />
-            <element signature="e#27032#27033#0" expanded="true" />
+            <element signature="e#2809#2979#0" expanded="true" />
+            <element signature="e#2978#2979#0" expanded="true" />
           </folding>
         </state>
       </provider>

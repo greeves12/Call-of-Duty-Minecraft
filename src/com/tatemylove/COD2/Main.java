@@ -9,6 +9,8 @@ import com.tatemylove.COD2.Commands.MainCommand;
 import com.tatemylove.COD2.Files.*;
 import com.tatemylove.COD2.Guns.Guns;
 import com.tatemylove.COD2.Inventories.GameInventory;
+import com.tatemylove.COD2.KillStreaks.AttackDogs;
+import com.tatemylove.COD2.KillStreaks.UAV;
 import com.tatemylove.COD2.Listeners.InventoryInteract;
 import com.tatemylove.COD2.Listeners.PlayerDeath;
 import com.tatemylove.COD2.Listeners.PlayerJoin;
@@ -18,6 +20,7 @@ import com.tatemylove.COD2.Updater.Updater;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -59,6 +62,11 @@ public class Main extends JavaPlugin {
         PlayerData.setup(this);
         AchievementFile.setup(this);
         StatsFile.setup(this);
+
+        UAV.settUp();
+        AttackDogs.settUp();
+
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         if(!GunsFile.getData().contains("Perks.")){
             GunsFile.getData().set("DISCLAIMER", "Don't change/add/remove any Perk values here (except Level, Desc, Material) until I give confirmation that they can be changed. Seriously, you'll break the plugin");
@@ -139,5 +147,29 @@ public class Main extends JavaPlugin {
             }
         }
 
+    }
+
+    public void onDisable(){
+        ArrayList<String> allArenas = new ArrayList<>();
+        ArrayList<String > worlds = new ArrayList<>();
+        for(String s : ArenasFile.getData().getConfigurationSection("Arenas.").getKeys(false)){
+            allArenas.add(s);
+        }
+
+        for(String s : allArenas){
+            ArenasFile.getData().getString("Arenas." + s + ".Spawns.Blue.World");
+
+            if(!worlds.contains(ArenasFile.getData().getString("Arenas." + s + ".Spawns.Blue.World"))){
+                worlds.add(ArenasFile.getData().getString("Arenas." + s + ".Spawns.Blue.World"));
+            }
+        }
+
+        for(String s : worlds){
+            for(Entity e : Bukkit.getWorld(s).getEntities()){
+                if(e.hasMetadata("codRedFlag") || e.hasMetadata("codBlueFlag")){
+                    e.remove();
+                }
+            }
+        }
     }
 }

@@ -12,34 +12,34 @@ public class RegistryAPI {
 
 
     public static void registerWin(Player p){
-        if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){
+       // if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){
 
-        }else{
+       // }else{
             int wins = StatsFile.getData().getInt("Players." + p.getUniqueId().toString() + ".Wins");
             StatsFile.getData().set("Players." + p.getUniqueId().toString() + ".Wins", wins+1);
             StatsFile.saveData();
 
-        }
+        //}
     }
 
     public static void registerKill(Player p){
-        if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){
+       // if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){
 
-        }else{
+       // }else{
             int wins = StatsFile.getData().getInt("Players." + p.getUniqueId().toString() + ".Kills");
             StatsFile.getData().set("Players." + p.getUniqueId().toString() + ".Kills", wins+1);
             StatsFile.saveData();
-        }
+       // }
     }
 
     public static void registerDeath(Player p){
-        if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){
+      //  if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){
 
-        }else{
+       // }else{
             int wins = StatsFile.getData().getInt("Players." + p.getUniqueId().toString() + ".Deaths");
             StatsFile.getData().set("Players." + p.getUniqueId().toString() + ".Deaths", wins+1);
             StatsFile.saveData();
-        }
+      //  }
     }
     public static int getKills(Player p){
         if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){

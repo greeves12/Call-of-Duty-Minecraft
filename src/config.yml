@@ -5,7 +5,7 @@ auto-update: true
 prefix: "§8§l[COD] "
 
 #Use COD chat format ([Prestige {0}] [Level {0}] tatemylove: <chat>) this is optional of course but recommended to encourage players to level and prestige
-#Also filters in-game chat and server chat (Each game instance will get their own chat, each team will get their own chat, and server chat will be filtered out from game chat and vice versa (Recommended if you're not on bungeecord)
+#Also filters in-game chat and server chat (Each game instance will get their own chat, each team will get their own chat, and server chat will be filtered out from game chat (Recommended if you're not on bungeecord)
 cod-chat: true
 
 #MySQL (Optional but required if you're using this badboy for multi-server setups ie. BungeeCord)
@@ -39,6 +39,9 @@ exp-kill: 100
 
 #Exp per win
 exp-win: 200
+
+#Exp per loss
+exp-loss: 50
 
 #Enabled this if you are using COD for multi-servers
 BungeeCord:

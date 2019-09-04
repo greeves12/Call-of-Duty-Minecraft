@@ -39,6 +39,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.util.*;
 
 public class FFA implements Listener {
@@ -105,7 +107,7 @@ public class FFA implements Listener {
 
             p.getInventory().clear();
 
-            p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§bKnife", null));
+
 
             p.setGameMode(GameMode.SURVIVAL);
             p.setFoodLevel(20);
@@ -134,13 +136,24 @@ public class FFA implements Listener {
 
         for(Player p : PlayingPlayers){
 
-           // RegistryAPI.registerWin(p);
-            //LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
+            if(p.getUniqueId().equals(getTopPlayer())) {
 
+                 RegistryAPI.registerWin(p);
+                LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
+
+            }else{
+                LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-loss"));
+            }
             p.teleport(GetLocations.getLobby());
             p.getInventory().clear();
             GameInventory.lobbyInv(p);
-            p.sendMessage(Main.prefix + " " );
+            p.sendMessage(Main.prefix + "§6Winner: §a" + Bukkit.getPlayer(getTopPlayer()).getName());
+            if(kills.get(p.getUniqueId()) != 0){
+                double kd = (double) kills.get(p.getUniqueId()) / deaths.get(p.getUniqueId());
+                p.sendMessage(Main.prefix + "§eYour KD is §a" +kd);
+            }else{
+                p.sendMessage(Main.prefix + "§eYour KD is §a0.0");
+            }
             p.setHealth(20);
             p.setFoodLevel(20);
             p.setPlayerListName(p.getName());
@@ -151,6 +164,18 @@ public class FFA implements Listener {
             Main.AllPlayingPlayers.remove(p);
             bossBar.removePlayer(p);
             p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+
+            if(ThisPlugin.getPlugin().getConfig().getBoolean("BungeeCord.enabled")){
+                ByteArrayOutputStream bout = new ByteArrayOutputStream();
+                DataOutputStream out = new DataOutputStream(bout);
+
+                try{
+                    out.writeUTF("Connect");
+                    out.writeUTF(ThisPlugin.getPlugin().getConfig().getString("BungeeCord.fall-back"));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
         Main.arenas.add(name);
         Main.onGoingArenas.remove(name);
@@ -272,8 +297,20 @@ public class FFA implements Listener {
             Player pp = p.getKiller();
 
             if (pp != null) {
-                //Increase killer score, reset killed kills, reset killed killstreak, add death to killed
+                kills.put(pp.getUniqueId(), kills.get(pp.getUniqueId()) + 1);
+                deaths.put(p.getUniqueId(), deaths.get(p.getUniqueId()) +1);
+                killstreak.put(pp.getUniqueId(), killstreak.get(pp.getUniqueId()) +1);
 
+                LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
+
+                for(Player ppp : PlayingPlayers){
+                    ppp.sendMessage(Main.prefix + "§dPlayer: §a" + pp.getName() + " §dkilled §a " + p.getName());
+                }
+            }else{
+                deaths.put(p.getUniqueId(), deaths.get(p.getUniqueId()) +1);
+                for(Player ppp : PlayingPlayers){
+                    ppp.sendMessage(Main.prefix + "§dPlayer: §a " + p.getName() + " §ddied");
+                }
             }
         }
     }
@@ -328,7 +365,7 @@ public class FFA implements Listener {
 
         Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
 
-        if(PlayingPlayers.size() <= 1) {
+        if(PlayingPlayers.size() < ThisPlugin.getPlugin().getConfig().getInt("min-players")) {
             endTDM(arena);
         }
 
@@ -375,7 +412,7 @@ public class FFA implements Listener {
                 p.getInventory().setBoots(getColorArmor2(Material.LEATHER_BOOTS, c));
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 1, true));
             }
-
+        p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§bKnife", null));
     }
 
     private   ItemStack getColorArmor2(Material m, Color c) {

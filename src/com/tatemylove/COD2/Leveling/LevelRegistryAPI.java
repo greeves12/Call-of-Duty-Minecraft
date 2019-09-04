@@ -13,7 +13,7 @@ public class LevelRegistryAPI {
         StatsFile.saveData();
         StatsFile.reloadData();
 
-        p.sendMessage(Main.prefix + "§bYou gained " + amount + " experience");
+        p.sendMessage(Main.prefix + "§bYou gained §e" + amount + " §bexperience");
     }
     public static void resetExp (Player p, int amount){
         StatsFile.getData().set("Players."+p.getUniqueId().toString() + ".EXP", amount);
@@ -21,7 +21,7 @@ public class LevelRegistryAPI {
         StatsFile.reloadData();
     }
     public static void addLevel (Player p, int amount){
-        int level = StatsFile.getData().getInt("Players."+p.getUniqueId().toString() + ".Level");
+        int level = PlayerData.getData().getInt("Players."+p.getUniqueId().toString() + ".Level");
         int flevel = level+amount;
 
         PlayerData.getData().set("Players."+p.getUniqueId().toString() + ".Level", flevel);
