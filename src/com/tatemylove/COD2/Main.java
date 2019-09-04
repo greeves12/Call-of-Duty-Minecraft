@@ -2,6 +2,8 @@ package com.tatemylove.COD2;
 
 import com.mysql.fabric.xmlrpc.base.Array;
 import com.tatemylove.COD2.Achievement.AchievementAPI;
+import com.tatemylove.COD2.Achievement.AchievementMenu;
+import com.tatemylove.COD2.Achievement.BaseAchievements;
 import com.tatemylove.COD2.Arenas.BaseArena;
 import com.tatemylove.COD2.Arenas.KillConfirmed;
 import com.tatemylove.COD2.Arenas.TDM;
@@ -71,6 +73,8 @@ public class Main extends JavaPlugin {
         UAV.settUp();
         AttackDogs.settUp();
         Mortar.settUp();
+
+        BaseAchievements.createAchievements();
 
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
@@ -143,6 +147,10 @@ public class Main extends JavaPlugin {
 
         for(String s : GunsFile.getData().getConfigurationSection("Perks.").getKeys(false)){
             perks.add(s);
+        }
+
+        for(String s : AchievementFile.getData().getConfigurationSection("Achievements.").getKeys(false)){
+            achievements.add(s);
         }
 
         if(PlayerData.getData().contains("Players.")){

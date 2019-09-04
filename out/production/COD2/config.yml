@@ -54,6 +54,7 @@ BungeeCord:
 SwiftEconomy:
   enabled: false
 
-#Use Citizens2 (Requires citizens2 https://ci.citizensnpcs.co/job/Citizens2/) for NPC's (Optional)
-Citizens2:
-  enabled: false
+
+#Config Version (DO NOT CHANGE)
+config-version: 2.0
+

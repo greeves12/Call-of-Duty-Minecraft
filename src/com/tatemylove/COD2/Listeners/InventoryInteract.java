@@ -1,5 +1,6 @@
 package com.tatemylove.COD2.Listeners;
 
+import com.tatemylove.COD2.Achievement.AchievementAPI;
 import com.tatemylove.COD2.Achievement.AchievementMenu;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.GunsFile;
@@ -84,7 +85,7 @@ public class InventoryInteract implements Listener {
                 if(e.getSlot() == 18){
                     int level = LevelRegistryAPI.getLevel(p);
                     if(level < ThisPlugin.getPlugin().getConfig().getInt("prestige-level")){
-                        p.sendMessage(Main.prefix + "§4§nPrestige failed:§c You need to be level §a" + ThisPlugin.getPlugin().getConfig().getInt("prestige-level"));
+                        p.sendMessage(Main.prefix + "§e§nPrestige failed:§c You need to be level §a" + ThisPlugin.getPlugin().getConfig().getInt("prestige-level"));
                         p.closeInventory();
                         return;
                     }
@@ -97,10 +98,51 @@ public class InventoryInteract implements Listener {
                     LevelRegistryAPI.setLevel(p, 0);
                     LevelRegistryAPI.setPrestiege(p, LevelRegistryAPI.getPrestige(p)+1);
                     p.sendMessage(Main.prefix + "§aYou are now prestige " + LevelRegistryAPI.getPrestige(p));
+
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes", null);
+                    PlayerData.saveData();
+
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Guns", new ArrayList<String>());
+                    PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Perks", new ArrayList<String>());
+
+                    ArrayList<String> list = new ArrayList<>();
+                    list.add("Class1");
+                    list.add("Class2");
+                    list.add("Class3");
+                    list.add("Class4");
+                    list.add("Class5");
+
+
+                    for(String s : list) {
+
+                        PlayerData.getData().set("Players." + p.getUniqueId().toString()+".Classes."+s + ".Perk1", "");
+                        PlayerData.getData().set("Players." + p.getUniqueId().toString()+".Classes."+s + ".Perk2", "");
+                        PlayerData.getData().set("Players." + p.getUniqueId().toString()+".Classes."+s + ".Perk3", "");
+                        PlayerData.getData().set("Players." + p.getUniqueId().toString()+".Classes."+s + ".Primary", "");
+                        PlayerData.getData().set("Players." + p.getUniqueId().toString()+".Classes." +s+ ".Secondary", "");
+                        PlayerData.getData().set("Players." + p.getUniqueId().toString()+".Classes."+s + ".Splode1", "");
+                        PlayerData.getData().set("Players." + p.getUniqueId().toString()+".Classes."+s + ".Splode2", "");
+                        PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Classes." + s + ".Enabled", false);
+
+
+
+                    }
+
+                    PlayerData.saveData();
+
                     p.closeInventory();
+                    AchievementAPI.grantAchievement(p, "Prestige");
                 }else if(e.getSlot() == 12){
                     p.closeInventory();
                     new AchievementMenu().createInventory(p);
+                }else if(e.getSlot() == 2){
+                    p.closeInventory();
+                    new CreateClass().createKit(p);
+                }else if(e.getSlot() == 6){
+                    p.closeInventory();
+                    new BuyGuns().loadMenu(p);
+                }else if(e.getSlot() == 26){
+                    p.closeInventory();
                 }
 
                 e.setCancelled(true);
@@ -639,6 +681,9 @@ public class InventoryInteract implements Listener {
                 }else if(e.getSlot() == 4){
                     e.getWhoClicked().closeInventory();
                     new PerkMenu().createMenu(p);
+                }else if(e.getSlot() == 22){
+                    e.getWhoClicked().closeInventory();
+                    new BuyGuns().loadSplode(p);
                 }
                 e.setCancelled(true);
             }
@@ -664,6 +709,8 @@ public class InventoryInteract implements Listener {
                             PlayerData.saveData();
                             p.sendMessage(Main.prefix + "§aPurchase of §b" + meta.getDisplayName() + " §asuccessful");
                             p.closeInventory();
+
+                            AchievementAPI.grantAchievement(p, "GettingUpgrade");
                         }
                     }
                 }
@@ -693,6 +740,36 @@ public class InventoryInteract implements Listener {
                             PlayerData.saveData();
                             p.sendMessage(Main.prefix + "§aPurchase of §b" + meta.getDisplayName() + " §asuccessful");
                             p.closeInventory();
+                            AchievementAPI.grantAchievement(p, "GettingUpgrade");
+                        }
+                    }
+                }
+                e.setCancelled(true);
+            }
+            if(e.getClickedInventory().equals(BuyGuns.buySplodes)){
+                if(Main.AllPlayingPlayers.contains(p)){
+                    p.closeInventory();
+                }
+                if(e.getClickedInventory().getItem(e.getSlot()) != null){
+                    ItemMeta meta = e.getClickedInventory().getItem(e.getSlot()).getItemMeta();
+
+                    if(Main.guns.contains(meta.getDisplayName())){
+                        ArrayList<String> list = Main.ownedGuns.get(p.getUniqueId().toString());
+                        int level = PlayerData.getData().getInt("Players." + p.getUniqueId().toString() + ".Level");
+                        if(level < GunsFile.getData().getInt("Guns." + meta.getDisplayName() + ".Level")){
+                            p.sendMessage(Main.prefix + "§cYou need to be level §4" + GunsFile.getData().getInt("Guns." + meta.getDisplayName() + ".Level"));
+                            return;
+                        }
+                        if(list.contains(meta.getDisplayName())){
+                            p.sendMessage(Main.prefix + "§cYou already own §4" + meta.getDisplayName());
+                            p.closeInventory();
+                        }else{
+                            list.add(meta.getDisplayName());
+                            PlayerData.getData().set("Players." + p.getUniqueId().toString() + ".Guns", list);
+                            PlayerData.saveData();
+                            p.sendMessage(Main.prefix + "§aPurchase of §b" + meta.getDisplayName() + " §asuccessful");
+                            p.closeInventory();
+                            AchievementAPI.grantAchievement(p, "GettingUpgrade");
                         }
                     }
                 }
@@ -723,6 +800,8 @@ public class InventoryInteract implements Listener {
                                 PlayerData.saveData();
                                 p.sendMessage(Main.prefix + "§aPurchase of §b" + meta.getDisplayName() + " §asuccessful");
                                 p.closeInventory();
+
+                                AchievementAPI.grantAchievement(p, "PerkUp");
                             }
                         }
                     }

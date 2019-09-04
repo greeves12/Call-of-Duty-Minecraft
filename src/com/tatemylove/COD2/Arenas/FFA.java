@@ -1,5 +1,6 @@
 package com.tatemylove.COD2.Arenas;
 
+import com.tatemylove.COD2.Achievement.AchievementAPI;
 import com.tatemylove.COD2.Events.CODEndEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.ArenasFile;
@@ -143,9 +144,9 @@ public class FFA implements Listener {
 
             if(p.getUniqueId().equals(getTopPlayer())) {
 
-                 RegistryAPI.registerWin(p);
+                RegistryAPI.registerWin(p);
                 LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
-
+                AchievementAPI.grantAchievement(p, "Victory");
             }else{
                 LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-loss"));
             }
@@ -182,9 +183,13 @@ public class FFA implements Listener {
                 }
             }
         }
+
         Main.arenas.add(name);
         Main.onGoingArenas.remove(name);
 
+        if(Main.arenas.size() == 1) {
+            new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
+        }
         Main.WaitingPlayers.addAll(PlayingPlayers);
         PlayingPlayers.clear();
         BlueTeam.clear();
@@ -303,6 +308,19 @@ public class FFA implements Listener {
                 deaths.put(p.getUniqueId(), deaths.get(p.getUniqueId()) +1);
                 killstreak.put(pp.getUniqueId(), killstreak.get(pp.getUniqueId()) +1);
 
+                RegistryAPI.registerDeath(p);
+                RegistryAPI.registerKill(pp);
+
+                if(RegistryAPI.getKills(pp) == 1){
+                    AchievementAPI.grantAchievement(pp, "FirstBlood");
+                }else if(RegistryAPI.getKills(pp) == 10){
+                    AchievementAPI.grantAchievement(pp, "10Kill");
+                }else if(RegistryAPI.getKills(pp) == 50){
+                    AchievementAPI.grantAchievement(pp, "50Kills");
+                }else if(RegistryAPI.getKills(pp) == 200){
+                    AchievementAPI.grantAchievement(pp, "200Kills");
+                }
+
                 LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
 
                 for(Player ppp : PlayingPlayers){
@@ -328,21 +346,22 @@ public class FFA implements Listener {
                 }
             }else{
                 deaths.put(p.getUniqueId(), deaths.get(p.getUniqueId()) +1);
+                RegistryAPI.registerDeath(p);
                 for(Player ppp : PlayingPlayers){
                     ppp.sendMessage(Main.prefix + "§dPlayer: §a " + p.getName() + " §ddied");
                 }
             }
-            new UAV().onKill(e, killstreak, PlayingPlayers);
-            new AttackDogs().onKill(e, killstreak, PlayingPlayers);
-            new Mortar().onEntityKill(e, PlayingPlayers, killstreak);
+          //  new UAV().onKill(e, killstreak, PlayingPlayers);
+           // new AttackDogs().onKill(e, killstreak, PlayingPlayers);
+           // new Mortar().onEntityKill(e, PlayingPlayers, killstreak);
         }
     }
 
     @EventHandler
     public void onUse(PlayerInteractEvent e){
-        new UAV().onUse(e, RedTeam, BlueTeam, PlayingPlayers);
-        new AttackDogs().onInteract(e, PlayingPlayers, RedTeam, BlueTeam);
-        new Mortar().onInteract(e, PlayingPlayers, RedTeam, BlueTeam);
+      //  new UAV().onUse(e, RedTeam, BlueTeam, PlayingPlayers);
+      //  new AttackDogs().onInteract(e, PlayingPlayers, RedTeam, BlueTeam);
+     //   new Mortar().onInteract(e, PlayingPlayers, RedTeam, BlueTeam);
 
     }
 
@@ -351,6 +370,8 @@ public class FFA implements Listener {
         if(PlayingPlayers.contains(e.getEntity())){
             e.setDeathMessage(null);
             e.getDrops().clear();
+
+            killstreak.put(e.getEntity().getUniqueId(), 0);
 
 Main.cooldowns.add(e.getEntity());
             new BukkitRunnable(){

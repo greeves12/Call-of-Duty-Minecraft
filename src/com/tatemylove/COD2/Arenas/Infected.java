@@ -1,5 +1,6 @@
 package com.tatemylove.COD2.Arenas;
 
+import com.tatemylove.COD2.Achievement.AchievementAPI;
 import com.tatemylove.COD2.Events.CODEndEvent;
 import com.tatemylove.COD2.Events.CODKillEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
@@ -165,12 +166,14 @@ public class Infected implements Listener {
                 if (humans.contains(p)) {
                     RegistryAPI.registerWin(p);
                     LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
+                    AchievementAPI.grantAchievement(p, "Victory");
                 } else if (infected.contains(p)) {
                     LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-loss"));
                 }
             }else{
                 if (infected.contains(p)) {
                     LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
+                    AchievementAPI.grantAchievement(p, "Victory");
                     RegistryAPI.registerWin(p);
                 }
             }
@@ -210,9 +213,12 @@ public class Infected implements Listener {
             }
 
         }
+
         Main.arenas.add(name);
         Main.onGoingArenas.remove(name);
-
+        if(Main.arenas.size() == 1) {
+            new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
+        }
         Main.WaitingPlayers.addAll(PlayingPlayers);
         PlayingPlayers.clear();
 
@@ -348,6 +354,16 @@ public class Infected implements Listener {
                         Killstreak.put(p.getUniqueId(), 0);
                         Killstreak.put(pp.getUniqueId(), Killstreak.get(pp.getUniqueId()) + 1);
 
+                        if(RegistryAPI.getKills(pp) == 1){
+                            AchievementAPI.grantAchievement(p, "FirstBlood");
+                        }else if(RegistryAPI.getKills(pp) == 10){
+                            AchievementAPI.grantAchievement(pp, "10Kill");
+                        }else if(RegistryAPI.getKills(pp) == 50){
+                            AchievementAPI.grantAchievement(pp, "50Kills");
+                        }else if(RegistryAPI.getKills(pp) == 200){
+                            AchievementAPI.grantAchievement(pp, "200Kills");
+                        }
+
                         infected.add(p);
                         humans.remove(p);
 
@@ -358,6 +374,16 @@ public class Infected implements Listener {
 
                         RegistryAPI.registerDeath(p);
                         RegistryAPI.registerKill(pp);
+
+                        if(RegistryAPI.getKills(pp) == 1){
+                            AchievementAPI.grantAchievement(pp, "FirstBlood");
+                        }else if(RegistryAPI.getKills(pp) == 10){
+                            AchievementAPI.grantAchievement(pp, "10Kill");
+                        }else if(RegistryAPI.getKills(pp) == 50){
+                            AchievementAPI.grantAchievement(pp, "50Kills");
+                        }else if(RegistryAPI.getKills(pp) == 200){
+                            AchievementAPI.grantAchievement(pp, "200Kills");
+                        }
                         LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
                         Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId())+1);
                         Kills.put(pp.getUniqueId(), Kills.get(pp.getUniqueId())+1);

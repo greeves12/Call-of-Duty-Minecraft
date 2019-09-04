@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -29,8 +30,8 @@ public class AchievementMenu {
 
                 ArrayList<String> lore = new ArrayList<>();
 
-                if(AchievementFile.getData().contains("Players." + p.getUniqueId().toString() + "." + s + ".Time")) {
-                    String date = AchievementFile.getData().getString("Players." + p.getUniqueId().toString() + "." + s + ".Time");
+                if(AchievementFile.getData().contains("Players." + p.getUniqueId().toString() + "." + s + ".Date")) {
+                    String date = AchievementFile.getData().getString("Players." + p.getUniqueId().toString() + "." + s + ".Date");
                     lore.add("");
                     lore.add("§bDescription: §a" + ChatColor.translateAlternateColorCodes('&', description));
                     lore.add("");
@@ -56,7 +57,9 @@ public class AchievementMenu {
         ItemMeta meta = s.getItemMeta();
         meta.setDisplayName(name);
         meta.setLore(lore);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         s.setItemMeta(meta);
+
         return s;
     }
 }

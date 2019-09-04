@@ -32,6 +32,7 @@ public class BuyGuns {
         mainStore.setItem(1, getMaterial(Material.WOODEN_HOE, "§c§lPrimary Weapons", lore));
         mainStore.setItem(7, getMaterial(Material.WOODEN_SHOVEL, "§7§lSecondary Weapons", lore));
         mainStore.setItem(4, getMaterial(Material.ENCHANTED_GOLDEN_APPLE, "§3§lPerks", lore));
+        mainStore.setItem(22, getMaterial(Material.FIRE_CHARGE, "§5§lExplosvies", lore));
         mainStore.setItem(49, getMaterial(Material.EMERALD, "§2§lExit",lore2 ));
 
         p.openInventory(mainStore);
@@ -103,7 +104,7 @@ public class BuyGuns {
     }
 
     public void loadSplode(Player p){
-        buySplodes = Bukkit.createInventory(p, 54, "§d§lSecondary Weapons");
+        buySplodes = Bukkit.createInventory(p, 54, "§d§lExplosives");
 
         for(String s : Main.guns){
             if(GunsFile.getData().getString("Guns." + s + ".Type").equalsIgnoreCase("SPLODE")){
@@ -131,7 +132,7 @@ public class BuyGuns {
                 buySplodes.addItem(getMaterial(Material.getMaterial(gunMaterial.toUpperCase()), s, lore));
             }
         }
-        p.openInventory(buySecondary);
+        p.openInventory(buySplodes);
     }
 
 

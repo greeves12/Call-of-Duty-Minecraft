@@ -41,7 +41,7 @@ public class GameInventory {
         meta.setDisplayName("§2§lYour Achievements");
         achievements.setItemMeta(meta);
 
-        mainInv.setItem(18, getMaterial(Material.ANVIL, "§6§nPrestige", new ArrayList<>(Arrays.asList("§bClick to Prestige","" ,"§7Level: §a" + ThisPlugin.getPlugin().getConfig().getInt("prestige-level")))));
+        mainInv.setItem(18, getMaterial(Material.ANVIL, "§6§nPrestige", new ArrayList<>(Arrays.asList("§bClick to Prestige","" ,"§7Level Required: §a" + ThisPlugin.getPlugin().getConfig().getInt("prestige-level")))));
         mainInv.setItem(2, getMaterial(Material.ENDER_CHEST, "§e§lCreate-A-Class", null));
         mainInv.setItem(12, achievements);
         mainInv.setItem(4, getMaterial(Material.WRITTEN_BOOK, "§3§lYour Stats", null));

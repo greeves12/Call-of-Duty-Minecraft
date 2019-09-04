@@ -14,10 +14,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 import static com.tatemylove.COD2.Listeners.PlayerJoin.isEnabled;
 
 public class CountDown extends BukkitRunnable {
+    GetArena getArena = new GetArena();
+
     int time = Main.time;
     int minPlayers = Main.minplayers;
-    private String nextArena = new GetArena().getNextArena();
-    private String type = ArenasFile.getData().getString("Arenas." + new GetArena().getNextArena() + ".Type");
+    private String nextArena = getArena.getNextArena();
+    private String type = ArenasFile.getData().getString("Arenas." + getArena.getCurrentArena() + ".Type");
 
 
     @Override
@@ -36,6 +38,13 @@ public class CountDown extends BukkitRunnable {
 
                 }
 
+                if(!ArenasFile.getData().contains("Arenas." + nextArena)){
+                    time=Main.time;
+                    GetArena getArenas = new GetArena();
+                    nextArena = getArenas.getNextArena();
+                    type = ArenasFile.getData().getString("Arenas." + getArenas.getCurrentArena() + ".Type");
+                }
+
                 if(type.equalsIgnoreCase("KC")){
 
                     Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nextArena, type));
@@ -45,6 +54,7 @@ public class CountDown extends BukkitRunnable {
                     Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nextArena, type));
                      new TDM().assignTeams(nextArena);
                 }else if(type.equalsIgnoreCase("INF")){
+                    Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nextArena, type));
                     new Infected().assignTeams(nextArena);
                 }else if(type.equalsIgnoreCase("FFA")){
                     Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nextArena, type));
@@ -61,7 +71,6 @@ public class CountDown extends BukkitRunnable {
                         new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
                     }
 
-
             }
         }
         if((time % 10 == 0) && time != 0){
@@ -73,13 +82,40 @@ public class CountDown extends BukkitRunnable {
 
 
                     if (type.equalsIgnoreCase("TDM")) {
-                        p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nextArena + " §4§l§nGameMode:§a" + type);
+
+                        p.sendMessage("§4§m |   »* |   >»  §r  §6[ §dOperation: §fWhiteout §6]  §4§m  «<   | *«   | §r");
+                        p.sendMessage("§7Upcoming Arena:§a " + nextArena);
+                        p.sendMessage(" ");
+                        p.sendMessage("§7GameMode:§a " + type);
+                        p.sendMessage(" ");
+                        p.sendMessage("§7Time until insertion: §a" + time + " seconds");
+                        p.sendMessage("§4§m |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | §r");
+
                     }else if(type.equalsIgnoreCase("KC")){
-                        p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nextArena + " §4§l§nGameMode:§a Kill Confirmed");
+                        p.sendMessage("§4§m |   »* |   >»  §r  §6[ §dOperation: §fWhiteout §6]  §4§m  «<   | *«   | §r");
+                        p.sendMessage("§7Upcoming Arena:§a " + nextArena);
+                        p.sendMessage(" ");
+                        p.sendMessage("§7GameMode:§a " + type);
+                        p.sendMessage(" ");
+                        p.sendMessage("§7Time until insertion: §a" + time + " seconds");
+                        p.sendMessage("§4§m |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | §r");
                     }else if(type.equalsIgnoreCase("INF")){
-                        p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nextArena + " §4§l§nGameMode:§a Infected");
+                        p.sendMessage("§4§m |   »* |   >»  §r  §6[ §dOperation: §fWhiteout §6]  §4§m  «<   | *«   | §r");
+                        p.sendMessage("§7Upcoming Arena:§a " + nextArena);
+                        p.sendMessage(" ");
+                        p.sendMessage("§7GameMode:§a " + type);
+                        p.sendMessage(" ");
+                        p.sendMessage("§7Time until insertion: §a" + time + " seconds");
+                        p.sendMessage("§4§m |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | §r");
                     }else if(type.equalsIgnoreCase("FFA")){
-                        p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nextArena + " §4§l§nGameMode:§a Free for all");
+                        p.sendMessage("§4§m |   »* |   >»  §r  §6[ §dOperation: §fWhiteout §6]  §4§m  «<   | *«   | §r");
+                        p.sendMessage("§7Upcoming Arena:§a " + nextArena);
+                        p.sendMessage(" ");
+                        p.sendMessage("§7GameMode:§a " + type);
+                        p.sendMessage(" ");
+                        p.sendMessage("§7Time until insertion: §a" + time + " seconds");
+                        p.sendMessage("§4§m |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | §r");
+
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package com.tatemylove.COD2.Arenas;
 
+import com.tatemylove.COD2.Achievement.AchievementAPI;
 import com.tatemylove.COD2.Events.CODEndEvent;
 import com.tatemylove.COD2.Events.CODKillEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
@@ -80,18 +81,18 @@ public class TDM implements Listener {
 
 
 
-                if(Main.WaitingPlayers.size() >ThisPlugin.getPlugin().getConfig().getInt("max-players")) {
-                    for (int x = 0; x < ThisPlugin.getPlugin().getConfig().getInt("max-players"); x++) {
-                        PlayingPlayers.add(Main.WaitingPlayers.get(0));
-                        Main.AllPlayingPlayers.add(Main.WaitingPlayers.get(0));
-                        Main.WaitingPlayers.remove(0);
-                    }
-                }else{
+       //         if(Main.WaitingPlayers.size() >ThisPlugin.getPlugin().getConfig().getInt("max-players")) {
+               //     for (int x = 0; x < ThisPlugin.getPlugin().getConfig().getInt("max-players"); x++) {
+                //        PlayingPlayers.add(Main.WaitingPlayers.get(0));
+                //        Main.AllPlayingPlayers.add(Main.WaitingPlayers.get(0));
+                  //      Main.WaitingPlayers.remove(0);
+                 //   }
+              //  }else{
                     PlayingPlayers.addAll(Main.WaitingPlayers);
                     Main.AllPlayingPlayers.addAll(Main.WaitingPlayers);
                     Main.WaitingPlayers.clear();
 
-                }
+              //  }
 
 
                 for(int x = 0; x < PlayingPlayers.size(); x++){
@@ -169,6 +170,7 @@ public class TDM implements Listener {
                 if(RedTeam.contains(p)) {
                     RegistryAPI.registerWin(p);
                     LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
+                    AchievementAPI.grantAchievement(p, "Victory");
                 }else if(BlueTeam.contains(p)){
                     LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-loss"));
                 }
@@ -176,6 +178,8 @@ public class TDM implements Listener {
                 if(BlueTeam.contains(p)) {
                     RegistryAPI.registerWin(p);
                     LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
+
+                    AchievementAPI.grantAchievement(p, "Victory");
                 }else if(RedTeam.contains(p)){
                     LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-loss"));
                 }
@@ -216,7 +220,9 @@ public class TDM implements Listener {
 
         Main.arenas.add(name);
         Main.onGoingArenas.remove(name);
-
+        if(Main.arenas.size() == 1) {
+            new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
+        }
         Main.WaitingPlayers.addAll(PlayingPlayers);
         PlayingPlayers.clear();
         BlueTeam.clear();
@@ -364,6 +370,16 @@ public class TDM implements Listener {
                         Killstreak.put(p.getUniqueId(), 0);
                         Killstreak.put(pp.getUniqueId(), Killstreak.get(pp.getUniqueId()) + 1);
                         bluescore += 1;
+
+                        if(RegistryAPI.getKills(pp) == 1){
+                            AchievementAPI.grantAchievement(pp, "FirstBlood");
+                        }else if(RegistryAPI.getKills(pp) == 10){
+                            AchievementAPI.grantAchievement(pp, "10Kill");
+                        }else if(RegistryAPI.getKills(pp) == 50){
+                            AchievementAPI.grantAchievement(pp, "50Kills");
+                        }else if(RegistryAPI.getKills(pp) == 200){
+                            AchievementAPI.grantAchievement(pp, "200Kills");
+                        }
                     } else if (BlueTeam.contains(p)) {
                         for (Player players : PlayingPlayers) {
                             players.sendMessage(Main.prefix + "§c" + p.getName() + "§e killed §b" + pp.getName());
@@ -379,6 +395,17 @@ public class TDM implements Listener {
                         Killstreak.put(pp.getUniqueId(), Killstreak.get(pp.getUniqueId()) + 1);
 
                         Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, pp, "blue", "red"));
+
+
+                        if(RegistryAPI.getKills(pp) == 1){
+                            AchievementAPI.grantAchievement(pp, "FirstBlood");
+                        }else if(RegistryAPI.getKills(pp) == 10){
+                            AchievementAPI.grantAchievement(pp, "10Kill");
+                        }else if(RegistryAPI.getKills(pp) == 50){
+                            AchievementAPI.grantAchievement(pp, "50Kills");
+                        }else if(RegistryAPI.getKills(pp) == 200){
+                            AchievementAPI.grantAchievement(pp, "200Kills");
+                        }
                     }
 
                 }

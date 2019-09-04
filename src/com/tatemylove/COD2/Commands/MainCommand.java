@@ -1,6 +1,7 @@
 package com.tatemylove.COD2.Commands;
 
 
+import com.tatemylove.COD2.Achievement.AchievementAPI;
 import com.tatemylove.COD2.Events.CODJoinEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.ArenasFile;
@@ -64,7 +65,7 @@ public class MainCommand implements CommandExecutor {
                             p.sendMessage(Main.prefix + "§cThat is not a valid arena. §bKC, TDM, INF, CTF, DOM, S&D, S&R, FFA");
                         }
                     }else{
-                        p.sendMessage(Main.prefix + "§9Available GameModes are §6TDM §a, §6KC §e(Kill Confirmed) §a, §6INF §e(Infected), §6CTF, §6DOM §e(Domination), §6FFA §e(Free for all) ");
+                        p.sendMessage(Main.prefix + "§9Available GameModes are §6TDM §a, §6KC §e(Kill Confirmed) §a, §6INF §e(Infected), §6CTF, §6FFA §e(Free for all) ");
                         p.sendMessage(Main.prefix + "§7/cod create <name> <type>");
                     }
                 }
@@ -181,11 +182,13 @@ public class MainCommand implements CommandExecutor {
                             p.sendMessage(Main.prefix + "§cA gun with that name already exists");
                         }
                     }else{
-                        p.sendMessage(Main.prefix + "§7/cod make §6<Gun Name> <primary/secondary> <Cost> <Level> <Gun Material>");
+                        p.sendMessage(Main.prefix + "§7/cod make §6<Gun Name> <primary/secondary/splode> <Cost> <Level> <Gun Material>");
                     }
                 }
 
 
+            }else{
+                p.sendMessage(Main.prefix + "§cYou don't have access to that command");
             }
             //Player Commands
             if(p.hasPermission("cod.player")){
@@ -223,6 +226,8 @@ public class MainCommand implements CommandExecutor {
                     Bukkit.getServer().getPluginManager().callEvent(new CODJoinEvent(p));
                     p.sendMessage(Main.prefix + "§eYou joined the lobby");
                     Main.WaitingPlayers.add(p);
+
+
                 }
                 if(args[0].equalsIgnoreCase("leave")){
                     if(!Main.WaitingPlayers.contains(p)){
@@ -247,7 +252,10 @@ public class MainCommand implements CommandExecutor {
                         return true;
                     }
                     new GameInventory().createMenu(p);
+
                 }
+            }else{
+                p.sendMessage(Main.prefix + "§cYou don't have access to that command");
             }
         }
 

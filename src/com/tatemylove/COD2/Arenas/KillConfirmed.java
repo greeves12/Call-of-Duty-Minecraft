@@ -1,5 +1,6 @@
 package com.tatemylove.COD2.Arenas;
 
+import com.tatemylove.COD2.Achievement.AchievementAPI;
 import com.tatemylove.COD2.Events.CODEndEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.ArenasFile;
@@ -77,18 +78,18 @@ public class KillConfirmed implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(this, ThisPlugin.getPlugin());
         arena = name;
 
-        if(Main.WaitingPlayers.size() >ThisPlugin.getPlugin().getConfig().getInt("max-players")) {
-            for (int x = 0; x < ThisPlugin.getPlugin().getConfig().getInt("max-players"); x++) {
-                PlayingPlayers.add(Main.WaitingPlayers.get(0));
-                Main.AllPlayingPlayers.add(Main.WaitingPlayers.get(0));
-                Main.WaitingPlayers.remove(0);
-            }
-        }else{
+      //  if(Main.WaitingPlayers.size() >ThisPlugin.getPlugin().getConfig().getInt("max-players")) {
+           // for (int x = 0; x < ThisPlugin.getPlugin().getConfig().getInt("max-players"); x++) {
+           //     PlayingPlayers.add(Main.WaitingPlayers.get(0));
+           //     Main.AllPlayingPlayers.add(Main.WaitingPlayers.get(0));
+           //     Main.WaitingPlayers.remove(0);
+           // }
+       // }else{
             PlayingPlayers.addAll(Main.WaitingPlayers);
             Main.AllPlayingPlayers.addAll(Main.WaitingPlayers);
             Main.WaitingPlayers.clear();
 
-        }
+      //  }
 
 
         for(int x = 0; x < PlayingPlayers.size(); x++){
@@ -167,6 +168,7 @@ public class KillConfirmed implements Listener {
                 if(RedTeam.contains(p)) {
                     RegistryAPI.registerWin(p);
                     LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
+                    AchievementAPI.grantAchievement(p, "Victory");
                 }else if(BlueTeam.contains(p)){
                     LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-loss"));
                 }
@@ -174,6 +176,7 @@ public class KillConfirmed implements Listener {
                 if(BlueTeam.contains(p)) {
                     RegistryAPI.registerWin(p);
                     LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
+                    AchievementAPI.grantAchievement(p, "Victory");
                 }else if(RedTeam.contains(p)){
                     LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-loss"));
                 }
@@ -211,9 +214,12 @@ public class KillConfirmed implements Listener {
                 }
             }
         }
+
         Main.arenas.add(name);
         Main.onGoingArenas.remove(name);
-
+        if(Main.arenas.size() == 1) {
+            new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
+        }
         Main.WaitingPlayers.addAll(PlayingPlayers);
         PlayingPlayers.clear();
         BlueTeam.clear();
@@ -367,6 +373,20 @@ public class KillConfirmed implements Listener {
                 Kills.put(pp.getUniqueId(), Kills.get(pp.getUniqueId()) + 1);
                 Killstreak.put(pp.getUniqueId(), Killstreak.get(pp.getUniqueId()) +1);
                 LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
+                Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) + 1);
+
+                RegistryAPI.registerKill(pp);
+                RegistryAPI.registerDeath(p);
+
+                if(RegistryAPI.getKills(pp) == 1){
+                    AchievementAPI.grantAchievement(pp, "FirstBlood");
+                }else if(RegistryAPI.getKills(pp) == 10){
+                    AchievementAPI.grantAchievement(pp, "10Kill");
+                }else if(RegistryAPI.getKills(pp) == 50){
+                    AchievementAPI.grantAchievement(pp, "50Kills");
+                }else if(RegistryAPI.getKills(pp) == 200){
+                    AchievementAPI.grantAchievement(pp, "200Kills");
+                }
 
                 if(!PlayerJoin.clazz.get(pp.getUniqueId()).equals("")) {
                     if (!PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Primary").equalsIgnoreCase("")) {
@@ -387,9 +407,10 @@ public class KillConfirmed implements Listener {
                         // p.getInventory().setItem(1, QualityArmory.getGunItemStack(g));
                     }
                 }
+            }else {
+                Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) + 1);
+                RegistryAPI.registerDeath(p);
             }
-            Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) + 1);
-
             new UAV().onKill(e, Killstreak, PlayingPlayers);
             new AttackDogs().onKill(e, Killstreak, PlayingPlayers);
             new Mortar().onEntityKill(e, PlayingPlayers, Killstreak);

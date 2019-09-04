@@ -42,27 +42,27 @@ public class RegistryAPI {
       //  }
     }
     public static int getKills(Player p){
-        if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){
+      //  if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){
 
-            return 0;
-        }else{
+        //    return 0;
+     //  }else{
             return StatsFile.getData().getInt("Players." + p.getUniqueId().toString() + ".Kills");
-        }
+       // }
     }
     public static int getWins(Player p){
-        if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){
-            return 0;
-        }else{
+     //   if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){
+     //       return 0;
+     //   }else{
             return StatsFile.getData().getInt("Players." + p.getUniqueId().toString() + ".Wins");
-        }
+     //   }
     }
 
     public static int getDeaths(Player p){
-        if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){
-            return 0;
-        }else{
+      //  if(ThisPlugin.getPlugin().getConfig().getBoolean("MySQL.Enabled")){
+      //      return 0;
+      //  }else{
             return StatsFile.getData().getInt("Players." + p.getUniqueId().toString() + ".Deaths");
-        }
+      //  }
     }
 
 }
