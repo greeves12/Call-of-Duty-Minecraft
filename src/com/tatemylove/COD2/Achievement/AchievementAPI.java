@@ -35,8 +35,7 @@ public class AchievementAPI {
 
     public static void grantAchievement(Player player, String AchievementName){
         if(Main.achievements.contains(AchievementName)){
-            if(AchievementFile.getData().contains("Players." + player.getUniqueId().toString() + "." + AchievementName)) {
-                if(!AchievementFile.getData().getBoolean("Players."+ player.getUniqueId().toString() + "." + AchievementName + ".Unlocked")) {
+            if(!hasAchievement(player, AchievementName)){
                     player.sendMessage(prefix + "§aCongratulations! Achievement §c" + AchievementName + " §aunlocked!");
 
                     Calendar date = Calendar.getInstance();
@@ -50,4 +49,4 @@ public class AchievementAPI {
         }
 
     }
-}
+

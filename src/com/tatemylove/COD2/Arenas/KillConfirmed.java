@@ -5,11 +5,15 @@ import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.ArenasFile;
 import com.tatemylove.COD2.Files.PlayerData;
 import com.tatemylove.COD2.Inventories.GameInventory;
+import com.tatemylove.COD2.KillStreaks.AttackDogs;
+import com.tatemylove.COD2.KillStreaks.Mortar;
+import com.tatemylove.COD2.KillStreaks.UAV;
 import com.tatemylove.COD2.Leveling.LevelRegistryAPI;
 import com.tatemylove.COD2.Listeners.PlayerJoin;
 import com.tatemylove.COD2.Locations.GetLocations;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.MySQL.RegistryAPI;
+import com.tatemylove.COD2.Perks.Scavenger;
 import com.tatemylove.COD2.Tasks.CountDown;
 import com.tatemylove.COD2.ThisPlugin;
 import me.zombie_striker.qg.api.QualityArmory;
@@ -24,11 +28,9 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -59,7 +61,7 @@ public class KillConfirmed implements Listener {
     public  HashMap<UUID, Integer> Deaths = new HashMap<>();
     public  HashMap<UUID, Integer> Killstreak = new HashMap<>();
 
-    private BossBar bossBar = Bukkit.getServer().createBossBar("§cRED: "+redscore + "§7<PENDING> §9BLUE: "+bluescore, BarColor.PINK, BarStyle.SOLID);
+    private BossBar bossBar = Bukkit.getServer().createBossBar("§cRED: "+redscore + "§7<PENDING> §9BLUE: "+bluescore, BarColor.RED, BarStyle.SEGMENTED_6);
 
 
 
@@ -161,12 +163,20 @@ public class KillConfirmed implements Listener {
         Bukkit.getServer().getPluginManager().callEvent(new CODEndEvent(PlayingPlayers, name, ArenasFile.getData().getString("Arenas." + name + ".Type")));
 
         for(Player p : PlayingPlayers){
-            if(redscore > bluescore && RedTeam.contains(p)){
-                RegistryAPI.registerWin(p);
-                LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
-            }else if(redscore < bluescore && BlueTeam.contains(p)){
-                RegistryAPI.registerWin(p);
-                LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
+            if(redscore > bluescore ){
+                if(RedTeam.contains(p)) {
+                    RegistryAPI.registerWin(p);
+                    LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
+                }else if(BlueTeam.contains(p)){
+                    LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-loss"));
+                }
+            }else if(redscore < bluescore ){
+                if(BlueTeam.contains(p)) {
+                    RegistryAPI.registerWin(p);
+                    LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-win"));
+                }else if(RedTeam.contains(p)){
+                    LevelRegistryAPI.addExp(p, ThisPlugin.getPlugin().getConfig().getInt("exp-loss"));
+                }
             }
             p.teleport(GetLocations.getLobby());
             p.getInventory().clear();
@@ -181,6 +191,13 @@ public class KillConfirmed implements Listener {
             Main.AllPlayingPlayers.remove(p);
             bossBar.removePlayer(p);
             p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+
+            if(Deaths.get(p.getUniqueId()) != 0){
+                double kd = (double) Kills.get(p.getUniqueId()) / Deaths.get(p.getUniqueId());
+                p.sendMessage(Main.prefix + "§eYour KD is §a" +kd);
+            }else{
+                p.sendMessage(Main.prefix + "§eYour KD is §a" + Kills.get(p.getUniqueId()));
+            }
 
             if(ThisPlugin.getPlugin().getConfig().getBoolean("BungeeCord.enabled")){
                 ByteArrayOutputStream bout = new ByteArrayOutputStream();
@@ -210,9 +227,7 @@ public class KillConfirmed implements Listener {
             }
         }
 
-        if(Main.arenas.size() >= Main.onGoingArenas.size()) {
-            new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
-        }
+
 
     }
 
@@ -263,11 +278,17 @@ public class KillConfirmed implements Listener {
 
                 bossBar.setTitle("§cRED: "+redscore + "§7 «§f"+formatThis(time)+"§7» §9BLUE: "+bluescore);
 
+                if(PlayingPlayers.size() < ThisPlugin.getPlugin().getConfig().getInt("min-players")) {
 
-                if(PlayingPlayers.size() < Main.minplayers){
-                    endTDM(name);
+                        endTDM(arena);
+               cancel();
 
+                }
+                if(RedTeam.size() == 0 || BlueTeam.size() == 0){
+
+                        endTDM(arena);
                     cancel();
+
                 }
 
                 if(redscore == 20 || bluescore == 20){
@@ -318,6 +339,7 @@ public class KillConfirmed implements Listener {
         }
     }
 
+
     @EventHandler
     public void onDeath(EntityDeathEvent e){
 
@@ -325,27 +347,63 @@ public class KillConfirmed implements Listener {
             Player p = (Player) e.getEntity();
             Player pp = e.getEntity().getKiller();
 
-            ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
-            ItemStack redTag = new ItemStack(Material.RED_WOOL, 1);
-            if(RedTeam.contains(p)){
-                Location loc = p.getLocation();
-                Item redWool = p.getWorld().dropItem(loc, redTag);
-                redWool.setMetadata("codRedTag", new FixedMetadataValue(ThisPlugin.getPlugin(), redWool));
-            }else if(BlueTeam.contains(p)){
-                Location loc = p.getLocation();
-                Item blueWool = p.getWorld().dropItem(loc, blueTag);
-                blueWool.setMetadata("codBlueTag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
-            }
+
+
+
+                ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
+                ItemStack redTag = new ItemStack(Material.RED_WOOL, 1);
+                if (RedTeam.contains(p)) {
+                    Location loc = p.getLocation();
+                    Item redWool = p.getWorld().dropItem(loc, redTag);
+                    redWool.setMetadata("codRedTag", new FixedMetadataValue(ThisPlugin.getPlugin(), redWool));
+                } else if (BlueTeam.contains(p)) {
+                    Location loc = p.getLocation();
+                    Item blueWool = p.getWorld().dropItem(loc, blueTag);
+                    blueWool.setMetadata("codBlueTag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
+                }
+
 
             if(pp != null){
                 Kills.put(pp.getUniqueId(), Kills.get(pp.getUniqueId()) + 1);
                 Killstreak.put(pp.getUniqueId(), Killstreak.get(pp.getUniqueId()) +1);
                 LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
+
+                if(!PlayerJoin.clazz.get(pp.getUniqueId()).equals("")) {
+                    if (!PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Primary").equalsIgnoreCase("")) {
+                        // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                        Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Primary"));
+
+                        Scavenger.giveAmmo(pp, loadedPerks, g);
+
+                        //  p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+                    }
+                    if (!PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Secondary").equalsIgnoreCase("")) {
+                        // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                        Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Secondary"));
+                        Scavenger.giveAmmo(pp, loadedPerks, g);
+
+                        // p.getInventory().setItem(1, QualityArmory.getGunItemStack(g));
+                    }
+                }
             }
             Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) + 1);
-        }
-    }
 
+            new UAV().onKill(e, Killstreak, PlayingPlayers);
+            new AttackDogs().onKill(e, Killstreak, PlayingPlayers);
+            new Mortar().onEntityKill(e, PlayingPlayers, Killstreak);
+
+
+        }
+   }
+    @EventHandler
+    public void onUse(PlayerInteractEvent e){
+        new UAV().onUse(e, RedTeam, BlueTeam, PlayingPlayers);
+        new AttackDogs().onInteract(e, PlayingPlayers, RedTeam, BlueTeam);
+        new Mortar().onInteract(e, PlayingPlayers, RedTeam, BlueTeam);
+
+    }
     @EventHandler
     public void onPickUp(EntityPickupItemEvent e) {
         Entity entity = e.getEntity();
@@ -399,6 +457,15 @@ public class KillConfirmed implements Listener {
 
             Killstreak.put(e.getEntity().getUniqueId(), 0);
 
+            Main.cooldowns.add(e.getEntity());
+
+            new BukkitRunnable(){
+
+                @Override
+                public void run() {
+                    Main.cooldowns.remove(e.getEntity());
+                }
+            }.runTaskLater(ThisPlugin.getPlugin(), 60);
         }
     }
 
@@ -413,10 +480,18 @@ public class KillConfirmed implements Listener {
                     if((RedTeam.contains(p) && RedTeam.contains(pp)) || (BlueTeam.contains(p) && BlueTeam.contains(pp))){
                         e.setCancelled(true);
                     }
-                    if(pp.getInventory().getItemInMainHand().equals(GameInventory.knife)){
-                        p.setHealth(0);
-
+                    if(Main.cooldowns.contains(p)){
+                        e.setCancelled(true);
                     }
+                    if(!p.isDead()) {
+                        if (pp.getInventory().getItemInMainHand().getType() == Material.DIAMOND_SWORD) {
+                            e.setDamage(100);
+
+                        }
+                    }
+
+                }else{
+                    e.setCancelled(true);
                 }
             }
         }
@@ -431,12 +506,14 @@ public class KillConfirmed implements Listener {
                 getNewLoadout(e.getPlayer());
             }else if(BlueTeam.contains(e.getPlayer())){
                 e.getPlayer().getInventory().clear();
-                e.setRespawnLocation(GetArena.getRedSpawn(e.getPlayer(), arena));
+                e.setRespawnLocation(GetArena.getBlueSpawn(e.getPlayer(), arena));
                 getNewLoadout(e.getPlayer());
 
             }
         }
     }
+
+
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e){
@@ -451,12 +528,13 @@ public class KillConfirmed implements Listener {
 
         Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
 
-        if(PlayingPlayers.size() <= 1) {
-            endTDM(arena);
+        if(RedTeam.contains(p)){
+            RedTeam.remove(p);
+        }else if(BlueTeam.contains(p)){
+            BlueTeam.remove(p);
         }
-        if(RedTeam.size() == 0 || BlueTeam.size() == 0){
-            endTDM(arena);
-        }
+
+
     }
 
     private  void getNewLoadout(Player p){
@@ -482,7 +560,23 @@ public class KillConfirmed implements Listener {
                 Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Secondary"));
 
 
-                p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+                p.getInventory().setItem(1, QualityArmory.getGunItemStack(g));
+            }
+            if (!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode1").equalsIgnoreCase("")) {
+                // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode1"));
+
+
+                p.getInventory().setItem(2, QualityArmory.getGunItemStack(g));
+            }
+            if (!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode2").equalsIgnoreCase("")) {
+                // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode2"));
+
+
+                p.getInventory().setItem(3, QualityArmory.getGunItemStack(g));
             }
         }
         if(RedTeam.contains(p)){
@@ -502,7 +596,7 @@ public class KillConfirmed implements Listener {
             }
         }else if(BlueTeam.contains(p)){
             if(!loadedPerks.get(p.getUniqueId()).contains("§6§nFeatherWeight")) {
-                Color c = Color.fromBGR(0, 0, 255);
+                Color c = Color.fromBGR(255, 0, 0);
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
@@ -510,7 +604,7 @@ public class KillConfirmed implements Listener {
 
 
             }else{
-                Color c = Color.fromBGR(0, 0, 255);
+                Color c = Color.fromBGR(255, 0, 0);
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
@@ -518,7 +612,12 @@ public class KillConfirmed implements Listener {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 0, true));
             }
         }
-        p.getInventory().setItem(8, getMaterial(Material.IRON_SWORD, "§bKnife", null));
+        ItemStack sword = new ItemStack(Material.DIAMOND_SWORD);
+        ItemMeta me = sword.getItemMeta();
+        me.setDisplayName("§bKnife");
+        sword.setItemMeta(me);
+        sword.addEnchantment(Enchantment.DAMAGE_ALL, 5);
+        p.getInventory().setItem(8, sword);
     }
 
     private   ItemStack getColorArmor2(Material m, Color c) {

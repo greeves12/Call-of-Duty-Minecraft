@@ -1,6 +1,6 @@
 package com.tatemylove.COD2.Commands;
 
-import com.shampaggon.crackshot.CSUtility;
+
 import com.tatemylove.COD2.Events.CODJoinEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.ArenasFile;
@@ -47,30 +47,31 @@ public class MainCommand implements CommandExecutor {
                 p.sendMessage("§8Version: §e" + Main.version);
                 p.sendMessage("§8Need Help? §e/cod help");
                 return true;
-            }if(args[0].equalsIgnoreCase("create")){
-                if(args.length == 3){
-                    String name = args[1];
-                    if((args[2].equalsIgnoreCase("tdm")) || (args[2].equalsIgnoreCase("kc")) || (args[2].equalsIgnoreCase("inf")) || (args[2].equalsIgnoreCase("CTF")) || (args[2].equalsIgnoreCase("ffa"))){
-                        if(!Main.arenas.contains(name)){
-                            CreateArenaCommand.createArena(p, name, args[2].toUpperCase());
-                        }else{
-                            p.sendMessage(Main.prefix + "§cArena already exists with that name");
-                        }
-                    }else{
-                        p.sendMessage(Main.prefix + "§cThat is not a valid arena. §bKC, TDM, INF, CTF, DOM, S&D, S&R, FFA");
-                    }
-                }else{
-                    p.sendMessage(Main.prefix + "§9Available GameModes are §6TDM §a, §6KC §e(Kill Confirmed) §a, §6INF §e(Infected), §6CTF, §6DOM §e(Domination), §6FFA §e(Free for all) ");
-                    p.sendMessage(Main.prefix + "§7/cod create <name> <type>");
-                }
-            }
-            if(!ArenasFile.getData().contains("Arenas.")){
-                p.sendMessage(Main.prefix + "§cThere are no arenas! Ask an administrator to create one first, then /cod enable");
-                return true;
             }
 
             //Admin commands
             if(p.hasPermission("cod.admin")){
+                if(args[0].equalsIgnoreCase("create")){
+                    if(args.length == 3){
+                        String name = args[1];
+                        if((args[2].equalsIgnoreCase("tdm")) || (args[2].equalsIgnoreCase("kc")) || (args[2].equalsIgnoreCase("inf")) || (args[2].equalsIgnoreCase("CTF")) || (args[2].equalsIgnoreCase("ffa"))){
+                            if(!Main.arenas.contains(name)){
+                                CreateArenaCommand.createArena(p, name, args[2].toUpperCase());
+                            }else{
+                                p.sendMessage(Main.prefix + "§cArena already exists with that name");
+                            }
+                        }else{
+                            p.sendMessage(Main.prefix + "§cThat is not a valid arena. §bKC, TDM, INF, CTF, DOM, S&D, S&R, FFA");
+                        }
+                    }else{
+                        p.sendMessage(Main.prefix + "§9Available GameModes are §6TDM §a, §6KC §e(Kill Confirmed) §a, §6INF §e(Infected), §6CTF, §6DOM §e(Domination), §6FFA §e(Free for all) ");
+                        p.sendMessage(Main.prefix + "§7/cod create <name> <type>");
+                    }
+                }
+                if(!ArenasFile.getData().contains("Arenas.")){
+                    p.sendMessage(Main.prefix + "§cThere are no arenas! Ask an administrator to create one first, then /cod enable");
+                    return true;
+                }
                 if(args[0].equalsIgnoreCase("setlobby")){
                     LobbyFile.getData().set("Lobby.World", p.getLocation().getWorld().getName());
                     LobbyFile.getData().set("Lobby.X", p.getLocation().getX());

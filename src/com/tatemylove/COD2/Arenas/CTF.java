@@ -6,11 +6,15 @@ import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.ArenasFile;
 import com.tatemylove.COD2.Files.PlayerData;
 import com.tatemylove.COD2.Inventories.GameInventory;
+import com.tatemylove.COD2.KillStreaks.AttackDogs;
+import com.tatemylove.COD2.KillStreaks.Mortar;
+import com.tatemylove.COD2.KillStreaks.UAV;
 import com.tatemylove.COD2.Leveling.LevelRegistryAPI;
 import com.tatemylove.COD2.Listeners.PlayerJoin;
 import com.tatemylove.COD2.Locations.GetLocations;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.MySQL.RegistryAPI;
+import com.tatemylove.COD2.Perks.Scavenger;
 import com.tatemylove.COD2.Tasks.CountDown;
 import com.tatemylove.COD2.ThisPlugin;
 import me.zombie_striker.qg.api.QualityArmory;
@@ -30,10 +34,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -65,7 +66,7 @@ public class CTF implements Listener {
     private  int bluescore = 0;
     private  int redscore = 0;
 
-    private BossBar bossBar = Bukkit.getServer().createBossBar("§cRED: "+redscore + "§7<PENDING> §9BLUE: "+bluescore, BarColor.PINK, BarStyle.SOLID);
+    private BossBar bossBar = Bukkit.getServer().createBossBar("§cRED: "+redscore + "§7<PENDING> §9BLUE: "+bluescore, BarColor.PURPLE, BarStyle.SEGMENTED_6);
 
 
 
@@ -197,11 +198,11 @@ public class CTF implements Listener {
             GameInventory.lobbyInv(p);
             p.sendMessage(Main.prefix + " " + getBetterTeam());
 
-            if(Kills.get(p.getUniqueId()) != 0){
+            if(Deaths.get(p.getUniqueId()) != 0){
                 double kd = (double) Kills.get(p.getUniqueId()) / Deaths.get(p.getUniqueId());
                 p.sendMessage(Main.prefix + "§eYour KD is §a" +kd);
             }else{
-                p.sendMessage(Main.prefix + "§eYour KD is §a0.0");
+                p.sendMessage(Main.prefix + "§eYour KD is §a" + Kills.get(p.getUniqueId()));
             }
 
             p.setHealth(20);
@@ -242,9 +243,6 @@ public class CTF implements Listener {
             }
         }
 
-        if(Main.arenas.size() >= Main.onGoingArenas.size()) {
-            new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
-        }
 
     }
 
@@ -295,11 +293,17 @@ public class CTF implements Listener {
 
                 bossBar.setTitle("§cRED: "+redscore + "§7 «§f"+formatThis(time)+"§7» §9BLUE: "+bluescore);
 
+                if(PlayingPlayers.size() < ThisPlugin.getPlugin().getConfig().getInt("min-players")) {
 
-                if(PlayingPlayers.size() < Main.minplayers){
-                    endTDM(name);
+                        endTDM(arena);
 
-                    cancel();
+
+                }
+                if(RedTeam.size() == 0 || BlueTeam.size() == 0){
+
+                        endTDM(arena);
+
+
                 }
 
                 if(redscore == 20 || bluescore == 20){
@@ -395,6 +399,24 @@ public class CTF implements Listener {
                         }
                     }
                 }
+                if(!PlayerJoin.clazz.get(pp.getUniqueId()).equals("")) {
+                    if (!PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Primary").equalsIgnoreCase("")) {
+                        // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                        Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Primary"));
+
+                        Scavenger.giveAmmo(pp, loadedPerks, g);
+                        //  p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+                    }
+                    if (!PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Secondary").equalsIgnoreCase("")) {
+                        // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                        Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Secondary"));
+                        Scavenger.giveAmmo(pp, loadedPerks, g);
+
+                        // p.getInventory().setItem(1, QualityArmory.getGunItemStack(g));
+                    }
+                }
             } else {
                 if (PlayingPlayers.contains(p)) {
                     if (RedTeam.contains(p)) {
@@ -412,8 +434,18 @@ public class CTF implements Listener {
                     }
                 }
             }
-
+            new UAV().onKill(e, Killstreak, PlayingPlayers);
+            new AttackDogs().onKill(e, Killstreak, PlayingPlayers);
+            new Mortar().onEntityKill(e, PlayingPlayers, Killstreak);
         }
+    }
+
+    @EventHandler
+    public void onUse(PlayerInteractEvent e){
+        new UAV().onUse(e, RedTeam, BlueTeam, PlayingPlayers);
+        new AttackDogs().onInteract(e, PlayingPlayers, RedTeam, BlueTeam);
+        new Mortar().onInteract(e, PlayingPlayers, RedTeam, BlueTeam);
+
     }
 
     @EventHandler
@@ -563,6 +595,8 @@ public class CTF implements Listener {
             e.getDrops().clear();
             Killstreak.put(p.getUniqueId(), 0);
 
+
+
             if(p.getInventory().contains(Material.BLUE_WOOL)){
 
                 ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
@@ -578,6 +612,14 @@ public class CTF implements Listener {
                 blueWool.setMetadata("codRedFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
 
             }
+Main.cooldowns.add(e.getEntity());
+            new BukkitRunnable(){
+
+                @Override
+                public void run() {
+                    Main.cooldowns.remove(e.getEntity());
+                }
+            }.runTaskLater(ThisPlugin.getPlugin(), 60);
 
         }
     }
@@ -594,8 +636,11 @@ public class CTF implements Listener {
                         e.setCancelled(true);
                         return;
                     }
+                    if(Main.cooldowns.contains(p)){
+                        e.setCancelled(true);
+                    }
                     if(pp.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD){
-                        p.setHealth(0);
+                        e.setDamage(100);
                     }
                 }
             }
@@ -611,12 +656,13 @@ public class CTF implements Listener {
                 getNewLoadout(e.getPlayer());
             }else if(BlueTeam.contains(e.getPlayer())){
                 e.getPlayer().getInventory().clear();
-                e.setRespawnLocation(GetArena.getRedSpawn(e.getPlayer(), arena));
+                e.setRespawnLocation(GetArena.getBlueSpawn(e.getPlayer(), arena));
                 getNewLoadout(e.getPlayer());
 
             }
         }
     }
+
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e){
@@ -631,12 +677,12 @@ public class CTF implements Listener {
 
         Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
 
-        if(PlayingPlayers.size() <= 1) {
-            endTDM(arena);
+        if(RedTeam.contains(p)){
+            RedTeam.remove(p);
+        }else if(BlueTeam.contains(p)){
+            BlueTeam.remove(p);
         }
-        if(RedTeam.size() == 0 || BlueTeam.size() == 0){
-            endTDM(arena);
-        }
+
 
         if(p.getInventory().contains(Material.BLUE_WOOL)){
             ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
@@ -696,7 +742,23 @@ public class CTF implements Listener {
                 Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Secondary"));
 
 
-                p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+                p.getInventory().setItem(1, QualityArmory.getGunItemStack(g));
+            }
+            if (!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode1").equalsIgnoreCase("")) {
+                // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode1"));
+
+
+                p.getInventory().setItem(2, QualityArmory.getGunItemStack(g));
+            }
+            if (!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode2").equalsIgnoreCase("")) {
+                // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode2"));
+
+
+                p.getInventory().setItem(3, QualityArmory.getGunItemStack(g));
             }
         }
         if(RedTeam.contains(p)){

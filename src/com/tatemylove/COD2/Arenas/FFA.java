@@ -5,11 +5,15 @@ import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.ArenasFile;
 import com.tatemylove.COD2.Files.PlayerData;
 import com.tatemylove.COD2.Inventories.GameInventory;
+import com.tatemylove.COD2.KillStreaks.AttackDogs;
+import com.tatemylove.COD2.KillStreaks.Mortar;
+import com.tatemylove.COD2.KillStreaks.UAV;
 import com.tatemylove.COD2.Leveling.LevelRegistryAPI;
 import com.tatemylove.COD2.Listeners.PlayerJoin;
 import com.tatemylove.COD2.Locations.GetLocations;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.MySQL.RegistryAPI;
+import com.tatemylove.COD2.Perks.Scavenger;
 import com.tatemylove.COD2.Tasks.CountDown;
 import com.tatemylove.COD2.ThisPlugin;
 import me.zombie_striker.qg.api.QualityArmory;
@@ -29,6 +33,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -53,7 +58,7 @@ public class FFA implements Listener {
     public  HashMap<UUID, Integer> deaths = new HashMap<>();
     public  HashMap<UUID, Integer> killstreak = new HashMap<>();
 
-    private BossBar bossBar = Bukkit.getServer().createBossBar("<PENDING>: ", BarColor.BLUE, BarStyle.SOLID);
+    private BossBar bossBar = Bukkit.getServer().createBossBar("<PENDING>: ", BarColor.RED, BarStyle.SEGMENTED_6);
     private ArrayList<Integer> spawns = new ArrayList<>();
 
 
@@ -76,18 +81,18 @@ public class FFA implements Listener {
             spawns.add(k);
         }
 
-        if(Main.WaitingPlayers.size() >ThisPlugin.getPlugin().getConfig().getInt("max-players")) {
+      /*  if(Main.WaitingPlayers.size() >ThisPlugin.getPlugin().getConfig().getInt("max-players")) {
             for (int x = 0; x < ThisPlugin.getPlugin().getConfig().getInt("max-players"); x++) {
                 PlayingPlayers.add(Main.WaitingPlayers.get(0));
                 Main.AllPlayingPlayers.add(Main.WaitingPlayers.get(0));
                 Main.WaitingPlayers.remove(0);
             }
-        }else{
+        }else{*/
             PlayingPlayers.addAll(Main.WaitingPlayers);
             Main.AllPlayingPlayers.addAll(Main.WaitingPlayers);
             Main.WaitingPlayers.clear();
 
-        }
+        //}
 
 
         startTDM(name);
@@ -148,11 +153,11 @@ public class FFA implements Listener {
             p.getInventory().clear();
             GameInventory.lobbyInv(p);
             p.sendMessage(Main.prefix + "§6Winner: §a" + Bukkit.getPlayer(getTopPlayer()).getName());
-            if(kills.get(p.getUniqueId()) != 0){
+            if(deaths.get(p.getUniqueId()) != 0){
                 double kd = (double) kills.get(p.getUniqueId()) / deaths.get(p.getUniqueId());
                 p.sendMessage(Main.prefix + "§eYour KD is §a" +kd);
             }else{
-                p.sendMessage(Main.prefix + "§eYour KD is §a0.0");
+                p.sendMessage(Main.prefix + "§eYour KD is §a" + kills.get(p.getUniqueId()));
             }
             p.setHealth(20);
             p.setFoodLevel(20);
@@ -185,9 +190,7 @@ public class FFA implements Listener {
         BlueTeam.clear();
         RedTeam.clear();
 
-        if(Main.arenas.size() >= Main.onGoingArenas.size()) {
-            new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
-        }
+
 
 
     }
@@ -225,15 +228,14 @@ public class FFA implements Listener {
             @Override
             public void run() {
 
-
-                bossBar.setTitle("§9§lKill Leader: §e"+Bukkit.getPlayer(getTopPlayer()).getName() + "§7 «§f"+formatThis(time)+"§7»");
-
-
-                if(PlayingPlayers.size() < Main.minplayers){
-                    endTDM(name);
-
+                if(Bukkit.getPlayer(getTopPlayer()) != null) {
+                    bossBar.setTitle("§9§lKill Leader: §e" + Bukkit.getPlayer(getTopPlayer()).getName() + "§7 «§f" + formatThis(time) + "§7»");
+                }
+                if(PlayingPlayers.size() < ThisPlugin.getPlugin().getConfig().getInt("min-players")) {
+                    endTDM(arena);
                     cancel();
                 }
+
 
                 if(getTopValue() == 20){
                     endTDM(name);
@@ -306,13 +308,42 @@ public class FFA implements Listener {
                 for(Player ppp : PlayingPlayers){
                     ppp.sendMessage(Main.prefix + "§dPlayer: §a" + pp.getName() + " §dkilled §a " + p.getName());
                 }
+                if(!PlayerJoin.clazz.get(pp.getUniqueId()).equals("")) {
+                    if (!PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Primary").equalsIgnoreCase("")) {
+                        // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                        Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Primary"));
+
+                        Scavenger.giveAmmo(pp, loadedPerks, g);
+                        //  p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+                    }
+                    if (!PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Secondary").equalsIgnoreCase("")) {
+                        // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                        Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Secondary"));
+                        Scavenger.giveAmmo(pp, loadedPerks, g);
+
+                        // p.getInventory().setItem(1, QualityArmory.getGunItemStack(g));
+                    }
+                }
             }else{
                 deaths.put(p.getUniqueId(), deaths.get(p.getUniqueId()) +1);
                 for(Player ppp : PlayingPlayers){
                     ppp.sendMessage(Main.prefix + "§dPlayer: §a " + p.getName() + " §ddied");
                 }
             }
+            new UAV().onKill(e, killstreak, PlayingPlayers);
+            new AttackDogs().onKill(e, killstreak, PlayingPlayers);
+            new Mortar().onEntityKill(e, PlayingPlayers, killstreak);
         }
+    }
+
+    @EventHandler
+    public void onUse(PlayerInteractEvent e){
+        new UAV().onUse(e, RedTeam, BlueTeam, PlayingPlayers);
+        new AttackDogs().onInteract(e, PlayingPlayers, RedTeam, BlueTeam);
+        new Mortar().onInteract(e, PlayingPlayers, RedTeam, BlueTeam);
+
     }
 
     @EventHandler
@@ -320,6 +351,15 @@ public class FFA implements Listener {
         if(PlayingPlayers.contains(e.getEntity())){
             e.setDeathMessage(null);
             e.getDrops().clear();
+
+Main.cooldowns.add(e.getEntity());
+            new BukkitRunnable(){
+
+                @Override
+                public void run() {
+                    Main.cooldowns.remove(e.getEntity());
+                }
+            }.runTaskLater(ThisPlugin.getPlugin(), 60);
         }
     }
 
@@ -334,11 +374,11 @@ public class FFA implements Listener {
                     if((RedTeam.contains(p) && RedTeam.contains(pp)) || (BlueTeam.contains(p) && BlueTeam.contains(pp))){
                         e.setCancelled(true);
                     }
-                    if(pp.getInventory().getItemInMainHand().equals(GameInventory.knife)){
-                        p.setHealth(0);
-                        for(Player player : PlayingPlayers){
-                            player.sendMessage(Main.prefix + "§e" + p.getName() + " §dgot dookied on");
-                        }
+                    if(Main.cooldowns.contains(p)){
+                        e.setCancelled(true);
+                    }
+                    if(pp.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD){
+                        e.setDamage(100);
                     }
                 }
             }
@@ -349,6 +389,8 @@ public class FFA implements Listener {
         if(PlayingPlayers.contains(e.getPlayer())){
             Random rand = new Random();
             e.setRespawnLocation(GetArena.getNumericSpawn(e.getPlayer(), arena,spawns.get(rand.nextInt(spawns.size()))));
+
+            getNewLoadout(e.getPlayer());
         }
     }
 
@@ -365,9 +407,6 @@ public class FFA implements Listener {
 
         Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
 
-        if(PlayingPlayers.size() < ThisPlugin.getPlugin().getConfig().getInt("min-players")) {
-            endTDM(arena);
-        }
 
     }
 
@@ -394,7 +433,23 @@ public class FFA implements Listener {
                 Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Secondary"));
 
 
-                p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+                p.getInventory().setItem(1, QualityArmory.getGunItemStack(g));
+            }
+            if (!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode1").equalsIgnoreCase("")) {
+                // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode1"));
+
+
+                p.getInventory().setItem(2, QualityArmory.getGunItemStack(g));
+            }
+            if (!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode2").equalsIgnoreCase("")) {
+                // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode2"));
+
+
+                p.getInventory().setItem(3, QualityArmory.getGunItemStack(g));
             }
         }
 

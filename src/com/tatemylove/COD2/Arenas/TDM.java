@@ -7,12 +7,14 @@ import com.tatemylove.COD2.Files.ArenasFile;
 import com.tatemylove.COD2.Files.PlayerData;
 import com.tatemylove.COD2.Inventories.GameInventory;
 import com.tatemylove.COD2.KillStreaks.AttackDogs;
+import com.tatemylove.COD2.KillStreaks.Mortar;
 import com.tatemylove.COD2.KillStreaks.UAV;
 import com.tatemylove.COD2.Leveling.LevelRegistryAPI;
 import com.tatemylove.COD2.Listeners.PlayerJoin;
 import com.tatemylove.COD2.Locations.GetLocations;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.MySQL.RegistryAPI;
+import com.tatemylove.COD2.Perks.Scavenger;
 import com.tatemylove.COD2.Tasks.CountDown;
 import com.tatemylove.COD2.ThisPlugin;
 import me.zombie_striker.qg.api.QualityArmory;
@@ -60,7 +62,7 @@ public class TDM implements Listener {
     private  int bluescore = 0;
     private  int redscore = 0;
 
-  private BossBar bossBar = Bukkit.getServer().createBossBar("§cRED: "+redscore + "§7<PENDING> §9BLUE: "+bluescore, BarColor.PINK, BarStyle.SOLID);
+  private BossBar bossBar = Bukkit.getServer().createBossBar("§cRED: "+redscore + "§7<PENDING> §9BLUE: "+bluescore, BarColor.YELLOW, BarStyle.SOLID);
 
 
 
@@ -182,11 +184,11 @@ public class TDM implements Listener {
             p.getInventory().clear();
             GameInventory.lobbyInv(p);
             p.sendMessage(Main.prefix + " " + getBetterTeam());
-            if(Kills.get(p.getUniqueId()) != 0){
+            if(Deaths.get(p.getUniqueId()) != 0){
                 double kd = (double) Kills.get(p.getUniqueId()) / Deaths.get(p.getUniqueId());
                 p.sendMessage(Main.prefix + "§eYour KD is §a" +kd);
             }else{
-                p.sendMessage(Main.prefix + "§eYour KD is §a0.0");
+                p.sendMessage(Main.prefix + "§eYour KD is §a" + Kills.get(p.getUniqueId()));
             }
             p.setHealth(20);
             p.setFoodLevel(20);
@@ -211,6 +213,7 @@ public class TDM implements Listener {
             }
 
         }
+
         Main.arenas.add(name);
         Main.onGoingArenas.remove(name);
 
@@ -221,9 +224,7 @@ public class TDM implements Listener {
         redscore=0;
         bluescore=0;
 
-        if(Main.arenas.size() >= Main.onGoingArenas.size()) {
-            new CountDown().runTaskTimer(ThisPlugin.getPlugin(), 0, 20);
-        }
+
 
     }
 
@@ -274,12 +275,20 @@ public class TDM implements Listener {
 
                 bossBar.setTitle("§cRED: "+redscore + "§7 «§f"+formatThis(time)+"§7» §9BLUE: "+bluescore);
 
+                if(PlayingPlayers.size() < ThisPlugin.getPlugin().getConfig().getInt("min-players")) {
 
-                if(PlayingPlayers.size() < Main.minplayers){
-                    endTDM(name);
+                        endTDM(arena);
+                        cancel();
 
-                    cancel();
-                }
+                    }
+
+                if(RedTeam.size() == 0 || BlueTeam.size() == 0){
+
+                        endTDM(arena);
+                        cancel();
+                    }
+
+
 
                 if(redscore == 20 || bluescore == 20){
 
@@ -336,61 +345,89 @@ public class TDM implements Listener {
             Player p = (Player) e.getEntity();
             Player pp = p.getKiller();
 
-                if (pp != null) {
-                    if (PlayingPlayers.contains(p) && PlayingPlayers.contains(pp)) {
-                        if (RedTeam.contains(p)) {
-                            for (Player players : PlayingPlayers) {
-                                players.sendMessage(Main.prefix + "§b" + p.getName() + "§e killed §c" + pp.getName());
-                            }
-                            Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, pp, "red", "blue"));
-                            RegistryAPI.registerDeath(p);
-                            RegistryAPI.registerKill(pp);
-                            LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
-                            Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) + 1);
-                            Kills.put(pp.getUniqueId(), Kills.get(pp.getUniqueId())+1);
-                            Killstreak.put(p.getUniqueId(), 0);
-                            Killstreak.put(pp.getUniqueId(), Killstreak.get(pp.getUniqueId()) + 1);
-                            bluescore += 1;
-                        } else if (BlueTeam.contains(p)) {
-                            for (Player players : PlayingPlayers) {
-                                players.sendMessage(Main.prefix + "§c" + p.getName() + "§e killed §b" + pp.getName());
-                            }
-                            redscore += 1;
-                            RegistryAPI.registerDeath(p);
-                            RegistryAPI.registerKill(pp);
-                            LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
-                            Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId())+1);
-                            Kills.put(pp.getUniqueId(), Kills.get(pp.getUniqueId())+1);
 
-                            Killstreak.put(p.getUniqueId(), 0);
-                            Killstreak.put(pp.getUniqueId(), Killstreak.get(pp.getUniqueId()) + 1);
+            if (pp != null) {
 
-                            Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, pp, "blue", "red"));
+                if (PlayingPlayers.contains(p) && PlayingPlayers.contains(pp)) {
+
+
+                    if (RedTeam.contains(p)) {
+                        for (Player players : PlayingPlayers) {
+                            players.sendMessage(Main.prefix + "§b" + p.getName() + "§e killed §c" + pp.getName());
                         }
+                        Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, pp, "red", "blue"));
+                        RegistryAPI.registerDeath(p);
+                        RegistryAPI.registerKill(pp);
+                        LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
+                        Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) + 1);
+                        Kills.put(pp.getUniqueId(), Kills.get(pp.getUniqueId()) + 1);
+                        Killstreak.put(p.getUniqueId(), 0);
+                        Killstreak.put(pp.getUniqueId(), Killstreak.get(pp.getUniqueId()) + 1);
+                        bluescore += 1;
+                    } else if (BlueTeam.contains(p)) {
+                        for (Player players : PlayingPlayers) {
+                            players.sendMessage(Main.prefix + "§c" + p.getName() + "§e killed §b" + pp.getName());
+                        }
+                        redscore += 1;
+                        RegistryAPI.registerDeath(p);
+                        RegistryAPI.registerKill(pp);
+                        LevelRegistryAPI.addExp(pp, ThisPlugin.getPlugin().getConfig().getInt("exp-kill"));
+                        Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) + 1);
+                        Kills.put(pp.getUniqueId(), Kills.get(pp.getUniqueId()) + 1);
+
+                        Killstreak.put(p.getUniqueId(), 0);
+                        Killstreak.put(pp.getUniqueId(), Killstreak.get(pp.getUniqueId()) + 1);
+
+                        Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, pp, "blue", "red"));
                     }
-                } else {
-                    if (PlayingPlayers.contains(p)) {
-                        if (RedTeam.contains(p)) {
 
-                            bluescore += 1;
-                            RegistryAPI.registerDeath(p);
-                            Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) +1);
-                            Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, null, "red", null));
-                            Killstreak.put(p.getUniqueId(), 0);
-                        } else if (BlueTeam.contains(p)) {
+                }
 
 
-                            Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, null, "blue", null));
-                            RegistryAPI.registerDeath(p);
-                            Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) +1);
-                            Killstreak.put(p.getUniqueId(), 0);
-                            redscore += 1;
-                        }
+                if (!PlayerJoin.clazz.get(pp.getUniqueId()).equals("")) {
+                    if (!PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Primary").equalsIgnoreCase("")) {
+                        // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                        Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Primary"));
+
+                        Scavenger.giveAmmo(pp, loadedPerks, g);
+                        //  p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+                    }
+                    if (!PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Secondary").equalsIgnoreCase("")) {
+                        // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                        Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + pp.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(pp.getUniqueId()) + ".Secondary"));
+                        Scavenger.giveAmmo(pp, loadedPerks, g);
+
+                        // p.getInventory().setItem(1, QualityArmory.getGunItemStack(g));
                     }
                 }
-                new UAV().onKill(e, Killstreak, PlayingPlayers);
-                new AttackDogs().onKill(e, Killstreak, PlayingPlayers);
+
+
+            } else {
+                if (PlayingPlayers.contains(p)) {
+                    if (RedTeam.contains(p)) {
+
+                        bluescore += 1;
+                        RegistryAPI.registerDeath(p);
+                        Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) + 1);
+                        Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, null, "red", null));
+                        Killstreak.put(p.getUniqueId(), 0);
+                    } else if (BlueTeam.contains(p)) {
+
+
+                        Bukkit.getServer().getPluginManager().callEvent(new CODKillEvent(p, null, "blue", null));
+                        RegistryAPI.registerDeath(p);
+                        Deaths.put(p.getUniqueId(), Deaths.get(p.getUniqueId()) + 1);
+                        Killstreak.put(p.getUniqueId(), 0);
+                        redscore += 1;
+                    }
+                }
             }
+            new UAV().onKill(e, Killstreak, PlayingPlayers);
+            new AttackDogs().onKill(e, Killstreak, PlayingPlayers);
+            new Mortar().onEntityKill(e, PlayingPlayers, Killstreak);
+        }
         }
 
     @EventHandler
@@ -398,6 +435,16 @@ public class TDM implements Listener {
         if(PlayingPlayers.contains(e.getEntity())){
             e.setDeathMessage(null);
             e.getDrops().clear();
+
+            Main.cooldowns.add(e.getEntity());
+
+            new BukkitRunnable(){
+
+                @Override
+                public void run() {
+                    Main.cooldowns.remove(e.getEntity());
+                }
+            }.runTaskLater(ThisPlugin.getPlugin(), 60);
 
 
         }
@@ -407,6 +454,8 @@ public class TDM implements Listener {
     public void onUse(PlayerInteractEvent e){
         new UAV().onUse(e, RedTeam, BlueTeam, PlayingPlayers);
         new AttackDogs().onInteract(e, PlayingPlayers, RedTeam, BlueTeam);
+        new Mortar().onInteract(e, PlayingPlayers, RedTeam, BlueTeam);
+
     }
 
     @EventHandler
@@ -420,8 +469,13 @@ public class TDM implements Listener {
                     if((RedTeam.contains(p) && RedTeam.contains(pp)) || (BlueTeam.contains(p) && BlueTeam.contains(pp))){
                         e.setCancelled(true);
                     }
-                    if(pp.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD){
-                        p.setHealth(0);
+                    if(Main.cooldowns.contains(p)){
+                        e.setCancelled(true);
+                    }
+
+                        if (pp.getInventory().getItemInMainHand().getType() == Material.IRON_SWORD) {
+
+                            e.setDamage(100);
 
                     }
                 }
@@ -438,12 +492,13 @@ public class TDM implements Listener {
                 getNewLoadout(e.getPlayer());
             }else if(BlueTeam.contains(e.getPlayer())){
                 e.getPlayer().getInventory().clear();
-                e.setRespawnLocation(GetArena.getRedSpawn(e.getPlayer(), arena));
+                e.setRespawnLocation(GetArena.getBlueSpawn(e.getPlayer(), arena));
                 getNewLoadout(e.getPlayer());
 
             }
         }
     }
+
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e){
@@ -457,13 +512,12 @@ public class TDM implements Listener {
         p.removePotionEffect(PotionEffectType.SPEED);
 
         Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
+        if(RedTeam.contains(p)){
+            RedTeam.remove(p);
+        }else if(BlueTeam.contains(p)){
+            BlueTeam.remove(p);
+        }
 
-        if(PlayingPlayers.size() <= 1) {
-            endTDM(arena);
-        }
-        if(RedTeam.size() == 0 || BlueTeam.size() == 0){
-            endTDM(arena);
-        }
     }
 
     private  void getNewLoadout(Player p){
@@ -489,7 +543,23 @@ public class TDM implements Listener {
                 Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Secondary"));
 
 
-                p.getInventory().setItem(0, QualityArmory.getGunItemStack(g));
+                p.getInventory().setItem(1, QualityArmory.getGunItemStack(g));
+            }
+            if (!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode1").equalsIgnoreCase("")) {
+                // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode1"));
+
+
+                p.getInventory().setItem(2, QualityArmory.getGunItemStack(g));
+            }
+            if (!PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode2").equalsIgnoreCase("")) {
+                // p.getInventory().setItem(0, QualityArmory.getGunItemStack(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Primary")));
+
+                Gun g = QualityArmory.getGunByName(PlayerData.getData().getString("Players." + p.getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(p.getUniqueId()) + ".Splode2"));
+
+
+                p.getInventory().setItem(3, QualityArmory.getGunItemStack(g));
             }
         }
         if(RedTeam.contains(p)){
@@ -509,7 +579,7 @@ public class TDM implements Listener {
             }
         }else if(BlueTeam.contains(p)){
             if(!loadedPerks.get(p.getUniqueId()).contains("§6§nFeatherWeight")) {
-                Color c = Color.fromBGR(0, 0, 255);
+                Color c = Color.fromBGR(255, 0, 0);
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
@@ -517,7 +587,7 @@ public class TDM implements Listener {
 
 
             }else{
-                Color c = Color.fromBGR(0, 0, 255);
+                Color c = Color.fromBGR(255, 0, 0);
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));

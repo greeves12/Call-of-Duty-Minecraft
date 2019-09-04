@@ -1,5 +1,7 @@
 package com.tatemylove.COD2.KillStreaks;
 
+import com.tatemylove.COD2.Files.PlayerData;
+import com.tatemylove.COD2.Listeners.PlayerJoin;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.ThisPlugin;
 import org.bukkit.Color;
@@ -55,6 +57,12 @@ public class UAV {
 
             e.getPlayer().getInventory().setItemInMainHand(null);
 
+            ArrayList<String> loadedPerks = new ArrayList<>();
+
+            loadedPerks.add(PlayerData.getData().getString("Players." + e.getPlayer().getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(e.getPlayer().getUniqueId()) + ".Perk1"));
+            loadedPerks.add(PlayerData.getData().getString("Players." + e.getPlayer().getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(e.getPlayer().getUniqueId()) + ".Perk2"));
+            loadedPerks.add(PlayerData.getData().getString("Players." + e.getPlayer().getUniqueId().toString() + ".Classes." + PlayerJoin.clazz.get(e.getPlayer().getUniqueId()) + ".Perk3"));
+
             for(Player all : PlayingPlayers){
                 all.sendMessage(Main.prefix + "§a" + e.getPlayer().getName() + " §ehas deployed a UAV!");
             }
@@ -65,19 +73,23 @@ public class UAV {
                     if(time >= 0) {
                         for (Player pp : getPlayersOnOtherTeam.get(e.getPlayer(), RedTeam, BlueTeam)) {
                             if(RedTeam.contains(pp)) {
-                                Firework f = pp.getWorld().spawn(pp.getLocation(), Firework.class);
-                                FireworkMeta meta = f.getFireworkMeta();
-                                FireworkEffect effect = FireworkEffect.builder().flicker(true).withColor(Color.RED).with(FireworkEffect.Type.BALL_LARGE).trail(true).build();
-                                meta.addEffect(effect);
-                                meta.setPower(2);
-                                f.setFireworkMeta(meta);
+                                if(!loadedPerks.contains("§7§nGhost")) {
+                                    Firework f = pp.getWorld().spawn(pp.getLocation(), Firework.class);
+                                    FireworkMeta meta = f.getFireworkMeta();
+                                    FireworkEffect effect = FireworkEffect.builder().flicker(true).withColor(Color.RED).with(FireworkEffect.Type.BALL_LARGE).trail(true).build();
+                                    meta.addEffect(effect);
+                                    meta.setPower(2);
+                                    f.setFireworkMeta(meta);
+                                }
                             }else if(BlueTeam.contains(pp)){
-                                Firework f = pp.getWorld().spawn(pp.getLocation(), Firework.class);
-                                FireworkMeta meta = f.getFireworkMeta();
-                                FireworkEffect effect = FireworkEffect.builder().flicker(true).withColor(Color.BLUE).with(FireworkEffect.Type.BALL_LARGE).trail(true).build();
-                                meta.addEffect(effect);
-                                meta.setPower(2);
-                                f.setFireworkMeta(meta);
+                                if(!loadedPerks.contains("§7§nGhost")) {
+                                    Firework f = pp.getWorld().spawn(pp.getLocation(), Firework.class);
+                                    FireworkMeta meta = f.getFireworkMeta();
+                                    FireworkEffect effect = FireworkEffect.builder().flicker(true).withColor(Color.BLUE).with(FireworkEffect.Type.BALL_LARGE).trail(true).build();
+                                    meta.addEffect(effect);
+                                    meta.setPower(2);
+                                    f.setFireworkMeta(meta);
+                                }
                             }
                             if (time <= 0) {
                                 break;

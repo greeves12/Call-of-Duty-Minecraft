@@ -18,8 +18,7 @@ public class CountDown extends BukkitRunnable {
     int minPlayers = Main.minplayers;
     private String nextArena = new GetArena().getNextArena();
     private String type = ArenasFile.getData().getString("Arenas." + new GetArena().getNextArena() + ".Type");
-    private  String nArena = nextArena;
-    private String type2 = type;
+
 
     @Override
     public void run() {
@@ -39,19 +38,19 @@ public class CountDown extends BukkitRunnable {
 
                 if(type.equalsIgnoreCase("KC")){
 
-                    Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nArena, type2));
+                    Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nextArena, type));
                     new KillConfirmed().assignTeams(nextArena);
                 }else if(type.equalsIgnoreCase("TDM")){
 
-                    Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nArena, type2));
+                    Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nextArena, type));
                      new TDM().assignTeams(nextArena);
                 }else if(type.equalsIgnoreCase("INF")){
-
+                    new Infected().assignTeams(nextArena);
                 }else if(type.equalsIgnoreCase("FFA")){
-                    Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nArena, type2));
+                    Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nextArena, type));
                     new FFA().assignTeams(nextArena);
                 }else if(type.equalsIgnoreCase("CTF")){
-                    Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nArena, type2));
+                    Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nextArena, type));
                     new CTF().assignTeams(nextArena);
                 }
                 cancel();
@@ -73,14 +72,14 @@ public class CountDown extends BukkitRunnable {
 
 
 
-                    if (type2.equalsIgnoreCase("TDM")) {
-                        p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nArena + " §4§l§nGameMode:§a" + type2);
-                    }else if(type2.equalsIgnoreCase("KC")){
-                        p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nArena + " §4§l§nGameMode:§a Kill Confirmed");
-                    }else if(type2.equalsIgnoreCase("INF")){
-                        p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nArena + " §4§l§nGameMode:§a Infected");
-                    }else if(type2.equalsIgnoreCase("FFA")){
-                        p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nArena + " §4§l§nGameMode:§a Free for all");
+                    if (type.equalsIgnoreCase("TDM")) {
+                        p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nextArena + " §4§l§nGameMode:§a" + type);
+                    }else if(type.equalsIgnoreCase("KC")){
+                        p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nextArena + " §4§l§nGameMode:§a Kill Confirmed");
+                    }else if(type.equalsIgnoreCase("INF")){
+                        p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nextArena + " §4§l§nGameMode:§a Infected");
+                    }else if(type.equalsIgnoreCase("FFA")){
+                        p.sendMessage(Main.prefix + "§6§l§nUpcoming Arena:§a " + nextArena + " §4§l§nGameMode:§a Free for all");
                     }
                 }
             }

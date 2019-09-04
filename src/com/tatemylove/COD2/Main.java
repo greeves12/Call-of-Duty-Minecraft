@@ -10,6 +10,7 @@ import com.tatemylove.COD2.Files.*;
 import com.tatemylove.COD2.Guns.Guns;
 import com.tatemylove.COD2.Inventories.GameInventory;
 import com.tatemylove.COD2.KillStreaks.AttackDogs;
+import com.tatemylove.COD2.KillStreaks.Mortar;
 import com.tatemylove.COD2.KillStreaks.UAV;
 import com.tatemylove.COD2.Listeners.InventoryInteract;
 import com.tatemylove.COD2.Listeners.PlayerDeath;
@@ -52,6 +53,10 @@ public class Main extends JavaPlugin {
     public boolean enabled = false;
     public static String version = "2.0.0";
 
+
+
+    public static ArrayList<Player> cooldowns = new ArrayList<>();
+
     public void onEnable(){
         MainCommand cmd = new MainCommand(this);
         getCommand("cod").setExecutor(cmd);
@@ -65,6 +70,7 @@ public class Main extends JavaPlugin {
 
         UAV.settUp();
         AttackDogs.settUp();
+        Mortar.settUp();
 
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
@@ -124,6 +130,7 @@ public class Main extends JavaPlugin {
             CountDown c = new CountDown();
             c.runTaskTimer(this, 0, 20L);
             enabled=true;
+
         }else{
             Logger log = getLogger();
             log.severe("COD is disabled, you need to create an arena first, then type /cod enable");
@@ -149,7 +156,7 @@ public class Main extends JavaPlugin {
 
     }
 
-    public void onDisable(){
+    /*public void onDisable(){
         ArrayList<String> allArenas = new ArrayList<>();
         ArrayList<String > worlds = new ArrayList<>();
         for(String s : ArenasFile.getData().getConfigurationSection("Arenas.").getKeys(false)){
@@ -171,5 +178,5 @@ public class Main extends JavaPlugin {
                 }
             }
         }
-    }
+    }*/
 }

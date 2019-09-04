@@ -47,7 +47,7 @@ public class AttackDogs {
                 Player pp = e.getEntity().getKiller();
 
                 if ((PlayingPlayers.contains(p)) && (PlayingPlayers.contains(pp))) {
-                    if (killStreak.get(pp.getName()) == 8) {
+                    if (killStreak.get(pp.getUniqueId()) == 8) {
                         pp.getInventory().addItem(dogs);
                         pp.sendMessage(Main.prefix + "§c§lYou got Dogs. Right click to deploy!");
 

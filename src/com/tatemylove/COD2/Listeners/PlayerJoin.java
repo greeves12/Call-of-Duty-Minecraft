@@ -132,12 +132,12 @@ public class PlayerJoin implements Listener {
         }
     }
 
-   /* @EventHandler
+    @EventHandler
     public void noBreak(BlockBreakEvent e){
         if(Main.AllPlayingPlayers.contains(e.getPlayer()) || Main.WaitingPlayers.contains(e.getPlayer())){
             e.setCancelled(true);
         }
-    }*/
+    }
 
     @EventHandler
     public void noThrow(PlayerDropItemEvent e){
@@ -244,7 +244,7 @@ public class PlayerJoin implements Listener {
                 if(isEnabled(e.getPlayer())){
                     clazz.put(e.getPlayer().getUniqueId(), getEnabled(e.getPlayer()));
                 }else{
-                    clazz.put(e.getPlayer().getUniqueId(), getEnabled(e.getPlayer()));
+                    clazz.put(e.getPlayer().getUniqueId(), "Class1");
                 }
 
 
