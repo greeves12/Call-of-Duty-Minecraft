@@ -62,6 +62,9 @@ public class CountDown extends BukkitRunnable {
                 }else if(type.equalsIgnoreCase("CTF")){
                     Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nextArena, type));
                     new CTF().assignTeams(nextArena);
+                }else if(type.equalsIgnoreCase("GUN")){
+                    Bukkit.getServer().getPluginManager().callEvent(new CODStartEvent(Main.WaitingPlayers, nextArena, type));
+                    new GunGame().assignTeams(nextArena);
                 }
                 cancel();
                 Main.onGoingArenas.add(nextArena);
@@ -79,14 +82,12 @@ public class CountDown extends BukkitRunnable {
                     //SendCoolMessages.sendTitle(p, "§b", 10, 30, 10);
                     //SendCoolMessages.sendSubTitle(p, "§e§lGame starting in §a§l" + timeuntilstart + " seconds", 10, 30, 10);
 
-
-
                     if (type.equalsIgnoreCase("TDM")) {
 
                         p.sendMessage("§4§m |   »* |   >»  §r  §6[ §dOperation: §fWhiteout §6]  §4§m  «<   | *«   | §r");
                         p.sendMessage("§7Upcoming Arena:§a " + nextArena);
                         p.sendMessage(" ");
-                        p.sendMessage("§7GameMode:§a " + type);
+                        p.sendMessage("§7GameMode:§a Team Deathmatch");
                         p.sendMessage(" ");
                         p.sendMessage("§7Time until insertion: §a" + time + " seconds");
                         p.sendMessage("§4§m |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | §r");
@@ -95,7 +96,7 @@ public class CountDown extends BukkitRunnable {
                         p.sendMessage("§4§m |   »* |   >»  §r  §6[ §dOperation: §fWhiteout §6]  §4§m  «<   | *«   | §r");
                         p.sendMessage("§7Upcoming Arena:§a " + nextArena);
                         p.sendMessage(" ");
-                        p.sendMessage("§7GameMode:§a " + type);
+                        p.sendMessage("§7GameMode:§a Kill Confirmed" );
                         p.sendMessage(" ");
                         p.sendMessage("§7Time until insertion: §a" + time + " seconds");
                         p.sendMessage("§4§m |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | §r");
@@ -103,7 +104,7 @@ public class CountDown extends BukkitRunnable {
                         p.sendMessage("§4§m |   »* |   >»  §r  §6[ §dOperation: §fWhiteout §6]  §4§m  «<   | *«   | §r");
                         p.sendMessage("§7Upcoming Arena:§a " + nextArena);
                         p.sendMessage(" ");
-                        p.sendMessage("§7GameMode:§a " + type);
+                        p.sendMessage("§7GameMode:§a Infected");
                         p.sendMessage(" ");
                         p.sendMessage("§7Time until insertion: §a" + time + " seconds");
                         p.sendMessage("§4§m |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | §r");
@@ -111,7 +112,16 @@ public class CountDown extends BukkitRunnable {
                         p.sendMessage("§4§m |   »* |   >»  §r  §6[ §dOperation: §fWhiteout §6]  §4§m  «<   | *«   | §r");
                         p.sendMessage("§7Upcoming Arena:§a " + nextArena);
                         p.sendMessage(" ");
-                        p.sendMessage("§7GameMode:§a " + type);
+                        p.sendMessage("§7GameMode:§a Free For All");
+                        p.sendMessage(" ");
+                        p.sendMessage("§7Time until insertion: §a" + time + " seconds");
+                        p.sendMessage("§4§m |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | §r");
+
+                    }else if(type.equalsIgnoreCase("GUN")){
+                        p.sendMessage("§4§m |   »* |   >»  §r  §6[ §dOperation: §fWhiteout §6]  §4§m  «<   | *«   | §r");
+                        p.sendMessage("§7Upcoming Arena:§a " + nextArena);
+                        p.sendMessage(" ");
+                        p.sendMessage("§7GameMode:§a Gun Game");
                         p.sendMessage(" ");
                         p.sendMessage("§7Time until insertion: §a" + time + " seconds");
                         p.sendMessage("§4§m |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   | §r");

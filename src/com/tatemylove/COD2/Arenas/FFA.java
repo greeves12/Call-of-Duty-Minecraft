@@ -124,7 +124,8 @@ public class FFA implements Listener {
 
 
 
-                p.setCustomName("§6" + p.getName());
+                Random rand = new Random();
+                p.setCustomName(ChatColor.getByChar(Integer.toHexString(rand.nextInt(16))) + p.getName());
                 p.setCustomNameVisible(true);
                 p.setPlayerListName("§6" + p.getName());
                 Color c = Color.fromBGR(0,0,255);
@@ -475,13 +476,15 @@ Main.cooldowns.add(e.getEntity());
         }
 
             if(!loadedPerks.get(p.getUniqueId()).contains("§6§nFeatherWeight")) {
-                Color c = Color.fromBGR(0, 0, 255);
+                Random random = new Random();
+                Color c = Color.fromBGR(random.nextInt(255), random.nextInt(255), random.nextInt(255));
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));
                 p.getInventory().setBoots(getColorArmor(Material.LEATHER_BOOTS, c));
             }else{
-                Color c = Color.fromBGR(0, 0, 255);
+                Random random = new Random();
+                Color c = Color.fromBGR(random.nextInt(255), random.nextInt(255), random.nextInt(255));
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
                 p.getInventory().setLeggings(getColorArmor(Material.LEATHER_LEGGINGS, c));

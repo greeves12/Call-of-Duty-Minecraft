@@ -130,6 +130,6 @@ public class CreateArenaCommand {
 
         ArenasFile.saveData();
         ArenasFile.reloadData();
-        p.sendMessage(Main.prefix + "§bArena: §a" + name  + " §bspawn set with ID:§a" + newID);
+        p.sendMessage(Main.prefix + "§bArena: §a" + name  + " §bspawn set with ID:§a " + newID);
     }
 }

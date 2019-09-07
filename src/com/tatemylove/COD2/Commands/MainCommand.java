@@ -2,6 +2,7 @@ package com.tatemylove.COD2.Commands;
 
 
 import com.tatemylove.COD2.Achievement.AchievementAPI;
+import com.tatemylove.COD2.Arenas.TDM;
 import com.tatemylove.COD2.Events.CODJoinEvent;
 import com.tatemylove.COD2.Events.CODLeaveEvent;
 import com.tatemylove.COD2.Files.ArenasFile;
@@ -55,7 +56,7 @@ public class MainCommand implements CommandExecutor {
                 if(args[0].equalsIgnoreCase("create")){
                     if(args.length == 3){
                         String name = args[1];
-                        if((args[2].equalsIgnoreCase("tdm")) || (args[2].equalsIgnoreCase("kc")) || (args[2].equalsIgnoreCase("inf")) || (args[2].equalsIgnoreCase("CTF")) || (args[2].equalsIgnoreCase("ffa"))){
+                        if((args[2].equalsIgnoreCase("tdm")) || (args[2].equalsIgnoreCase("gun")) || (args[2].equalsIgnoreCase("kc")) || (args[2].equalsIgnoreCase("inf")) || (args[2].equalsIgnoreCase("CTF")) || (args[2].equalsIgnoreCase("ffa"))){
                             if(!Main.arenas.contains(name)){
                                 CreateArenaCommand.createArena(p, name, args[2].toUpperCase());
                             }else{
@@ -65,7 +66,7 @@ public class MainCommand implements CommandExecutor {
                             p.sendMessage(Main.prefix + "§cThat is not a valid arena. §bKC, TDM, INF, CTF, DOM, S&D, S&R, FFA");
                         }
                     }else{
-                        p.sendMessage(Main.prefix + "§9Available GameModes are §6TDM §a, §6KC §e(Kill Confirmed) §a, §6INF §e(Infected), §6CTF, §6FFA §e(Free for all) ");
+                        p.sendMessage(Main.prefix + "§9Available GameModes are §6TDM §a, §6KC §e(Kill Confirmed) §a, §6INF §e(Infected), §6CTF, §6FFA §e(Free for all), §6GUN §e(Gun Game)");
                         p.sendMessage(Main.prefix + "§7/cod create <name> <type>");
                     }
                 }
@@ -88,7 +89,7 @@ public class MainCommand implements CommandExecutor {
                 if(args[0].equalsIgnoreCase("setspawn")){
                     if(args.length == 3){
                         if(Main.arenas.contains(args[1])){
-                            if(ArenasFile.getData().getString("Arenas." + args[1] + ".Type").equalsIgnoreCase("FFA")){
+                            if(ArenasFile.getData().getString("Arenas." + args[1] + ".Type").equalsIgnoreCase("FFA") || ArenasFile.getData().getString("Arenas." + args[1] + ".Type").equalsIgnoreCase("GUN")){
                                 p.sendMessage(Main.prefix + "§7/cod setspawn <name>");
                                 return true;
                             }
@@ -98,8 +99,8 @@ public class MainCommand implements CommandExecutor {
                         }
                     }else if(args.length == 2){
                         if(Main.arenas.contains(args[1])){
-                            if(!ArenasFile.getData().getString("Arenas." + args[1] + ".Type").equalsIgnoreCase("FFA")){
-                                p.sendMessage(Main.prefix + "§7Arena must be free for all");
+                            if(!ArenasFile.getData().getString("Arenas." + args[1] + ".Type").equalsIgnoreCase("FFA") && !ArenasFile.getData().getString("Arenas." + args[1] + ".Type").equalsIgnoreCase("GUN")){
+                                p.sendMessage(Main.prefix + "§7Arena must be free for all or gun game");
                                 return true;
                             }
                                 CreateArenaCommand.setFFASpawn(p, args[1]);
@@ -189,6 +190,7 @@ public class MainCommand implements CommandExecutor {
 
             }else{
                 p.sendMessage(Main.prefix + "§cYou don't have access to that command");
+                return true;
             }
             //Player Commands
             if(p.hasPermission("cod.player")){
@@ -221,6 +223,10 @@ public class MainCommand implements CommandExecutor {
                     } if(Main.WaitingPlayers.contains(p)){
                         p.sendMessage(Main.prefix + "§cYou can't join the lobby right now");
                         return true;
+                    }
+
+                    if(Main.WaitingPlayers.size() < Main.minplayers){
+                        p.sendMessage(Main.prefix + "§cThere are not enough players to start a match. Standby.");
                     }
                     p.teleport(GetLocations.getLobby());
                     Bukkit.getServer().getPluginManager().callEvent(new CODJoinEvent(p));
@@ -256,6 +262,7 @@ public class MainCommand implements CommandExecutor {
                 }
             }else{
                 p.sendMessage(Main.prefix + "§cYou don't have access to that command");
+                return true;
             }
         }
 

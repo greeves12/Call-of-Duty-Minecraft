@@ -23,6 +23,7 @@ import com.tatemylove.COD2.Updater.Updater;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,6 +31,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -115,6 +117,10 @@ public class Main extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
 
+
+
+        matchConfig(new File(getDataFolder() + File.separator + "config.yml"));
+
         if(getConfig().getBoolean("auto-update")){
             new Updater().autoUpdate();
         }
@@ -133,7 +139,6 @@ public class Main extends JavaPlugin {
         if(ArenasFile.getData().contains("Arenas.")) {
             CountDown c = new CountDown();
             c.runTaskTimer(this, 0, 20L);
-            enabled=true;
 
         }else{
             Logger log = getLogger();
@@ -162,6 +167,25 @@ public class Main extends JavaPlugin {
             }
         }
 
+    }
+
+    private void matchConfig(File config) {
+        try {
+            InputStream is = getResource("config.yml");
+            if (is != null) {
+                YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(config);
+
+                for (String key : defConfig.getConfigurationSection("").getKeys(false))
+                    if (!getConfig().contains(key)) getConfig().set(key, defConfig.getConfigurationSection(key));
+
+                for (String key : getConfig().getConfigurationSection("").getKeys(false))
+                    if (!defConfig.contains(key)) getConfig().set(key, null);
+
+                saveConfig();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /*public void onDisable(){

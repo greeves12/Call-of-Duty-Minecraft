@@ -11,9 +11,11 @@ import com.tatemylove.COD2.Locations.GetLocations;
 import com.tatemylove.COD2.Main;
 import com.tatemylove.COD2.Managers.LoadoutManager;
 import com.tatemylove.COD2.ThisPlugin;
+import me.zombie_striker.qg.api.QualityArmory;
 import net.minecraft.server.v1_14_R1.PacketPlayInClientCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -23,6 +25,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -187,6 +190,21 @@ public class PlayerJoin implements Listener {
                   }
               }
               e.setCancelled(true);
+          }
+      }
+  }
+
+  @EventHandler
+  public void noHit(EntityDamageByEntityEvent e){
+      if(e.getEntity() instanceof Player){
+          if(e.getDamager() instanceof Player){
+              Player p = (Player) e.getEntity();
+              Player pp = (Player) e.getDamager();
+              if(Main.AllPlayingPlayers.contains(p) && Main.AllPlayingPlayers.contains(pp)){
+                  if(pp.getInventory().getItemInMainHand().getType() == Material.AIR){
+                      e.setCancelled(true);
+                  }
+              }
           }
       }
   }
