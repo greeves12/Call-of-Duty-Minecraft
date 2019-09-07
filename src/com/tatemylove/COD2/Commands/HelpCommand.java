@@ -11,7 +11,7 @@ public class HelpCommand {
             p.sendMessage(" §8- §3/cod create §7- §bCreates an arena");
             p.sendMessage(" §8- §3/cod delete §7- §bDeletes an arena");
             p.sendMessage(" §8- §3/cod setspawn §7- §bSet spawns for an arena");
-            p.sendMessage(" §8- §3/cod lobby §7- §bTeleport to the lobby");
+            p.sendMessage(" §8- §3/cod changelog §7- §bView the changelog");
         }else if(args.length >= 2){
             if(args[1].equalsIgnoreCase("1")){
                 p.sendMessage("§4§m |   »* |   >»  §r  §6[ §cCOD-Warfare Help §d· §e2/6§d· §6]  §4§m  «<   | *«   | §r");

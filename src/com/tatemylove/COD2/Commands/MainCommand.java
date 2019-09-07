@@ -48,6 +48,7 @@ public class MainCommand implements CommandExecutor {
                 p.sendMessage("§8Author: §etatemylove");
                 p.sendMessage("§8Version: §e" + Main.version);
                 p.sendMessage("§8Need Help? §e/cod help");
+                p.sendMessage("§8View the changelog §e/cod changelog");
                 return true;
             }
 
@@ -207,6 +208,14 @@ public class MainCommand implements CommandExecutor {
                     BuyGuns buyGuns = new BuyGuns();
                     buyGuns.loadMenu(p);
 
+                }
+                if(args[0].equalsIgnoreCase("changelog")){
+                    p.sendMessage("§4§m |   »* |   >»  §r  §6[ §cCOD Help §d· §e1/6§d· §6]  §4§m  «<   | *«   | §r");
+                    p.sendMessage("§8Version: §a" + Main.version);
+                    p.sendMessage("§8- §3Added Gun Game");
+                    p.sendMessage("§8- §3Randomized color armor for FFA and Gun Game");
+                    p.sendMessage("§8- §3Changed the countdown messages");
+                    p.sendMessage("§8Author: §atatemylove");
                 }
                 if(args[0].equalsIgnoreCase("perks")){
                     if(!Main.AllPlayingPlayers.contains(p)){

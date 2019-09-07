@@ -127,7 +127,7 @@ public class FFA implements Listener {
                 Random rand = new Random();
                 p.setCustomName(ChatColor.getByChar(Integer.toHexString(rand.nextInt(16))) + p.getName());
                 p.setCustomNameVisible(true);
-                p.setPlayerListName("§6" + p.getName());
+                p.setPlayerListName(ChatColor.getByChar(Integer.toHexString(rand.nextInt(16))) + p.getName());
                 Color c = Color.fromBGR(0,0,255);
                 p.getInventory().setHelmet(getColorArmor(Material.LEATHER_HELMET, c));
                 p.getInventory().setChestplate(getColorArmor(Material.LEATHER_CHESTPLATE, c));
