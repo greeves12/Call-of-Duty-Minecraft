@@ -1,0 +1,68 @@
+#Do you want to receive automatic updates?
+auto-update: true
+
+#Change the prefix of the plugin
+prefix: "§8§l[COD] "
+
+#Use COD chat format ([Prestige {0}] [Level {0}] tatemylove: <chat>) this is optional of course but recommended to encourage players to level and prestige
+#Also filters in-game chat and server chat (Each game instance will get their own chat and server chat will be filtered out from game chat (Recommended if you're not on bungeecord)
+cod-chat: true
+
+#MySQL (Optional but required if you're using this badboy for multi-server setups ie. BungeeCord)
+MySQL:
+  Enabled: false
+  Username: user
+  Password: password
+  Ip: 0.0.0.0
+  Database: tatemylove_rocks
+
+#Time until the game starts in seconds (From lobby)
+time-to-start: 20
+
+#The time each games lasts in seconds
+game-time: 600
+
+#Minimum players to start
+min-players: 2
+
+#Set the level required to prestige
+prestige-level: 30
+
+#Set the maximum prestige
+max-prestige: 15
+
+#Max players per arena
+max-players: 20
+
+#Exp per kill
+exp-kill: 100
+
+#Exp per win
+exp-win: 200
+
+#Exp per loss
+exp-loss: 50
+
+#Add you gun game weapons here, add them in the order you want them to appear in
+GunGame:
+  - 'cz65'
+  - 'ak47'
+
+#Enabled this if you are using COD for multi-servers
+BungeeCord:
+  #Enabling this will also enable auto-join
+  enabled: false
+  #Where should players be sent when the game ends?
+  fall-back: hub
+
+#Using economy with COD requires swift economy https://www.spigotmc.org/resources/swift-economy-mysql-api.50208/ (Optional)
+SwiftEconomy:
+  enabled: false
+
+#Set the gun for one in the chamber (Where creating a gun for this mode make sure to set 1 ammo in the clip if you want the traditional one in the chamber)
+OITC:
+  Gun: 'cz65'
+
+#Config Version (DO NOT CHANGE)
+config-version: 2.0
+
