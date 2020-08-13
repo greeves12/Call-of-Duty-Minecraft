@@ -55,7 +55,7 @@ public class Main extends JavaPlugin {
     public static HashMap<String, ArrayList<String>> unlockedAchievements = new HashMap<>();
     public static ArrayList<String> achievements = new ArrayList<>();
     public boolean enabled = false;
-    public static String version = "2.0.3";
+    public static String version = "2.0.4";
 
 
 

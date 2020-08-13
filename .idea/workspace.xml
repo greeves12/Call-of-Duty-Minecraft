@@ -6,16 +6,30 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a3c8f87a-cfe7-415a-bba4-cb1288c96f47" name="Default Changelist" comment="" />
+    <list default="true" id="a3c8f87a-cfe7-415a-bba4-cb1288c96f47" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Listeners/PlayerJoin$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Listeners/PlayerJoin$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Listeners/PlayerJoin.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Listeners/PlayerJoin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/com/tatemylove/COD2/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/COD2/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/COD2/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/Chamber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/Chamber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/FFA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/FFA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/GunGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Arenas/GunGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/PlayerJoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Listeners/PlayerJoin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/tatemylove/COD2/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/tatemylove/COD2/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/plugin.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1bI2v4sYlFn5XNt8kkuvaBd5xfJ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -46,24 +60,36 @@
       <option name="presentableId" value="Default" />
       <updated>1588305515069</updated>
       <workItem from="1588305517001" duration="2027000" />
+      <workItem from="1588898554511" duration="7000" />
+      <workItem from="1591584001639" duration="3000" />
+      <workItem from="1591584035905" duration="1000" />
+      <workItem from="1591584111406" duration="1005000" />
+      <workItem from="1591585873817" duration="694000" />
+      <workItem from="1591674221532" duration="80000" />
+      <workItem from="1591674468730" duration="9000" />
+      <workItem from="1591674624222" duration="10000" />
+      <workItem from="1591674922898" duration="8000" />
+      <workItem from="1591674946328" duration="1000" />
+      <workItem from="1591675445868" duration="803000" />
+      <workItem from="1591676502566" duration="6000" />
+      <workItem from="1591677569871" duration="609000" />
+      <workItem from="1591732069619" duration="111000" />
+      <workItem from="1591733365402" duration="12000" />
+      <workItem from="1597350321720" duration="330000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="552" y="179" key="#Project_Structure" timestamp="1588305637429">
+    <state x="440" y="94" key="#Project_Structure" timestamp="1597350439582">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="179" key="#Project_Structure/0.0.1920.1040/-2560.-372.2560.1400@0.0.1920.1040" timestamp="1588305637429" />
-    <state x="714" y="236" key="DetectedRootsChooserDialog" timestamp="1588305635457">
+    <state x="440" y="94" key="#Project_Structure/0.0.1920.1040/-2560.-372.2560.1400@0.0.1920.1040" timestamp="1597350439582" />
+    <state x="342" y="140" key="new project wizard" timestamp="1591674300015">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="714" y="236" key="DetectedRootsChooserDialog/0.0.1920.1040/-2560.-372.2560.1400@0.0.1920.1040" timestamp="1588305635457" />
-    <state x="740" y="262" key="FileChooserDialogImpl" timestamp="1588307755303">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="740" y="262" key="FileChooserDialogImpl/0.0.1920.1040/-2560.-372.2560.1400@0.0.1920.1040" timestamp="1588307755303" />
+    <state x="342" y="140" key="new project wizard/0.0.1920.1040/-2560.-372.2560.1400@0.0.1920.1040" timestamp="1591674300015" />
   </component>
 </project>

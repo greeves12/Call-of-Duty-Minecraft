@@ -1,8 +1,8 @@
 name: COD2
 main: com.tatemylove.COD2.Main
 author: tatemylove
-version: 2.0.3
-api-version: 1.15
+version: 2.0.4
+api-version: 1.16
 depend: [QualityArmory]
 commands:
   cod:
