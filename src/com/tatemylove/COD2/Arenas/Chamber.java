@@ -426,23 +426,24 @@ public class Chamber implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent e){
         Player p = e.getPlayer();
-        p.getInventory().clear();
-        p.getInventory().setArmorContents(null);
-        PlayingPlayers.remove(e.getPlayer());
+        if(PlayingPlayers.contains(p)) {
+            p.getInventory().clear();
+            p.getInventory().setArmorContents(null);
+            PlayingPlayers.remove(e.getPlayer());
 
-        Main.AllPlayingPlayers.remove(p);
+            Main.AllPlayingPlayers.remove(p);
 
-        if(alive.contains(e.getPlayer())){
-            alive.remove(e.getPlayer());
-        }else if(spectating.contains(e.getPlayer())){
-            spectating.remove(e.getPlayer());
+            if (alive.contains(e.getPlayer())) {
+                alive.remove(e.getPlayer());
+            } else if (spectating.contains(e.getPlayer())) {
+                spectating.remove(e.getPlayer());
+            }
+
+            p.removePotionEffect(PotionEffectType.SPEED);
+
+            Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
+
         }
-
-        p.removePotionEffect(PotionEffectType.SPEED);
-
-        Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
-
-
     }
 
     private  void getNewLoadout(Player p){

@@ -429,16 +429,18 @@ public class GunGame implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent e){
         Player p = e.getPlayer();
-        p.getInventory().clear();
-        p.getInventory().setArmorContents(null);
-        PlayingPlayers.remove(e.getPlayer());
 
-        Main.AllPlayingPlayers.remove(p);
+        if(PlayingPlayers.contains(p)) {
+            p.getInventory().clear();
+            p.getInventory().setArmorContents(null);
+            PlayingPlayers.remove(e.getPlayer());
 
-        p.removePotionEffect(PotionEffectType.SPEED);
+            Main.AllPlayingPlayers.remove(p);
 
-        Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
+            p.removePotionEffect(PotionEffectType.SPEED);
 
+            Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
+        }
 
     }
 

@@ -530,21 +530,22 @@ public class TDM implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent e){
         Player p = e.getPlayer();
-        p.getInventory().clear();
-        p.getInventory().setArmorContents(null);
-        PlayingPlayers.remove(e.getPlayer());
+       if(PlayingPlayers.contains(p)) {
+           p.getInventory().clear();
+           p.getInventory().setArmorContents(null);
+           PlayingPlayers.remove(e.getPlayer());
 
-        Main.AllPlayingPlayers.remove(p);
+           Main.AllPlayingPlayers.remove(p);
 
-        p.removePotionEffect(PotionEffectType.SPEED);
+           p.removePotionEffect(PotionEffectType.SPEED);
 
-        Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
-        if(RedTeam.contains(p)){
-            RedTeam.remove(p);
-        }else if(BlueTeam.contains(p)){
-            BlueTeam.remove(p);
-        }
-
+           Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
+           if (RedTeam.contains(p)) {
+               RedTeam.remove(p);
+           } else if (BlueTeam.contains(p)) {
+               BlueTeam.remove(p);
+           }
+       }
     }
 
     private  void getNewLoadout(Player p){

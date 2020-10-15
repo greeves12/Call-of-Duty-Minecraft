@@ -511,22 +511,23 @@ public class Infected implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent e){
         Player p = e.getPlayer();
-        p.getInventory().clear();
-        p.getInventory().setArmorContents(null);
-        PlayingPlayers.remove(e.getPlayer());
+        if(PlayingPlayers.contains(p)) {
+            p.getInventory().clear();
+            p.getInventory().setArmorContents(null);
+            PlayingPlayers.remove(e.getPlayer());
 
-        Main.AllPlayingPlayers.remove(p);
+            Main.AllPlayingPlayers.remove(p);
 
-        p.removePotionEffect(PotionEffectType.SPEED);
+            p.removePotionEffect(PotionEffectType.SPEED);
 
-        Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
+            Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
 
-        if(humans.contains(p)){
-            humans.remove(p);
-        }else if(infected.contains(p)){
-            infected.remove(p);
+            if (humans.contains(p)) {
+                humans.remove(p);
+            } else if (infected.contains(p)) {
+                infected.remove(p);
+            }
         }
-
 
 
     }

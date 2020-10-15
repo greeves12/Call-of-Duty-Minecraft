@@ -57,6 +57,9 @@ public class PlayerJoin implements Listener {
         if(Main.WaitingPlayers.contains(e.getPlayer())){
             Main.WaitingPlayers.remove(e.getPlayer());
             Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
+        }else if(Main.AllPlayingPlayers.contains(e.getPlayer())){
+            Main.AllPlayingPlayers.remove(e.getPlayer());
+            Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
         }
     }
 

@@ -693,55 +693,57 @@ Main.cooldowns.add(e.getEntity());
     @EventHandler
     public void onLeave(PlayerQuitEvent e){
         Player p = e.getPlayer();
-        p.getInventory().clear();
-        p.getInventory().setArmorContents(null);
-        PlayingPlayers.remove(e.getPlayer());
+        if(PlayingPlayers.contains(p)) {
+            p.getInventory().clear();
+            p.getInventory().setArmorContents(null);
+            PlayingPlayers.remove(e.getPlayer());
 
-        Main.AllPlayingPlayers.remove(p);
+            Main.AllPlayingPlayers.remove(p);
 
-        p.removePotionEffect(PotionEffectType.SPEED);
+            p.removePotionEffect(PotionEffectType.SPEED);
 
-        Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
+            Bukkit.getServer().getPluginManager().callEvent(new CODLeaveEvent(e.getPlayer()));
 
-        if(RedTeam.contains(p)){
-            RedTeam.remove(p);
-        }else if(BlueTeam.contains(p)){
-            BlueTeam.remove(p);
-        }
-
-
-        if(p.getInventory().contains(Material.BLUE_WOOL)){
-            ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
-            Item blueWool = p.getWorld().dropItem(p.getLocation(), blueTag);
-            blueWool.setMetadata("codBlueFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
-
-            Firework f = p.getWorld().spawn(p.getLocation(), Firework.class);
-            FireworkMeta meta = f.getFireworkMeta();
-            FireworkEffect effect = FireworkEffect.builder().flicker(true).withColor(Color.BLUE).with(FireworkEffect.Type.BALL_LARGE).trail(true).build();
-            meta.addEffect(effect);
-            meta.setPower(3);
-            f.setFireworkMeta(meta);
-
-            for(Player pp : PlayingPlayers){
-                pp.sendMessage(Main.prefix + "§aPlayer: §e" + p.getName() + " §adropped the §cRed Flag");
+            if (RedTeam.contains(p)) {
+                RedTeam.remove(p);
+            } else if (BlueTeam.contains(p)) {
+                BlueTeam.remove(p);
             }
 
-        }else if(p.getInventory().contains(Material.RED_WOOL)){
-            ItemStack blueTag = new ItemStack(Material.RED_WOOL, 1);
-            Item blueWool = p.getWorld().dropItem(p.getLocation(), blueTag);
-            blueWool.setMetadata("codRedFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
 
-            Firework f = p.getWorld().spawn(p.getLocation(), Firework.class);
-            FireworkMeta meta = f.getFireworkMeta();
-            FireworkEffect effect = FireworkEffect.builder().flicker(true).withColor(Color.RED).with(FireworkEffect.Type.BALL_LARGE).trail(true).build();
-            meta.addEffect(effect);
-            meta.setPower(3);
-            f.setFireworkMeta(meta);
+            if (p.getInventory().contains(Material.BLUE_WOOL)) {
+                ItemStack blueTag = new ItemStack(Material.BLUE_WOOL, 1);
+                Item blueWool = p.getWorld().dropItem(p.getLocation(), blueTag);
+                blueWool.setMetadata("codBlueFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
 
-            for(Player pp : PlayingPlayers){
-                pp.sendMessage(Main.prefix + "§aPlayer: §e" + p.getName() + " §adropped the §9Blue Flag");
+                Firework f = p.getWorld().spawn(p.getLocation(), Firework.class);
+                FireworkMeta meta = f.getFireworkMeta();
+                FireworkEffect effect = FireworkEffect.builder().flicker(true).withColor(Color.BLUE).with(FireworkEffect.Type.BALL_LARGE).trail(true).build();
+                meta.addEffect(effect);
+                meta.setPower(3);
+                f.setFireworkMeta(meta);
+
+                for (Player pp : PlayingPlayers) {
+                    pp.sendMessage(Main.prefix + "§aPlayer: §e" + p.getName() + " §adropped the §cRed Flag");
+                }
+
+            } else if (p.getInventory().contains(Material.RED_WOOL)) {
+                ItemStack blueTag = new ItemStack(Material.RED_WOOL, 1);
+                Item blueWool = p.getWorld().dropItem(p.getLocation(), blueTag);
+                blueWool.setMetadata("codRedFlag", new FixedMetadataValue(ThisPlugin.getPlugin(), blueWool));
+
+                Firework f = p.getWorld().spawn(p.getLocation(), Firework.class);
+                FireworkMeta meta = f.getFireworkMeta();
+                FireworkEffect effect = FireworkEffect.builder().flicker(true).withColor(Color.RED).with(FireworkEffect.Type.BALL_LARGE).trail(true).build();
+                meta.addEffect(effect);
+                meta.setPower(3);
+                f.setFireworkMeta(meta);
+
+                for (Player pp : PlayingPlayers) {
+                    pp.sendMessage(Main.prefix + "§aPlayer: §e" + p.getName() + " §adropped the §9Blue Flag");
+                }
+
             }
-
         }
     }
 
